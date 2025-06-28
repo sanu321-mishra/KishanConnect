@@ -1,0 +1,16 @@
+<nav class="navbar">
+  <div class="nav-container">
+    <div class="nav-brand">
+      <h1>KisanConnect</h1>
+    </div>
+    
+    <div class="nav-menu" *ngIf="isLoggedIn()">
+      <div class="user-info">
+        <span class="welcome-text">Welcome, {{ currentUser?.name || 'User' }}</span>
+      </div>
+      <button class="logout-btn" (click)="logout()">
+        Logout
+      </button>
+    </div>
+  </div>
+</nav> 

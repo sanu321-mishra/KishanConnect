@@ -6,6 +6,11 @@
     </button>
   </div>
 
+  <!-- Error Message -->
+  <div *ngIf="errorMessage" class="error-alert">
+    {{ errorMessage }}
+  </div>
+
   <!-- Add Crop Form -->
   <div *ngIf="showForm" class="form-container">
     <form [formGroup]="cropForm" (ngSubmit)="onSubmit()" class="crop-form">

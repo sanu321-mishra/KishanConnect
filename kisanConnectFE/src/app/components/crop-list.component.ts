@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { CropService } from '../services/crop.service';
+import { AuthService } from '../services/auth.service';
 import { Crop } from '../models/crop.model';
 
 @Component({
@@ -13,9 +15,12 @@ export class CropListComponent implements OnInit {
   cropForm: FormGroup;
   showForm = false;
   isSubmitting = false;
+  errorMessage = '';
 
   constructor(
     private cropService: CropService,
+    private authService: AuthService,
+    private router: Router,
     private fb: FormBuilder
   ) {
     this.cropForm = this.fb.group({
@@ -29,13 +34,23 @@ export class CropListComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (!this.authService.isLoggedIn()) {
+      this.router.navigate(['/login']);
+      return;
+    }
     this.loadCrops();
   }
 
   loadCrops() {
     this.cropService.getCrops().subscribe({
       next: (data) => this.crops = data,
-      error: (err) => console.error('Error fetching crops:', err)
+      error: (err) => {
+        console.error('Error fetching crops:', err);
+        if (err.status === 401) {
+          this.authService.logout();
+          this.router.navigate(['/login']);
+        }
+      }
     });
   }
 
@@ -43,12 +58,14 @@ export class CropListComponent implements OnInit {
     this.showForm = !this.showForm;
     if (!this.showForm) {
       this.cropForm.reset({ type: 'Crop' });
+      this.errorMessage = '';
     }
   }
 
   onSubmit() {
     if (this.cropForm.valid) {
       this.isSubmitting = true;
+      this.errorMessage = '';
       const cropData: Crop = this.cropForm.value;
       
       this.cropService.createCrop(cropData).subscribe({
@@ -62,6 +79,11 @@ export class CropListComponent implements OnInit {
         error: (error) => {
           console.error('Error creating crop:', error);
           this.isSubmitting = false;
+          this.errorMessage = error.error?.message || 'Error creating crop. Please try again.';
+          if (error.status === 401) {
+            this.authService.logout();
+            this.router.navigate(['/login']);
+          }
         }
       });
     } else {
