@@ -16,6 +16,8 @@ export class CropListComponent implements OnInit {
   showForm = false;
   isSubmitting = false;
   errorMessage = '';
+  successMessage = '';
+  editingCrop: Crop | null = null;
 
   constructor(
     private cropService: CropService,
@@ -43,12 +45,17 @@ export class CropListComponent implements OnInit {
 
   loadCrops() {
     this.cropService.getCrops().subscribe({
-      next: (data) => this.crops = data,
+      next: (data) => {
+        this.crops = data;
+        console.log('Loaded crops:', data);
+      },
       error: (err) => {
         console.error('Error fetching crops:', err);
         if (err.status === 401) {
           this.authService.logout();
           this.router.navigate(['/login']);
+        } else {
+          this.errorMessage = 'Failed to load crops. Please try again.';
         }
       }
     });
@@ -58,7 +65,42 @@ export class CropListComponent implements OnInit {
     this.showForm = !this.showForm;
     if (!this.showForm) {
       this.cropForm.reset({ type: 'Crop' });
+      this.editingCrop = null;
       this.errorMessage = '';
+      this.successMessage = '';
+    }
+  }
+
+  editCrop(crop: Crop) {
+    this.editingCrop = crop;
+    this.cropForm.patchValue({
+      name: crop.name,
+      type: crop.type,
+      price: crop.price,
+      quantity: crop.quantity,
+      village: crop.village,
+      contact: crop.contact
+    });
+    this.showForm = true;
+    this.errorMessage = '';
+    this.successMessage = '';
+  }
+
+  deleteCrop(cropId: number) {
+    if (confirm('Are you sure you want to delete this crop?')) {
+      this.cropService.deleteCrop(cropId).subscribe({
+        next: (response) => {
+          this.successMessage = response.message;
+          this.crops = this.crops.filter(crop => crop.id !== cropId);
+          setTimeout(() => {
+            this.successMessage = '';
+          }, 3000);
+        },
+        error: (error) => {
+          console.error('Error deleting crop:', error);
+          this.errorMessage = error.error?.error || 'Failed to delete crop. Please try again.';
+        }
+      });
     }
   }
 
@@ -66,26 +108,54 @@ export class CropListComponent implements OnInit {
     if (this.cropForm.valid) {
       this.isSubmitting = true;
       this.errorMessage = '';
+      this.successMessage = '';
       const cropData: Crop = this.cropForm.value;
       
-      this.cropService.createCrop(cropData).subscribe({
-        next: (response) => {
-          console.log('Crop created successfully:', response);
-          this.crops.unshift(response); // Add to beginning of list
-          this.cropForm.reset({ type: 'Crop' });
-          this.showForm = false;
-          this.isSubmitting = false;
-        },
-        error: (error) => {
-          console.error('Error creating crop:', error);
-          this.isSubmitting = false;
-          this.errorMessage = error.error?.message || 'Error creating crop. Please try again.';
-          if (error.status === 401) {
-            this.authService.logout();
-            this.router.navigate(['/login']);
+      if (this.editingCrop) {
+        // Update existing crop
+        this.cropService.updateCrop(this.editingCrop.id!, cropData).subscribe({
+          next: (response) => {
+            console.log('Crop updated successfully:', response);
+            const index = this.crops.findIndex(crop => crop.id === this.editingCrop!.id);
+            if (index !== -1) {
+              this.crops[index] = { ...this.crops[index], ...cropData };
+            }
+            this.cropForm.reset({ type: 'Crop' });
+            this.showForm = false;
+            this.editingCrop = null;
+            this.isSubmitting = false;
+            this.successMessage = response.message;
+            setTimeout(() => {
+              this.successMessage = '';
+            }, 3000);
+          },
+          error: (error) => {
+            console.error('Error updating crop:', error);
+            this.isSubmitting = false;
+            this.errorMessage = error.error?.error || 'Failed to update crop. Please try again.';
           }
-        }
-      });
+        });
+      } else {
+        // Create new crop
+        this.cropService.createCrop(cropData).subscribe({
+          next: (response) => {
+            console.log('Crop created successfully:', response);
+            this.crops.unshift(response.crop); // Add to beginning of list
+            this.cropForm.reset({ type: 'Crop' });
+            this.showForm = false;
+            this.isSubmitting = false;
+            this.successMessage = response.message;
+            setTimeout(() => {
+              this.successMessage = '';
+            }, 3000);
+          },
+          error: (error) => {
+            console.error('Error creating crop:', error);
+            this.isSubmitting = false;
+            this.errorMessage = error.error?.error || 'Failed to create crop. Please try again.';
+          }
+        });
+      }
     } else {
       this.markFormGroupTouched();
     }
@@ -115,5 +185,9 @@ export class CropListComponent implements OnInit {
       }
     }
     return '';
+  }
+
+  formatDate(dateString: string): string {
+    return new Date(dateString).toLocaleDateString();
   }
 }

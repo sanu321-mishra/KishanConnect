@@ -3,6 +3,7 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const db = require('../db');
+const auth = require('../middleware/auth');
 const router = express.Router();
 
 // Register
@@ -44,13 +45,35 @@ router.post('/login', async (req, res) => {
         return res.status(401).json({ error: 'Invalid credentials' });
       }
   
-      const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1d' });
+      // Include user info in token payload
+      const token = jwt.sign({ 
+        id: user.id, 
+        name: user.name, 
+        email: user.email 
+      }, process.env.JWT_SECRET, { expiresIn: '1d' });
+      
       res.json({ token });
     } catch (err) {
       console.error('Login error:', err);
       res.status(500).json({ error: 'Internal Server Error' });
     }
   });
-  
+
+// Get current user info
+router.get('/me', auth, async (req, res) => {
+  try {
+    const userRes = await db.query('SELECT id, name, email FROM users WHERE id = $1', [req.user.id]);
+    const user = userRes.rows[0];
+    
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    
+    res.json({ user });
+  } catch (err) {
+    console.error('Get user error:', err);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 module.exports = router;

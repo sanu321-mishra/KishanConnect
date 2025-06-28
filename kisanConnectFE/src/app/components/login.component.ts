@@ -32,7 +32,17 @@ export class LoginComponent {
       this.authService.login(this.loginForm.value).subscribe({
         next: (response) => {
           this.isLoading = false;
-          this.router.navigate(['/crops']);
+          // Fetch user information after successful login
+          this.authService.getCurrentUser().subscribe({
+            next: (userResponse) => {
+              console.log('User logged in:', userResponse.user);
+              this.router.navigate(['/crops']);
+            },
+            error: (error) => {
+              console.error('Error fetching user info:', error);
+              this.router.navigate(['/crops']);
+            }
+          });
         },
         error: (error) => {
           this.isLoading = false;

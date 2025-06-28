@@ -7,7 +7,6 @@ import { AuthService } from './auth.service';
 @Injectable({ providedIn: 'root' })
 export class CropService {
   private apiUrl = 'http://localhost:3000/api/crops';
-  private addCropUrl = 'http://localhost:3000/api/crops/add';
 
   constructor(
     private http: HttpClient,
@@ -26,7 +25,19 @@ export class CropService {
     return this.http.get<Crop[]>(this.apiUrl, { headers: this.getHeaders() });
   }
 
-  createCrop(crop: Crop): Observable<Crop> {
-    return this.http.post<Crop>(this.addCropUrl, crop, { headers: this.getHeaders() });
+  getCrop(id: number): Observable<Crop> {
+    return this.http.get<Crop>(`${this.apiUrl}/${id}`, { headers: this.getHeaders() });
+  }
+
+  createCrop(crop: Crop): Observable<{ message: string; crop: Crop }> {
+    return this.http.post<{ message: string; crop: Crop }>(`${this.apiUrl}/add`, crop, { headers: this.getHeaders() });
+  }
+
+  updateCrop(id: number, crop: Crop): Observable<{ message: string; crop: Crop }> {
+    return this.http.put<{ message: string; crop: Crop }>(`${this.apiUrl}/${id}`, crop, { headers: this.getHeaders() });
+  }
+
+  deleteCrop(id: number): Observable<{ message: string }> {
+    return this.http.delete<{ message: string }>(`${this.apiUrl}/${id}`, { headers: this.getHeaders() });
   }
 }

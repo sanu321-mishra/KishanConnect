@@ -1,6 +1,6 @@
 <div class="container">
   <div class="header">
-    <h2>Crop Listings</h2>
+    <h2>My Crop Listings</h2>
     <button class="btn btn-primary" (click)="toggleForm()">
       {{ showForm ? 'Cancel' : 'Add New Crop' }}
     </button>
@@ -11,10 +11,15 @@
     {{ errorMessage }}
   </div>
 
-  <!-- Add Crop Form -->
+  <!-- Success Message -->
+  <div *ngIf="successMessage" class="success-alert">
+    {{ successMessage }}
+  </div>
+
+  <!-- Add/Edit Crop Form -->
   <div *ngIf="showForm" class="form-container">
     <form [formGroup]="cropForm" (ngSubmit)="onSubmit()" class="crop-form">
-      <h3>Add New Crop</h3>
+      <h3>{{ editingCrop ? 'Edit Crop' : 'Add New Crop' }}</h3>
       
       <div class="form-group">
         <label for="name">Crop Name *</label>
@@ -111,7 +116,7 @@
           class="btn btn-success" 
           [disabled]="isSubmitting || !cropForm.valid"
         >
-          {{ isSubmitting ? 'Adding...' : 'Add Crop' }}
+          {{ isSubmitting ? 'Saving...' : (editingCrop ? 'Update Crop' : 'Add Crop') }}
         </button>
         <button 
           type="button" 
@@ -130,12 +135,23 @@
     <div *ngFor="let crop of crops" class="card">
       <div class="card-header">
         <h4>{{ crop.name }} ({{ crop.type }})</h4>
+        <div class="card-actions">
+          <button class="btn-edit" (click)="editCrop(crop)" title="Edit Crop">
+            ✏️
+          </button>
+          <button class="btn-delete" (click)="deleteCrop(crop.id!)" title="Delete Crop">
+            🗑️
+          </button>
+        </div>
       </div>
       <div class="card-body">
         <p><strong>Price:</strong> ₹{{ crop.price }}</p>
         <p><strong>Quantity:</strong> {{ crop.quantity }}</p>
         <p><strong>Village:</strong> {{ crop.village }}</p>
         <p><strong>Contact:</strong> {{ crop.contact }}</p>
+        <p *ngIf="crop.created_at" class="created-date">
+          <strong>Created:</strong> {{ formatDate(crop.created_at) }}
+        </p>
       </div>
     </div>
   </div>

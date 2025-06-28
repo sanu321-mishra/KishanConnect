@@ -6,7 +6,8 @@
     
     <div class="nav-menu" *ngIf="isLoggedIn()">
       <div class="user-info">
-        <span class="welcome-text">Welcome, {{ currentUser?.name || 'User' }}</span>
+        <span class="welcome-text">Welcome, {{ currentUser?.name || 'Loading...' }}</span>
+        <small *ngIf="!currentUser?.name" style="color: #666; font-size: 12px;">Fetching user info...</small>
       </div>
       <button class="logout-btn" (click)="logout()">
         Logout
