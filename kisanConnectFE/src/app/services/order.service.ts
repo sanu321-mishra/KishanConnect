@@ -65,4 +65,9 @@ export class OrderService {
   updateOrderStatus(orderId: number, status: string): Observable<any> {
     return this.http.put(`${this.apiUrl}/${orderId}/status`, { status }, { headers: this.getHeaders() });
   }
+
+  // Delete order (buyer only)
+  deleteOrder(orderId: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${orderId}`, { headers: this.getHeaders() });
+  }
 } 

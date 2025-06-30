@@ -63,10 +63,11 @@ export class AdminDashboardComponent implements OnInit {
     this.orderService.updateOrderStatus(orderId, status).subscribe({
       next: () => {
         this.loadData(); // Reload data
+        this.errorMessage = ''; // Clear any previous errors
       },
       error: (error) => {
         console.error('Error updating order status:', error);
-        this.errorMessage = 'Failed to update order status';
+        this.errorMessage = error.error?.error || 'Failed to update order status';
       }
     });
   }

@@ -78,10 +78,11 @@ export class BuyerMarketplaceComponent implements OnInit {
           this.showOrderForm = false;
           this.selectedCrop = null;
           this.newOrder.quantity = 1;
+          this.errorMessage = ''; // Clear any previous errors
         },
         error: (error) => {
           console.error('Error placing order:', error);
-          this.errorMessage = 'Failed to place order';
+          this.errorMessage = error.error?.error || 'Failed to place order';
         }
       });
     }
@@ -98,5 +99,20 @@ export class BuyerMarketplaceComponent implements OnInit {
       return this.selectedCrop.price * this.newOrder.quantity;
     }
     return 0;
+  }
+
+  deleteOrder(orderId: number): void {
+    if (confirm('Are you sure you want to delete this order?')) {
+      this.orderService.deleteOrder(orderId).subscribe({
+        next: () => {
+          this.loadData();
+          this.errorMessage = '';
+        },
+        error: (error) => {
+          console.error('Error deleting order:', error);
+          this.errorMessage = error.error?.error || 'Failed to delete order';
+        }
+      });
+    }
   }
 } 

@@ -275,6 +275,39 @@
   color: #7f8c8d;
 }
 
+.crop-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ecf0f1;
+}
+
+.crop-header h3 {
+  margin: 0;
+  color: #2c3e50;
+}
+
+.crop-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.edit-btn {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.edit-btn:hover {
+  background-color: #2980b9;
+}
+
 @media (max-width: 768px) {
   .dashboard-header {
     flex-direction: column;

@@ -15,8 +15,19 @@ export class FarmerDashboardComponent implements OnInit {
   isLoading = false;
   errorMessage = '';
   showAddCropForm = false;
+  showEditCropForm = false;
+  editingCrop: any = null;
 
   newCrop = {
+    name: '',
+    type: '',
+    price: '',
+    quantity: '',
+    village: '',
+    contact: ''
+  };
+
+  editCrop = {
     name: '',
     type: '',
     price: '',
@@ -91,34 +102,74 @@ export class FarmerDashboardComponent implements OnInit {
     }
   }
 
-  updateOrderStatus(orderId: number, status: string): void {
-    this.orderService.updateOrderStatus(orderId, status).subscribe({
-      next: () => {
-        this.loadData(); // Reload data
-      },
-      error: (error) => {
-        console.error('Error updating order status:', error);
-        this.errorMessage = 'Failed to update order status';
-      }
-    });
+  openEditCropForm(crop: any): void {
+    this.editingCrop = crop;
+    this.editCrop = {
+      name: crop.name,
+      type: crop.type,
+      price: crop.price.toString(),
+      quantity: crop.quantity.toString(),
+      village: crop.village,
+      contact: crop.contact
+    };
+    this.showEditCropForm = true;
   }
 
-  deleteCrop(cropId: number): void {
-    if (confirm('Are you sure you want to delete this crop?')) {
-      this.cropService.deleteCrop(cropId).subscribe({
+  updateCrop(): void {
+    if (this.editCrop.name && this.editCrop.type && this.editCrop.price && this.editCrop.quantity && this.editingCrop) {
+      const cropData = {
+        ...this.editCrop,
+        price: Number(this.editCrop.price),
+        quantity: Number(this.editCrop.quantity)
+      };
+      
+      this.cropService.updateCrop(this.editingCrop.id, cropData).subscribe({
         next: () => {
-          this.loadData(); // Reload data
+          this.loadData();
+          this.showEditCropForm = false;
+          this.editingCrop = null;
+          this.resetEditCropForm();
         },
-        error: (error) => {
-          console.error('Error deleting crop:', error);
-          this.errorMessage = 'Failed to delete crop';
+        error: (error: any) => {
+          console.error('Error updating crop:', error);
+          this.errorMessage = 'Failed to update crop';
         }
       });
     }
   }
 
+  cancelEdit(): void {
+    this.showEditCropForm = false;
+    this.editingCrop = null;
+    this.resetEditCropForm();
+  }
+
+  updateOrderStatus(orderId: number, status: string): void {
+    this.orderService.updateOrderStatus(orderId, status).subscribe({
+      next: () => {
+        this.loadData(); // Reload data
+        this.errorMessage = ''; // Clear any previous errors
+      },
+      error: (error) => {
+        console.error('Error updating order status:', error);
+        this.errorMessage = error.error?.error || 'Failed to update order status';
+      }
+    });
+  }
+
   resetNewCropForm(): void {
     this.newCrop = {
+      name: '',
+      type: '',
+      price: '',
+      quantity: '',
+      village: '',
+      contact: ''
+    };
+  }
+
+  resetEditCropForm(): void {
+    this.editCrop = {
       name: '',
       type: '',
       price: '',

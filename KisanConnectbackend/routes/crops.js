@@ -12,13 +12,13 @@ router.get('/', auth, async (req, res) => {
     if (req.user.role === 'farmer') {
       // Farmers see only their own crops
       result = await db.query(
-        'SELECT * FROM crops WHERE user_id = $1 ORDER BY created_at DESC',
+      'SELECT * FROM crops WHERE user_id = $1 ORDER BY created_at DESC',
         [req.user.id]
-      );
+    );
     } else if (req.user.role === 'buyer') {
       // Buyers see all available crops
       result = await db.query(`
-        SELECT c.*, u.name as farmer_name, u.village as farmer_village
+        SELECT c.*, u.name as farmer_name, c.village as farmer_village
         FROM crops c
         JOIN users u ON c.user_id = u.id
         WHERE c.quantity > 0
@@ -85,7 +85,7 @@ router.put('/:id', auth, async (req, res) => {
       result = await db.query(
         'UPDATE crops SET name = $1, type = $2, price = $3, quantity = $4, village = $5, contact = $6 WHERE id = $7 AND user_id = $8 RETURNING *',
         [name, type, price, quantity, village, contact, cropId, req.user.id]
-      );
+    );
     } else {
       return res.status(403).json({ error: 'Access denied' });
     }
@@ -101,30 +101,19 @@ router.put('/:id', auth, async (req, res) => {
   }
 });
 
-// Delete crop (farmer can delete their own, admin can delete any)
+// Delete crop (admin only)
 router.delete('/:id', auth, async (req, res) => {
   const cropId = req.params.id;
 
+  if (req.user.role !== 'admin') {
+    return res.status(403).json({ error: 'Access denied. Admins only.' });
+  }
+
   try {
-    let result;
-    
-    if (req.user.role === 'admin') {
-      // Admin can delete any crop
-      result = await db.query('DELETE FROM crops WHERE id = $1 RETURNING *', [cropId]);
-    } else if (req.user.role === 'farmer') {
-      // Farmer can only delete their own crops
-      result = await db.query(
-        'DELETE FROM crops WHERE id = $1 AND user_id = $2 RETURNING *',
-        [cropId, req.user.id]
-      );
-    } else {
-      return res.status(403).json({ error: 'Access denied' });
-    }
-
+    const result = await db.query('DELETE FROM crops WHERE id = $1 RETURNING *', [cropId]);
     if (result.rows.length === 0) {
-      return res.status(404).json({ error: 'Crop not found or you do not have permission to delete it' });
+      return res.status(404).json({ error: 'Crop not found' });
     }
-
     res.json({ message: 'Crop deleted successfully' });
   } catch (err) {
     console.error('❌ DB Delete Error:', err);
@@ -150,13 +139,13 @@ router.get('/:id', auth, async (req, res) => {
     } else if (req.user.role === 'farmer') {
       // Farmer can only view their own crops
       result = await db.query(
-        'SELECT * FROM crops WHERE id = $1 AND user_id = $2',
+      'SELECT * FROM crops WHERE id = $1 AND user_id = $2',
         [cropId, req.user.id]
-      );
+    );
     } else if (req.user.role === 'buyer') {
       // Buyer can view any available crop
       result = await db.query(`
-        SELECT c.*, u.name as farmer_name, u.village as farmer_village
+        SELECT c.*, u.name as farmer_name, c.village as farmer_village
         FROM crops c
         JOIN users u ON c.user_id = u.id
         WHERE c.id = $1 AND c.quantity > 0

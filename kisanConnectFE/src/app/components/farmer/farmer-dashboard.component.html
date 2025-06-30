@@ -50,6 +50,46 @@
     </div>
   </div>
 
+  <!-- Edit Crop Form -->
+  <div class="add-crop-modal" *ngIf="showEditCropForm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Edit Crop</h3>
+        <button class="close-btn" (click)="cancelEdit()">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Crop Name</label>
+          <input type="text" [(ngModel)]="editCrop.name" placeholder="Enter crop name">
+        </div>
+        <div class="form-group">
+          <label>Type</label>
+          <input type="text" [(ngModel)]="editCrop.type" placeholder="e.g., Wheat, Rice, etc.">
+        </div>
+        <div class="form-group">
+          <label>Price per kg (₹)</label>
+          <input type="number" [(ngModel)]="editCrop.price" placeholder="Enter price">
+        </div>
+        <div class="form-group">
+          <label>Quantity (kg)</label>
+          <input type="number" [(ngModel)]="editCrop.quantity" placeholder="Enter quantity">
+        </div>
+        <div class="form-group">
+          <label>Village</label>
+          <input type="text" [(ngModel)]="editCrop.village" placeholder="Enter village name">
+        </div>
+        <div class="form-group">
+          <label>Contact</label>
+          <input type="text" [(ngModel)]="editCrop.contact" placeholder="Enter contact number">
+        </div>
+        <div class="form-actions">
+          <button class="cancel-btn" (click)="cancelEdit()">Cancel</button>
+          <button class="save-btn" (click)="updateCrop()">Update Crop</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="dashboard-content" *ngIf="!isLoading">
     <!-- Orders Section -->
     <div class="section">
@@ -91,7 +131,9 @@
         <div class="crop-card" *ngFor="let crop of crops">
           <div class="crop-header">
             <h3>{{ crop.name }}</h3>
-            <button class="delete-btn" (click)="deleteCrop(crop.id)">Delete</button>
+            <div class="crop-actions">
+              <button class="edit-btn" (click)="openEditCropForm(crop)">Edit</button>
+            </div>
           </div>
           <div class="crop-details">
             <p><strong>Type:</strong> {{ crop.type }}</p>
