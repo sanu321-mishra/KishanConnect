@@ -6,16 +6,22 @@ import { RouterModule, Routes } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
-import { CropListComponent } from './components/crop-list.component';
-import { LoginComponent } from './components/login.component';
-import { RegisterComponent } from './components/register.component';
-import { NavComponent } from './components/nav.component';
+import { CropListComponent } from './components/crops/crop-list.component';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
+import { NavComponent } from './components/nav/nav.component';
+import { AdminDashboardComponent } from './components/admin/admin-dashboard.component';
+import { FarmerDashboardComponent } from './components/farmer/farmer-dashboard.component';
+import { BuyerMarketplaceComponent } from './components/buyer/buyer-marketplace.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'crops', component: CropListComponent }
+  { path: 'crops', component: CropListComponent },
+  { path: 'admin', component: AdminDashboardComponent },
+  { path: 'farmer', component: FarmerDashboardComponent },
+  { path: 'buyer', component: BuyerMarketplaceComponent }
 ];
 
 @NgModule({
@@ -24,7 +30,10 @@ const routes: Routes = [
     CropListComponent, 
     LoginComponent, 
     RegisterComponent, 
-    NavComponent
+    NavComponent,
+    AdminDashboardComponent,
+    FarmerDashboardComponent,
+    BuyerMarketplaceComponent
   ],
   imports: [
     BrowserModule, 

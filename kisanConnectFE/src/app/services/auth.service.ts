@@ -7,6 +7,7 @@ export interface User {
   id: number;
   name: string;
   email: string;
+  role: string;
 }
 
 export interface LoginRequest {
@@ -18,6 +19,7 @@ export interface RegisterRequest {
   name: string;
   email: string;
   password: string;
+  role?: string;
 }
 
 export interface AuthResponse {
@@ -91,12 +93,29 @@ export class AuthService {
       const user: User = {
         id: payload.id,
         name: payload.name || 'User',
-        email: payload.email || ''
+        email: payload.email || '',
+        role: payload.role || 'farmer'
       };
       this.currentUserSubject.next(user);
     } catch (error) {
       console.error('Error decoding token:', error);
       this.logout();
     }
+  }
+
+  // Role-based helper methods
+  isAdmin(): boolean {
+    const user = this.currentUserSubject.value;
+    return user?.role === 'admin';
+  }
+
+  isFarmer(): boolean {
+    const user = this.currentUserSubject.value;
+    return user?.role === 'farmer';
+  }
+
+  isBuyer(): boolean {
+    const user = this.currentUserSubject.value;
+    return user?.role === 'buyer';
   }
 } 

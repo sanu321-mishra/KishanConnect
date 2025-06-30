@@ -1,0 +1,113 @@
+<div class="buyer-marketplace">
+  <div class="marketplace-header">
+    <h1>Buyer Marketplace</h1>
+  </div>
+
+  <div class="error-message" *ngIf="errorMessage">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Order Form Modal -->
+  <div class="order-modal" *ngIf="showOrderForm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Place Order</h3>
+        <button class="close-btn" (click)="showOrderForm = false">×</button>
+      </div>
+      <div class="modal-body" *ngIf="selectedCrop">
+        <div class="crop-info">
+          <h4>{{ selectedCrop.name }} ({{ selectedCrop.type }})</h4>
+          <p><strong>Price:</strong> ₹{{ selectedCrop.price }}/kg</p>
+          <p><strong>Available:</strong> {{ selectedCrop.quantity }} kg</p>
+          <p><strong>Farmer:</strong> {{ selectedCrop.farmer_name }}</p>
+          <p><strong>Village:</strong> {{ selectedCrop.farmer_village }}</p>
+        </div>
+        <div class="form-group">
+          <label>Quantity (kg)</label>
+          <input 
+            type="number" 
+            [(ngModel)]="newOrder.quantity" 
+            min="1" 
+            [max]="selectedCrop.quantity"
+            placeholder="Enter quantity"
+          >
+        </div>
+        <div class="total-price">
+          <strong>Total Price: ₹{{ calculateTotalPrice() }}</strong>
+        </div>
+        <div class="form-actions">
+          <button class="cancel-btn" (click)="showOrderForm = false">Cancel</button>
+          <button 
+            class="place-order-btn" 
+            (click)="placeOrder()"
+            [disabled]="!newOrder.quantity || newOrder.quantity > selectedCrop.quantity"
+          >
+            Place Order
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="marketplace-content" *ngIf="!isLoading">
+    <!-- Available Crops Section -->
+    <div class="section">
+      <h2>Available Crops</h2>
+      <div class="crops-grid" *ngIf="crops.length > 0; else noCrops">
+        <div class="crop-card" *ngFor="let crop of crops">
+          <div class="crop-header">
+            <h3>{{ crop.name }}</h3>
+            <span class="price-badge">₹{{ crop.price }}/kg</span>
+          </div>
+          <div class="crop-details">
+            <p><strong>Type:</strong> {{ crop.type }}</p>
+            <p><strong>Available:</strong> {{ crop.quantity }} kg</p>
+            <p><strong>Farmer:</strong> {{ crop.farmer_name }}</p>
+            <p><strong>Village:</strong> {{ crop.farmer_village }}</p>
+          </div>
+          <div class="crop-actions">
+            <button 
+              class="order-btn" 
+              (click)="openOrderForm(crop)"
+              [disabled]="crop.quantity <= 0"
+            >
+              {{ crop.quantity > 0 ? 'Place Order' : 'Out of Stock' }}
+            </button>
+          </div>
+        </div>
+      </div>
+      <ng-template #noCrops>
+        <p class="no-data">No crops available in the marketplace.</p>
+      </ng-template>
+    </div>
+
+    <!-- My Orders Section -->
+    <div class="section">
+      <h2>My Orders</h2>
+      <div class="orders-grid" *ngIf="orders.length > 0; else noOrders">
+        <div class="order-card" *ngFor="let order of orders">
+          <div class="order-header">
+            <h3>Order #{{ order.id }}</h3>
+            <span class="status-badge" [class]="'status-' + order.status">
+              {{ order.status }}
+            </span>
+          </div>
+          <div class="order-details">
+            <p><strong>Crop:</strong> {{ order.crop_name }} ({{ order.crop_type }})</p>
+            <p><strong>Farmer:</strong> {{ order.farmer_name }}</p>
+            <p><strong>Quantity:</strong> {{ order.quantity }} kg</p>
+            <p><strong>Total Price:</strong> ₹{{ order.total_price }}</p>
+            <p><strong>Date:</strong> {{ order.created_at | date:'short' }}</p>
+          </div>
+        </div>
+      </div>
+      <ng-template #noOrders>
+        <p class="no-data">No orders placed yet.</p>
+      </ng-template>
+    </div>
+  </div>
+
+  <div class="loading" *ngIf="isLoading">
+    <p>Loading...</p>
+  </div>
+</div> 

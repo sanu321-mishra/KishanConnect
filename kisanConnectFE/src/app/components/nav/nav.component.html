@@ -1,0 +1,23 @@
+<nav class="navbar">
+  <div class="nav-container">
+    <div class="nav-brand">
+      <h1>KisanConnect</h1>
+    </div>
+    
+    <div class="nav-menu" *ngIf="isLoggedIn()">
+      <div class="user-info">
+        <span class="welcome-text">Welcome, {{ getUserDisplayName() }}</span>
+        <small *ngIf="isLoading" style="color: #666; font-size: 12px;">Loading user info...</small>
+      </div>
+      <button class="logout-btn" (click)="logout()">
+        Logout
+      </button>
+    </div>
+
+    <div class="nav-menu" *ngIf="!isLoggedIn()">
+      <div class="login-prompt">
+        <span class="prompt-text">Please login to manage your crops</span>
+      </div>
+    </div>
+  </div>
+</nav> 

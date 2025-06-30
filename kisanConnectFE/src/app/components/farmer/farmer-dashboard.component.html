@@ -1,0 +1,114 @@
+<div class="farmer-dashboard">
+  <div class="dashboard-header">
+    <h1>Farmer Dashboard</h1>
+    <div class="header-actions">
+      <button class="add-crop-btn" (click)="showAddCropForm = true">Add New Crop</button>
+    </div>
+  </div>
+
+  <div class="error-message" *ngIf="errorMessage">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Add Crop Form -->
+  <div class="add-crop-modal" *ngIf="showAddCropForm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Add New Crop</h3>
+        <button class="close-btn" (click)="showAddCropForm = false">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Crop Name</label>
+          <input type="text" [(ngModel)]="newCrop.name" placeholder="Enter crop name">
+        </div>
+        <div class="form-group">
+          <label>Type</label>
+          <input type="text" [(ngModel)]="newCrop.type" placeholder="e.g., Wheat, Rice, etc.">
+        </div>
+        <div class="form-group">
+          <label>Price per kg (₹)</label>
+          <input type="number" [(ngModel)]="newCrop.price" placeholder="Enter price">
+        </div>
+        <div class="form-group">
+          <label>Quantity (kg)</label>
+          <input type="number" [(ngModel)]="newCrop.quantity" placeholder="Enter quantity">
+        </div>
+        <div class="form-group">
+          <label>Village</label>
+          <input type="text" [(ngModel)]="newCrop.village" placeholder="Enter village name">
+        </div>
+        <div class="form-group">
+          <label>Contact</label>
+          <input type="text" [(ngModel)]="newCrop.contact" placeholder="Enter contact number">
+        </div>
+        <div class="form-actions">
+          <button class="cancel-btn" (click)="showAddCropForm = false">Cancel</button>
+          <button class="save-btn" (click)="addCrop()">Add Crop</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dashboard-content" *ngIf="!isLoading">
+    <!-- Orders Section -->
+    <div class="section">
+      <h2>Orders for Your Crops</h2>
+      <div class="orders-grid" *ngIf="orders.length > 0; else noOrders">
+        <div class="order-card" *ngFor="let order of orders">
+          <div class="order-header">
+            <h3>Order #{{ order.id }}</h3>
+            <span class="status-badge" [class]="'status-' + order.status">
+              {{ order.status }}
+            </span>
+          </div>
+          <div class="order-details">
+            <p><strong>Crop:</strong> {{ order.crop_name }} ({{ order.crop_type }})</p>
+            <p><strong>Buyer:</strong> {{ order.buyer_name }}</p>
+            <p><strong>Quantity:</strong> {{ order.quantity }} kg</p>
+            <p><strong>Total Price:</strong> ₹{{ order.total_price }}</p>
+            <p><strong>Date:</strong> {{ order.created_at | date:'short' }}</p>
+          </div>
+          <div class="order-actions">
+            <select (change)="updateOrderStatus(order.id, $event.target.value)" [value]="order.status">
+              <option value="pending">Pending</option>
+              <option value="confirmed">Confirmed</option>
+              <option value="delivered">Delivered</option>
+              <option value="canceled">Canceled</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <ng-template #noOrders>
+        <p class="no-data">No orders yet for your crops.</p>
+      </ng-template>
+    </div>
+
+    <!-- Crops Section -->
+    <div class="section">
+      <h2>Your Crops</h2>
+      <div class="crops-grid" *ngIf="crops.length > 0; else noCrops">
+        <div class="crop-card" *ngFor="let crop of crops">
+          <div class="crop-header">
+            <h3>{{ crop.name }}</h3>
+            <button class="delete-btn" (click)="deleteCrop(crop.id)">Delete</button>
+          </div>
+          <div class="crop-details">
+            <p><strong>Type:</strong> {{ crop.type }}</p>
+            <p><strong>Price:</strong> ₹{{ crop.price }}/kg</p>
+            <p><strong>Quantity:</strong> {{ crop.quantity }} kg</p>
+            <p><strong>Village:</strong> {{ crop.village }}</p>
+            <p><strong>Contact:</strong> {{ crop.contact }}</p>
+          </div>
+        </div>
+      </div>
+      <ng-template #noCrops>
+        <p class="no-data">No crops added yet. Click "Add New Crop" to get started.</p>
+      </ng-template>
+    </div>
+  </div>
+
+  <div class="loading" *ngIf="isLoading">
+    <p>Loading...</p>
+  </div>
+</div> 

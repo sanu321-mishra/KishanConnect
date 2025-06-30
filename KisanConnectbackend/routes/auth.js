@@ -8,13 +8,13 @@ const router = express.Router();
 
 // Register
 router.post('/register', async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, role = 'farmer' } = req.body;
   const hash = await bcrypt.hash(password, 10);
 
   try {
     await db.query(
-      'INSERT INTO users (name, email, password_hash) VALUES ($1, $2, $3)',
-      [name, email, hash]
+      'INSERT INTO users (name, email, password_hash, role) VALUES ($1, $2, $3, $4)',
+      [name, email, hash, role]
     );
     res.json({ message: 'User registered' });
   } catch (err) {
@@ -45,11 +45,12 @@ router.post('/login', async (req, res) => {
         return res.status(401).json({ error: 'Invalid credentials' });
       }
   
-      // Include user info in token payload
+      // Include user info and role in token payload
       const token = jwt.sign({ 
         id: user.id, 
         name: user.name, 
-        email: user.email 
+        email: user.email,
+        role: user.role
       }, process.env.JWT_SECRET, { expiresIn: '1d' });
       
       res.json({ token });
@@ -62,7 +63,7 @@ router.post('/login', async (req, res) => {
 // Get current user info
 router.get('/me', auth, async (req, res) => {
   try {
-    const userRes = await db.query('SELECT id, name, email FROM users WHERE id = $1', [req.user.id]);
+    const userRes = await db.query('SELECT id, name, email, role FROM users WHERE id = $1', [req.user.id]);
     const user = userRes.rows[0];
     
     if (!user) {
