@@ -61,11 +61,44 @@ export class AuthService {
   }
 
   isLoggedIn(): boolean {
-    return !!localStorage.getItem('token');
+    const token = localStorage.getItem('token');
+    if (!token) return false;
+    
+    // Check if token is expired
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      const expirationTime = payload.exp * 1000;
+      const currentTime = Date.now();
+      
+      if (currentTime >= expirationTime) {
+        // Token has expired, remove it
+        this.logout();
+        return false;
+      }
+      
+      return true;
+    } catch (error) {
+      console.error('Error checking token validity:', error);
+      this.logout();
+      return false;
+    }
   }
 
   getToken(): string | null {
     return localStorage.getItem('token');
+  }
+
+  getTokenExpirationTime(): number | null {
+    const token = this.getToken();
+    if (!token) return null;
+    
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload.exp * 1000; // Convert to milliseconds
+    } catch (error) {
+      console.error('Error getting token expiration:', error);
+      return null;
+    }
   }
 
   private getHeaders(): HttpHeaders {

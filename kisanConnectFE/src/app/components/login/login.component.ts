@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -8,19 +8,36 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   isLoading = false;
   errorMessage = '';
+  sessionTimeoutMessage = '';
 
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
+      email: ['', [Validators.required, Validators.email, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]],
       password: ['', [Validators.required, Validators.minLength(6)]]
+    });
+  }
+
+  ngOnInit(): void {
+    // If user is already logged in and navigates to /login, log them out
+    if (this.authService.isLoggedIn()) {
+      this.authService.logout();
+    }
+    // Check for session timeout message in URL parameters
+    this.route.queryParams.subscribe(params => {
+      if (params['message'] === 'session_timeout') {
+        this.sessionTimeoutMessage = 'Your session has timed out. Please log in again.';
+      } else if (params['message'] === 'login_required') {
+        this.sessionTimeoutMessage = 'Please log in to access this page.';
+      }
     });
   }
 
@@ -44,14 +61,10 @@ export class LoginComponent {
                 this.router.navigate(['/farmer']);
               } else if (role === 'buyer') {
                 this.router.navigate(['/buyer']);
-              } else {
-                // Default fallback
-                this.router.navigate(['/crops']);
               }
             },
             error: (error) => {
               console.error('Error fetching user info:', error);
-              this.router.navigate(['/crops']);
             }
           });
         },

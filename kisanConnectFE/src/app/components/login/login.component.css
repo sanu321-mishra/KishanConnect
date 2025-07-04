@@ -122,6 +122,29 @@
   text-decoration: underline;
 }
 
+.session-timeout-message {
+  margin-bottom: 20px;
+}
+
+.alert {
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.alert-warning {
+  background-color: #fff3cd;
+  border: 1px solid #ffeaa7;
+  color: #856404;
+}
+
+.alert-icon {
+  font-size: 16px;
+}
+
 @media (max-width: 480px) {
   .login-card {
     padding: 30px 20px;

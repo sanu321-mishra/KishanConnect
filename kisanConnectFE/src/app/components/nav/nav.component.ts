@@ -17,36 +17,8 @@ export class NavComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    
     this.authService.currentUser$.subscribe(user => {
       this.currentUser = user;
-      
-      // If we have a token but no user data, fetch from backend
-      if (this.authService.isLoggedIn() && !user) {
-        this.fetchUserFromBackend();
-      }
-    });
-
-    // Check if user is logged in on component init
-    if (this.authService.isLoggedIn()) {
-      this.fetchUserFromBackend();
-    }
-  }
-
-  private fetchUserFromBackend() {
-    this.isLoading = true;
-    this.authService.getCurrentUser().subscribe({
-      next: (response) => {
-        this.currentUser = response.user;
-        this.isLoading = false;
-      },
-      error: (error) => {
-        this.isLoading = false;
-        if (error.status === 401) {
-          this.authService.logout();
-          this.router.navigate(['/login']);
-        }
-      }
     });
   }
 
