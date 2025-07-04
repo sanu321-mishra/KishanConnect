@@ -5,6 +5,20 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
+// Angular Material imports
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCardModule } from '@angular/material/card';
+import { MatTableModule } from '@angular/material/table';
+import { MatIconModule } from '@angular/material/icon';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { AppComponent } from './app.component';
 import { CropListComponent } from './components/crops/crop-list.component';
 import { LoginComponent } from './components/login/login.component';
@@ -13,6 +27,7 @@ import { NavComponent } from './components/nav/nav.component';
 import { AdminDashboardComponent } from './components/admin/admin-dashboard.component';
 import { FarmerDashboardComponent } from './components/farmer/farmer-dashboard.component';
 import { BuyerMarketplaceComponent } from './components/buyer/buyer-marketplace.component';
+import { MyDialogComponent } from './components/dialog/my-dialog.component';
 import { AuthInterceptor } from './services/auth.interceptor';
 import { AuthGuard } from './guards/auth.guard';
 
@@ -35,14 +50,27 @@ const routes: Routes = [
     NavComponent,
     AdminDashboardComponent,
     FarmerDashboardComponent,
-    BuyerMarketplaceComponent
+    BuyerMarketplaceComponent,
+    MyDialogComponent
   ],
   imports: [
     BrowserModule, 
     HttpClientModule, 
     FormsModule, 
     ReactiveFormsModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    BrowserAnimationsModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatCardModule,
+    MatTableModule,
+    MatIconModule,
+    MatToolbarModule,
+    MatMenuModule,
+    MatSnackBarModule
   ],
   providers: [
     {

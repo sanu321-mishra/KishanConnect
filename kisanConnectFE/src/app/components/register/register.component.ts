@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { MyDialogComponent } from '../dialog/my-dialog.component';
 
 @Component({
   selector: 'app-register',
@@ -17,7 +19,8 @@ export class RegisterComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) {
     this.registerForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2)]],
@@ -33,6 +36,45 @@ export class RegisterComponent implements OnInit {
     if (this.authService.isLoggedIn()) {
       this.authService.logout();
     }
+  }
+
+  openInfoDialog(): void {
+    this.dialog.open(MyDialogComponent, {
+      width: '500px',
+      data: {
+        title: 'About KisanConnect',
+        content: `KisanConnect is a platform that allows farmers to manage their crops and livestock. This platform connects farmers and buyers, allowing farmers to list their crops and buyers to purchase directly.<br><br>
+        <strong>Key Features:</strong>
+        <ul>
+          <li>Easy registration for farmers and buyers</li>
+          <li>Direct crop listing and purchasing</li>
+          <li>Secure and transparent transactions</li>
+          <li>Role-based dashboards</li>
+          <li>Comprehensive crop and livestock management</li>
+          <li>Real-time market updates and pricing</li>
+          <li>Secure payment processing</li>
+          <li>Mobile-friendly interface</li>
+        </ul>
+        <br>
+        <strong>For Farmers:</strong>
+        <ul>
+          <li>List and manage your crops and livestock</li>
+          <li>Set competitive prices</li>
+          <li>Connect directly with buyers</li>
+          <li>Track your sales and inventory</li>
+        </ul>
+        <br>
+        <strong>For Buyers:</strong>
+        <ul>
+          <li>Browse available crops and livestock</li>
+          <li>Compare prices from different farmers</li>
+          <li>Make secure purchases</li>
+          <li>Build relationships with trusted farmers</li>
+        </ul>
+        <br>
+        <div class='text-center'><em>Join KisanConnect today and revolutionize your agricultural business!</em></div>`
+      }
+    });
   }
 
   passwordMatchValidator(form: FormGroup) {

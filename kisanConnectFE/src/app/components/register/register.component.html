@@ -1,8 +1,13 @@
 <div class="register-container">
   <div class="register-card">
     <div class="register-header">
-      <h2>Create Account</h2>
-      <p>Join KisanConnect to manage your crops</p>
+      <h2>Create Your Account</h2>
+      <p>Click on the info icon to know more about the KisanConnect</p>
+      <div class="text-center">
+        <span class="info-icon" (click)="openInfoDialog()">
+          <img src="assets/images/info.png" alt="Wheat" style="height: 32px; margin-top: 10px; margin-bottom: 0px; vertical-align: middle; margin-left: 8px;"/>
+        </span>
+      </div>
     </div>
 
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form">
@@ -117,4 +122,4 @@
       <p>Already have an account? <a routerLink="/login">Sign in</a></p>
     </div>
   </div>
-</div> 
+</div>
