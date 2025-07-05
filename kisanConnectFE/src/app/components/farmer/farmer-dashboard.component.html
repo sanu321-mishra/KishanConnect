@@ -149,6 +149,43 @@
       </ng-template>
     </div>
   </div>
+  <h3>Sales Analytics</h3>
+    <div class="row">
+      <div class="col-md-6">
+        <canvas baseChart
+          [data]="salesChartData"
+          [type]="'line'"
+          [options]="{ responsive: true, maintainAspectRatio: false }">
+        </canvas>
+      </div>
+      <div class="col-md-6">
+        <canvas baseChart
+          [data]="revenueChartData"
+          [type]="'bar'"
+          [options]="{ responsive: true, maintainAspectRatio: false }">
+        </canvas>
+      </div>
+    </div>
+
+    <h3 class="mt-4">Current Inventory</h3>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Quantity</th>
+          <th>Health Status</th>
+          <th>Harvest Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let crop of inventory">
+          <td>{{ crop.name }}</td>
+          <td>{{ crop.quantity }}</td>
+          <td>{{ crop.health_status }}</td>
+          <td>{{ crop.harvest_date | date }}</td>
+        </tr>
+      </tbody>
+    </table>
 
   <div class="loading" *ngIf="isLoading">
     <p>Loading...</p>

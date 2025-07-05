@@ -71,6 +71,47 @@ router.get('/farmer', auth, async (req, res) => {
   }
 });
 
+// Get sales analytics for a farmer
+router.get('/farmer/analytics', auth, async (req, res) => {
+  if (req.user.role !== 'farmer') {
+    return res.status(403).json({ error: 'Access denied. Farmer only.' });
+  }
+  try {
+    // Monthly sales and revenue
+    const salesRes = await db.query(`
+      SELECT 
+        TO_CHAR(o.created_at, 'YYYY-MM') AS month,
+        SUM(o.quantity) AS total_sales,
+        SUM(o.total_price) AS revenue
+      FROM orders o
+      JOIN crops c ON o.crop_id = c.id
+      WHERE c.user_id = $1
+      GROUP BY month
+      ORDER BY month
+    `, [req.user.id]);
+
+    // Inventory trends (current quantity of each crop)
+    const inventoryRes = await db.query(`
+      SELECT 
+        name,
+        quantity,
+        health_status,
+        harvest_date
+      FROM crops
+      WHERE user_id = $1
+      ORDER BY name
+    `, [req.user.id]);
+
+    res.json({
+      monthlySales: salesRes.rows,
+      inventory: inventoryRes.rows
+    });
+  } catch (err) {
+    console.error('Error fetching analytics:', err);
+    res.status(500).json({ error: 'Failed to fetch analytics' });
+  }
+});
+
 // Place order (buyer only)
 router.post('/place', auth, async (req, res) => {
   if (req.user.role !== 'buyer') {

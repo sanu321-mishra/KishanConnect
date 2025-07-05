@@ -30,6 +30,7 @@ import { BuyerMarketplaceComponent } from './components/buyer/buyer-marketplace.
 import { MyDialogComponent } from './components/dialog/my-dialog.component';
 import { AuthInterceptor } from './services/auth.interceptor';
 import { AuthGuard } from './guards/auth.guard';
+import { NgChartsModule } from 'ng2-charts';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -70,7 +71,8 @@ const routes: Routes = [
     MatIconModule,
     MatToolbarModule,
     MatMenuModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    NgChartsModule
   ],
   providers: [
     {

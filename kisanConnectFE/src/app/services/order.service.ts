@@ -70,4 +70,8 @@ export class OrderService {
   deleteOrder(orderId: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${orderId}`, { headers: this.getHeaders() });
   }
+
+  getFarmerAnalytics(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/farmer/analytics`,{ headers: this.getHeaders() });
+  }
 } 

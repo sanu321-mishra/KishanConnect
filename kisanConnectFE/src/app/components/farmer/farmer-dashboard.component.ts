@@ -17,6 +17,9 @@ export class FarmerDashboardComponent implements OnInit {
   showAddCropForm = false;
   showEditCropForm = false;
   editingCrop: any = null;
+  salesChartData: any;
+  revenueChartData: any;
+  inventory: any[] = [];
 
   newCrop = {
     name: '',
@@ -49,6 +52,21 @@ export class FarmerDashboardComponent implements OnInit {
       return;
     }
     this.loadData();
+    this.orderService.getFarmerAnalytics().subscribe(data => {
+      this.salesChartData = {
+        labels: data.monthlySales.map((d: any) => d.month),
+        datasets: [
+          { label: 'Sales', data: data.monthlySales.map((d: any) => d.total_sales), borderColor: '#42A5F5'}
+        ]
+      };
+      this.revenueChartData = {
+        labels: data.monthlySales.map((d: any) => d.month),
+        datasets: [
+          { label: 'Revenue', data: data.monthlySales.map((d: any) => d.revenue), backgroundColor: '#66BB6A' }
+        ]
+      };
+      this.inventory = data.inventory;
+    });
   }
 
   loadData(): void {
