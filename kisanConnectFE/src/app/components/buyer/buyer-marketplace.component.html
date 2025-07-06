@@ -1,6 +1,6 @@
 <div class="buyer-marketplace">
   <div class="marketplace-header">
-    <h1>Buyer Marketplace</h1>
+    <h1>Welcome to Buyer Marketplace</h1>
   </div>
 
   <div class="error-message" *ngIf="errorMessage">
@@ -21,6 +21,8 @@
           <p><strong>Available:</strong> {{ selectedCrop.quantity }} kg</p>
           <p><strong>Farmer:</strong> {{ selectedCrop.farmer_name }}</p>
           <p><strong>Village:</strong> {{ selectedCrop.farmer_village }}</p>
+          <p><strong>Health Status:</strong> {{ selectedCrop.health_status || 'Not specified' }}</p>
+          <p><strong>Harvest Date:</strong> {{ selectedCrop.harvest_date | date:'mediumDate' || 'Not specified' }}</p>
         </div>
         <div class="form-group">
           <label>Quantity (kg)</label>
@@ -52,7 +54,7 @@
   <div class="marketplace-content" *ngIf="!isLoading">
     <!-- Available Crops Section -->
     <div class="section">
-      <h2>Available Crops</h2>
+      <h2>Available Crops To Buy</h2>
       <div class="crops-grid" *ngIf="crops.length > 0; else noCrops">
         <div class="crop-card" *ngFor="let crop of crops">
           <div class="crop-header">
@@ -64,6 +66,8 @@
             <p><strong>Available:</strong> {{ crop.quantity }} kg</p>
             <p><strong>Farmer:</strong> {{ crop.farmer_name }}</p>
             <p><strong>Village:</strong> {{ crop.farmer_village }}</p>
+            <p><strong>Health Status:</strong> {{ crop.health_status || 'Not specified' }}</p>
+            <p><strong>Harvest Date:</strong> {{ crop.harvest_date | date:'mediumDate' || 'Not specified' }}</p>
           </div>
           <div class="crop-actions">
             <button 
@@ -87,14 +91,13 @@
       <div class="orders-grid" *ngIf="orders.length > 0; else noOrders">
         <div class="order-card" *ngFor="let order of orders">
           <div class="order-header">
-            <h3>Order #{{ order.id }}</h3>
+            <h3><strong>Farmer</strong> {{ order.farmer_name }}</h3>
             <span class="status-badge" [class]="'status-' + order.status">
               {{ order.status }}
             </span>
           </div>
           <div class="order-details">
             <p><strong>Crop:</strong> {{ order.crop_name }} ({{ order.crop_type }})</p>
-            <p><strong>Farmer:</strong> {{ order.farmer_name }}</p>
             <p><strong>Quantity:</strong> {{ order.quantity }} kg</p>
             <p><strong>Total Price:</strong> ₹{{ order.total_price }}</p>
             <p><strong>Date:</strong> {{ order.created_at | date:'short' }}</p>

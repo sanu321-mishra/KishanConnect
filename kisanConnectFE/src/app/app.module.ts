@@ -26,6 +26,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { NavComponent } from './components/nav/nav.component';
 import { AdminDashboardComponent } from './components/admin/admin-dashboard.component';
 import { FarmerDashboardComponent } from './components/farmer/farmer-dashboard.component';
+import { FarmerSalesComponent } from './components/farmer/sales-analytics/farmer-sales.component';
 import { BuyerMarketplaceComponent } from './components/buyer/buyer-marketplace.component';
 import { MyDialogComponent } from './components/dialog/my-dialog.component';
 import { AuthInterceptor } from './services/auth.interceptor';
@@ -39,6 +40,7 @@ const routes: Routes = [
   { path: 'crops', component: CropListComponent, canActivate: [AuthGuard] },
   { path: 'admin', component: AdminDashboardComponent, canActivate: [AuthGuard] },
   { path: 'farmer', component: FarmerDashboardComponent, canActivate: [AuthGuard] },
+  { path: 'farmer/sales', component: FarmerSalesComponent, canActivate: [AuthGuard] },
   { path: 'buyer', component: BuyerMarketplaceComponent, canActivate: [AuthGuard] }
 ];
 
@@ -51,6 +53,7 @@ const routes: Routes = [
     NavComponent,
     AdminDashboardComponent,
     FarmerDashboardComponent,
+    FarmerSalesComponent,
     BuyerMarketplaceComponent,
     MyDialogComponent
   ],

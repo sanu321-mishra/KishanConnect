@@ -31,7 +31,9 @@ export class CropListComponent implements OnInit {
       price: ['', [Validators.required, Validators.min(0)]],
       quantity: ['', [Validators.required, Validators.min(1)]],
       village: ['', [Validators.required, Validators.minLength(2)]],
-      contact: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]]
+      contact: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
+      health_status: [''],
+      harvest_date: ['']
     });
   }
 
@@ -79,7 +81,9 @@ export class CropListComponent implements OnInit {
       price: crop.price,
       quantity: crop.quantity,
       village: crop.village,
-      contact: crop.contact
+      contact: crop.contact,
+      health_status: crop.health_status,
+      harvest_date: crop.harvest_date
     });
     this.showForm = true;
     this.errorMessage = '';

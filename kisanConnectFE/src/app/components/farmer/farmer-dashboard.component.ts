@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { CropService } from '../../services/crop.service';
 import { OrderService, Order } from '../../services/order.service';
@@ -17,34 +18,44 @@ export class FarmerDashboardComponent implements OnInit {
   showAddCropForm = false;
   showEditCropForm = false;
   editingCrop: any = null;
-  salesChartData: any;
-  revenueChartData: any;
-  inventory: any[] = [];
 
-  newCrop = {
-    name: '',
-    type: '',
-    price: '',
-    quantity: '',
-    village: '',
-    contact: ''
-  };
-
-  editCrop = {
-    name: '',
-    type: '',
-    price: '',
-    quantity: '',
-    village: '',
-    contact: ''
-  };
+  // Reactive Forms
+  addCropForm!: FormGroup;
+  editCropForm!: FormGroup;
 
   constructor(
     private authService: AuthService,
     private cropService: CropService,
     private orderService: OrderService,
-    private router: Router
-  ) { }
+    private router: Router,
+    private fb: FormBuilder
+  ) {
+    this.initializeForms();
+  }
+
+  private initializeForms(): void {
+    this.addCropForm = this.fb.group({
+      name: ['', [Validators.required, Validators.minLength(2)]],
+      type: ['', [Validators.required, Validators.minLength(2)]],
+      price: ['', [Validators.required, Validators.min(1)]],
+      quantity: ['', [Validators.required, Validators.min(1)]],
+      village: ['', [Validators.required, Validators.minLength(2)]],
+      contact: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
+      health_status: ['', Validators.required],
+      harvest_date: ['', Validators.required]
+    });
+
+    this.editCropForm = this.fb.group({
+      name: ['', [Validators.required, Validators.minLength(2)]],
+      type: ['', [Validators.required, Validators.minLength(2)]],
+      price: ['', [Validators.required, Validators.min(1)]],
+      quantity: ['', [Validators.required, Validators.min(1)]],
+      village: ['', [Validators.required, Validators.minLength(2)]],
+      contact: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
+      health_status: ['', Validators.required],
+      harvest_date: ['', Validators.required]
+    });
+  }
 
   ngOnInit(): void {
     if (!this.authService.isFarmer()) {
@@ -52,21 +63,6 @@ export class FarmerDashboardComponent implements OnInit {
       return;
     }
     this.loadData();
-    this.orderService.getFarmerAnalytics().subscribe(data => {
-      this.salesChartData = {
-        labels: data.monthlySales.map((d: any) => d.month),
-        datasets: [
-          { label: 'Sales', data: data.monthlySales.map((d: any) => d.total_sales), borderColor: '#42A5F5'}
-        ]
-      };
-      this.revenueChartData = {
-        labels: data.monthlySales.map((d: any) => d.month),
-        datasets: [
-          { label: 'Revenue', data: data.monthlySales.map((d: any) => d.revenue), backgroundColor: '#66BB6A' }
-        ]
-      };
-      this.inventory = data.inventory;
-    });
   }
 
   loadData(): void {
@@ -99,46 +95,50 @@ export class FarmerDashboardComponent implements OnInit {
   }
 
   addCrop(): void {
-    if (this.newCrop.name && this.newCrop.type && this.newCrop.price && this.newCrop.quantity) {
+    if (this.addCropForm.valid) {
       const cropData = {
-        ...this.newCrop,
-        price: Number(this.newCrop.price),
-        quantity: Number(this.newCrop.quantity)
+        ...this.addCropForm.value,
+        price: Number(this.addCropForm.value.price),
+        quantity: Number(this.addCropForm.value.quantity)
       };
       
       this.cropService.createCrop(cropData).subscribe({
         next: () => {
           this.loadData();
           this.showAddCropForm = false;
-          this.resetNewCropForm();
+          this.addCropForm.reset();
         },
         error: (error: any) => {
           console.error('Error adding crop:', error);
           this.errorMessage = 'Failed to add crop';
         }
       });
+    } else {
+      this.markFormGroupTouched(this.addCropForm);
     }
   }
 
   openEditCropForm(crop: any): void {
     this.editingCrop = crop;
-    this.editCrop = {
+    this.editCropForm.patchValue({
       name: crop.name,
       type: crop.type,
       price: crop.price.toString(),
       quantity: crop.quantity.toString(),
       village: crop.village,
-      contact: crop.contact
-    };
+      contact: crop.contact,
+      health_status: crop.health_status,
+      harvest_date: crop.harvest_date
+    });
     this.showEditCropForm = true;
   }
 
   updateCrop(): void {
-    if (this.editCrop.name && this.editCrop.type && this.editCrop.price && this.editCrop.quantity && this.editingCrop) {
+    if (this.editCropForm.valid && this.editingCrop) {
       const cropData = {
-        ...this.editCrop,
-        price: Number(this.editCrop.price),
-        quantity: Number(this.editCrop.quantity)
+        ...this.editCropForm.value,
+        price: Number(this.editCropForm.value.price),
+        quantity: Number(this.editCropForm.value.quantity)
       };
       
       this.cropService.updateCrop(this.editingCrop.id, cropData).subscribe({
@@ -146,20 +146,22 @@ export class FarmerDashboardComponent implements OnInit {
           this.loadData();
           this.showEditCropForm = false;
           this.editingCrop = null;
-          this.resetEditCropForm();
+          this.editCropForm.reset();
         },
         error: (error: any) => {
           console.error('Error updating crop:', error);
           this.errorMessage = 'Failed to update crop';
         }
       });
+    } else {
+      this.markFormGroupTouched(this.editCropForm);
     }
   }
 
   cancelEdit(): void {
     this.showEditCropForm = false;
     this.editingCrop = null;
-    this.resetEditCropForm();
+    this.editCropForm.reset();
   }
 
   updateOrderStatus(orderId: number, status: string): void {
@@ -175,25 +177,32 @@ export class FarmerDashboardComponent implements OnInit {
     });
   }
 
-  resetNewCropForm(): void {
-    this.newCrop = {
-      name: '',
-      type: '',
-      price: '',
-      quantity: '',
-      village: '',
-      contact: ''
-    };
+  // Helper method to mark all form controls as touched
+  private markFormGroupTouched(formGroup: FormGroup): void {
+    Object.keys(formGroup.controls).forEach(key => {
+      const control = formGroup.get(key);
+      control?.markAsTouched();
+    });
   }
 
-  resetEditCropForm(): void {
-    this.editCrop = {
-      name: '',
-      type: '',
-      price: '',
-      quantity: '',
-      village: '',
-      contact: ''
-    };
+  // Helper methods to check form control validity
+  isFieldInvalid(form: FormGroup, fieldName: string): boolean {
+    const field = form.get(fieldName);
+    return !!(field && field.invalid && (field.dirty || field.touched));
+  }
+
+  getFieldError(form: FormGroup, fieldName: string): string {
+    const field = form.get(fieldName);
+    if (field && field.errors) {
+      if (field.errors['required']) return `${fieldName} is required`;
+      if (field.errors['minlength']) return `${fieldName} must be at least ${field.errors['minlength'].requiredLength} characters`;
+      if (field.errors['min']) return `${fieldName} must be at least ${field.errors['min'].min}`;
+      if (field.errors['pattern']) return `${fieldName} format is invalid`;
+    }
+    return '';
+  }
+
+  navigateToSales(): void {
+    this.router.navigate(['/farmer/sales']);
   }
 } 

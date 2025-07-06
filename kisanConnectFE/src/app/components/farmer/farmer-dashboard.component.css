@@ -23,6 +23,20 @@
   gap: 15px;
 }
 
+.check-sales-btn {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.check-sales-btn:hover {
+  background-color: #2980b9;
+}
+
 .add-crop-btn {
   background-color: #27ae60;
   color: white;
@@ -131,6 +145,32 @@
   font-size: 14px;
 }
 
+.form-group input.ng-invalid.ng-touched {
+  border-color: #e74c3c;
+  box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.2);
+}
+
+.form-group select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: white;
+}
+
+.form-group select.ng-invalid.ng-touched {
+  border-color: #e74c3c;
+  box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.2);
+}
+
+.error-text {
+  color: #e74c3c;
+  font-size: 12px;
+  margin-top: 5px;
+  font-weight: 500;
+}
+
 .form-actions {
   display: flex;
   gap: 10px;
@@ -162,6 +202,15 @@
 
 .save-btn:hover {
   background-color: #229954;
+}
+
+.save-btn:disabled {
+  background-color: #bdc3c7;
+  cursor: not-allowed;
+}
+
+.save-btn:disabled:hover {
+  background-color: #bdc3c7;
 }
 
 .section {
@@ -308,6 +357,81 @@
   background-color: #2980b9;
 }
 
+/* Crops Table Styles */
+.crops-table-container {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  overflow-x: auto;
+}
+
+.crops-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  display: block;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.crops-table thead {
+  background-color: #f8f9fa;
+  border-bottom: 2px solid #e0e0e0;
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.crops-table th {
+  padding: 12px 8px;
+  text-align: left;
+  font-weight: bold;
+  color: #2c3e50;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.crops-table td {
+  padding: 12px 8px;
+  border-bottom: 1px solid #ecf0f1;
+  vertical-align: middle;
+}
+
+.crops-table tbody {
+  display: block;
+  overflow-y: auto;
+  max-height: 400px;
+}
+
+.crops-table tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.crops-table tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+.crops-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Orders Grid Styles */
+.orders-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.order-card {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
 @media (max-width: 768px) {
   .dashboard-header {
     flex-direction: column;
@@ -319,8 +443,17 @@
     width: 100%;
   }
   
-  .orders-grid, .crops-grid {
+  .orders-grid {
     grid-template-columns: 1fr;
+  }
+  
+  .crops-table-container {
+    font-size: 12px;
+  }
+  
+  .crops-table th,
+  .crops-table td {
+    padding: 8px 4px;
   }
   
   .modal-content {

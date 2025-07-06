@@ -47,15 +47,15 @@ router.post('/add', auth, async (req, res) => {
       return res.status(403).json({ error: 'Access denied. Farmers only.' });
     }
 
-    const { name, type, price, quantity, village, contact } = req.body;
+    const { name, type, price, quantity, village, contact, health_status, harvest_date } = req.body;
     const userId = req.user.id;
   
-    console.log('📥 Insert values:', { name, type, price, quantity, village, contact, userId });
+    console.log('📥 Insert values:', { name, type, price, quantity, village, contact, health_status, harvest_date, userId });
   
     try {
       const result = await db.query(
-        'INSERT INTO crops (name, type, price, quantity, village, contact, user_id) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
-        [name, type, price, quantity, village, contact, userId]
+        'INSERT INTO crops (name, type, price, quantity, village, contact, health_status, harvest_date, user_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *',
+        [name, type, price, quantity, village, contact, health_status, harvest_date, userId]
       );
       
       const newCrop = result.rows[0];
@@ -68,7 +68,8 @@ router.post('/add', auth, async (req, res) => {
 
 // Update crop (farmer can update their own, admin can update any)
 router.put('/:id', auth, async (req, res) => {
-  const { name, type, price, quantity, village, contact } = req.body;
+  console.log('Update request body:', req.body);
+  const { name, type, price, quantity, village, contact, health_status, harvest_date } = req.body;
   const cropId = req.params.id;
 
   try {
@@ -77,14 +78,14 @@ router.put('/:id', auth, async (req, res) => {
     if (req.user.role === 'admin') {
       // Admin can update any crop
       result = await db.query(
-        'UPDATE crops SET name = $1, type = $2, price = $3, quantity = $4, village = $5, contact = $6 WHERE id = $7 RETURNING *',
-        [name, type, price, quantity, village, contact, cropId]
+        'UPDATE crops SET name = $1, type = $2, price = $3, quantity = $4, village = $5, contact = $6, health_status = $7, harvest_date = $8 WHERE id = $9 RETURNING *',
+        [name, type, price, quantity, village, contact, health_status, harvest_date, cropId]
       );
     } else if (req.user.role === 'farmer') {
       // Farmer can only update their own crops
       result = await db.query(
-        'UPDATE crops SET name = $1, type = $2, price = $3, quantity = $4, village = $5, contact = $6 WHERE id = $7 AND user_id = $8 RETURNING *',
-        [name, type, price, quantity, village, contact, cropId, req.user.id]
+        'UPDATE crops SET name = $1, type = $2, price = $3, quantity = $4, village = $5, contact = $6, health_status = $7, harvest_date = $8 WHERE id = $9 AND user_id = $10 RETURNING *',
+        [name, type, price, quantity, village, contact, health_status, harvest_date, cropId, req.user.id]
     );
     } else {
       return res.status(403).json({ error: 'Access denied' });

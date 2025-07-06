@@ -95,6 +95,7 @@ router.get('/farmer/analytics', auth, async (req, res) => {
       SELECT 
         name,
         quantity,
+        price,
         health_status,
         harvest_date
       FROM crops

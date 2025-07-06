@@ -110,6 +110,33 @@
         </div>
       </div>
 
+      <div class="form-group">
+        <label for="health_status">Health Status</label>
+        <select id="health_status" formControlName="health_status" class="form-control">
+          <option value="">Select health status</option>
+          <option value="Excellent">Excellent</option>
+          <option value="Good">Good</option>
+          <option value="Fair">Fair</option>
+          <option value="Poor">Poor</option>
+        </select>
+        <div class="error-message" *ngIf="getErrorMessage('health_status')">
+          {{ getErrorMessage('health_status') }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="harvest_date">Harvest Date</label>
+        <input 
+          type="date" 
+          id="harvest_date" 
+          formControlName="harvest_date" 
+          class="form-control"
+        >
+        <div class="error-message" *ngIf="getErrorMessage('harvest_date')">
+          {{ getErrorMessage('harvest_date') }}
+        </div>
+      </div>
+
       <div class="form-actions">
         <button 
           type="submit" 
@@ -149,6 +176,8 @@
         <p><strong>Quantity:</strong> {{ crop.quantity }}</p>
         <p><strong>Village:</strong> {{ crop.village }}</p>
         <p><strong>Contact:</strong> {{ crop.contact }}</p>
+        <p><strong>Health Status:</strong> {{ crop.health_status || 'Not specified' }}</p>
+        <p><strong>Harvest Date:</strong> {{ crop.harvest_date | date:'mediumDate' || 'Not specified' }}</p>
         <p *ngIf="crop.created_at" class="created-date">
           <strong>Created:</strong> {{ formatDate(crop.created_at) }}
         </p>

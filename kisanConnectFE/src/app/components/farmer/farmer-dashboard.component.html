@@ -1,7 +1,8 @@
 <div class="farmer-dashboard">
   <div class="dashboard-header">
-    <h1>Farmer Dashboard</h1>
+    <h1>Welcome to Farmer Dashboard</h1>
     <div class="header-actions">
+      <button class="check-sales-btn" (click)="navigateToSales()">Check Your Sales</button>
       <button class="add-crop-btn" (click)="showAddCropForm = true">Add New Crop</button>
     </div>
   </div>
@@ -17,34 +18,72 @@
         <h3>Add New Crop</h3>
         <button class="close-btn" (click)="showAddCropForm = false">×</button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body" [formGroup]="addCropForm">
         <div class="form-group">
           <label>Crop Name</label>
-          <input type="text" [(ngModel)]="newCrop.name" placeholder="Enter crop name">
+          <input type="text" formControlName="name" placeholder="Enter crop name">
+          <div class="error-text" *ngIf="isFieldInvalid(addCropForm, 'name')">
+            {{ getFieldError(addCropForm, 'name') }}
+          </div>
         </div>
         <div class="form-group">
           <label>Type</label>
-          <input type="text" [(ngModel)]="newCrop.type" placeholder="e.g., Wheat, Rice, etc.">
+          <input type="text" formControlName="type" placeholder="e.g., Wheat, Rice, etc.">
+          <div class="error-text" *ngIf="isFieldInvalid(addCropForm, 'type')">
+            {{ getFieldError(addCropForm, 'type') }}
+          </div>
         </div>
         <div class="form-group">
           <label>Price per kg (₹)</label>
-          <input type="number" [(ngModel)]="newCrop.price" placeholder="Enter price">
+          <input type="number" formControlName="price" placeholder="Enter price">
+          <div class="error-text" *ngIf="isFieldInvalid(addCropForm, 'price')">
+            {{ getFieldError(addCropForm, 'price') }}
+          </div>
         </div>
         <div class="form-group">
           <label>Quantity (kg)</label>
-          <input type="number" [(ngModel)]="newCrop.quantity" placeholder="Enter quantity">
+          <input type="number" formControlName="quantity" placeholder="Enter quantity">
+          <div class="error-text" *ngIf="isFieldInvalid(addCropForm, 'quantity')">
+            {{ getFieldError(addCropForm, 'quantity') }}
+          </div>
         </div>
         <div class="form-group">
           <label>Village</label>
-          <input type="text" [(ngModel)]="newCrop.village" placeholder="Enter village name">
+          <input type="text" formControlName="village" placeholder="Enter village name">
+          <div class="error-text" *ngIf="isFieldInvalid(addCropForm, 'village')">
+            {{ getFieldError(addCropForm, 'village') }}
+          </div>
         </div>
         <div class="form-group">
           <label>Contact</label>
-          <input type="text" [(ngModel)]="newCrop.contact" placeholder="Enter contact number">
+          <input type="text" formControlName="contact" placeholder="Enter contact number">
+          <div class="error-text" *ngIf="isFieldInvalid(addCropForm, 'contact')">
+            {{ getFieldError(addCropForm, 'contact') }}
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Health Status</label>
+          <select formControlName="health_status">
+            <option value="">Select health status</option>
+            <option value="Excellent">Excellent</option>
+            <option value="Good">Good</option>
+            <option value="Fair">Fair</option>
+            <option value="Poor">Poor</option>
+          </select>
+          <div class="error-text" *ngIf="isFieldInvalid(addCropForm, 'health_status')">
+            {{ getFieldError(addCropForm, 'health_status') }}
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Harvest Date</label>
+          <input type="date" formControlName="harvest_date">
+          <div class="error-text" *ngIf="isFieldInvalid(addCropForm, 'harvest_date')">
+            {{ getFieldError(addCropForm, 'harvest_date') }}
+          </div>
         </div>
         <div class="form-actions">
           <button class="cancel-btn" (click)="showAddCropForm = false">Cancel</button>
-          <button class="save-btn" (click)="addCrop()">Add Crop</button>
+          <button class="save-btn" (click)="addCrop()" [disabled]="addCropForm.invalid">Add Crop</button>
         </div>
       </div>
     </div>
@@ -57,34 +96,72 @@
         <h3>Edit Crop</h3>
         <button class="close-btn" (click)="cancelEdit()">×</button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body" [formGroup]="editCropForm">
         <div class="form-group">
           <label>Crop Name</label>
-          <input type="text" [(ngModel)]="editCrop.name" placeholder="Enter crop name">
+          <input type="text" formControlName="name" placeholder="Enter crop name">
+          <div class="error-text" *ngIf="isFieldInvalid(editCropForm, 'name')">
+            {{ getFieldError(editCropForm, 'name') }}
+          </div>
         </div>
         <div class="form-group">
           <label>Type</label>
-          <input type="text" [(ngModel)]="editCrop.type" placeholder="e.g., Wheat, Rice, etc.">
+          <input type="text" formControlName="type" placeholder="e.g., Wheat, Rice, etc.">
+          <div class="error-text" *ngIf="isFieldInvalid(editCropForm, 'type')">
+            {{ getFieldError(editCropForm, 'type') }}
+          </div>
         </div>
         <div class="form-group">
           <label>Price per kg (₹)</label>
-          <input type="number" [(ngModel)]="editCrop.price" placeholder="Enter price">
+          <input type="number" formControlName="price" placeholder="Enter price">
+          <div class="error-text" *ngIf="isFieldInvalid(editCropForm, 'price')">
+            {{ getFieldError(editCropForm, 'price') }}
+          </div>
         </div>
         <div class="form-group">
           <label>Quantity (kg)</label>
-          <input type="number" [(ngModel)]="editCrop.quantity" placeholder="Enter quantity">
+          <input type="number" formControlName="quantity" placeholder="Enter quantity">
+          <div class="error-text" *ngIf="isFieldInvalid(editCropForm, 'quantity')">
+            {{ getFieldError(editCropForm, 'quantity') }}
+          </div>
         </div>
         <div class="form-group">
           <label>Village</label>
-          <input type="text" [(ngModel)]="editCrop.village" placeholder="Enter village name">
+          <input type="text" formControlName="village" placeholder="Enter village name">
+          <div class="error-text" *ngIf="isFieldInvalid(editCropForm, 'village')">
+            {{ getFieldError(editCropForm, 'village') }}
+          </div>
         </div>
         <div class="form-group">
           <label>Contact</label>
-          <input type="text" [(ngModel)]="editCrop.contact" placeholder="Enter contact number">
+          <input type="text" formControlName="contact" placeholder="Enter contact number">
+          <div class="error-text" *ngIf="isFieldInvalid(editCropForm, 'contact')">
+            {{ getFieldError(editCropForm, 'contact') }}
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Health Status</label>
+          <select formControlName="health_status">
+            <option value="">Select health status</option>
+            <option value="Excellent">Excellent</option>
+            <option value="Good">Good</option>
+            <option value="Fair">Fair</option>
+            <option value="Poor">Poor</option>
+          </select>
+          <div class="error-text" *ngIf="isFieldInvalid(editCropForm, 'health_status')">
+            {{ getFieldError(editCropForm, 'health_status') }}
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Harvest Date</label>
+          <input type="date" formControlName="harvest_date">
+          <div class="error-text" *ngIf="isFieldInvalid(editCropForm, 'harvest_date')">
+            {{ getFieldError(editCropForm, 'harvest_date') }}
+          </div>
         </div>
         <div class="form-actions">
           <button class="cancel-btn" (click)="cancelEdit()">Cancel</button>
-          <button class="save-btn" (click)="updateCrop()">Update Crop</button>
+          <button class="save-btn" (click)="updateCrop()" [disabled]="editCropForm.invalid">Update Crop</button>
         </div>
       </div>
     </div>
@@ -97,20 +174,19 @@
       <div class="orders-grid" *ngIf="orders.length > 0; else noOrders">
         <div class="order-card" *ngFor="let order of orders">
           <div class="order-header">
-            <h3>Order #{{ order.id }}</h3>
+            <h3><strong>Buyer</strong> {{ order.buyer_name }}</h3>
             <span class="status-badge" [class]="'status-' + order.status">
               {{ order.status }}
             </span>
           </div>
           <div class="order-details">
             <p><strong>Crop:</strong> {{ order.crop_name }} ({{ order.crop_type }})</p>
-            <p><strong>Buyer:</strong> {{ order.buyer_name }}</p>
             <p><strong>Quantity:</strong> {{ order.quantity }} kg</p>
             <p><strong>Total Price:</strong> ₹{{ order.total_price }}</p>
-            <p><strong>Date:</strong> {{ order.created_at | date:'short' }}</p>
+            <p><strong>Order Date:</strong> {{ order.created_at | date:'short' }}</p>
           </div>
           <div class="order-actions">
-            <select (change)="updateOrderStatus(order.id, $event.target.value)" [value]="order.status">
+            <select (change)="updateOrderStatus(order.id, $event.target.value)" [value]="order.status" [disabled]="order.status === 'delivered'">
               <option value="pending">Pending</option>
               <option value="confirmed">Confirmed</option>
               <option value="delivered">Delivered</option>
@@ -127,65 +203,43 @@
     <!-- Crops Section -->
     <div class="section">
       <h2>Your Crops</h2>
-      <div class="crops-grid" *ngIf="crops.length > 0; else noCrops">
-        <div class="crop-card" *ngFor="let crop of crops">
-          <div class="crop-header">
-            <h3>{{ crop.name }}</h3>
-            <div class="crop-actions">
-              <button class="edit-btn" (click)="openEditCropForm(crop)">Edit</button>
-            </div>
-          </div>
-          <div class="crop-details">
-            <p><strong>Type:</strong> {{ crop.type }}</p>
-            <p><strong>Price:</strong> ₹{{ crop.price }}/kg</p>
-            <p><strong>Quantity:</strong> {{ crop.quantity }} kg</p>
-            <p><strong>Village:</strong> {{ crop.village }}</p>
-            <p><strong>Contact:</strong> {{ crop.contact }}</p>
-          </div>
-        </div>
+      <div class="crops-table-container" *ngIf="crops.length > 0; else noCrops">
+        <table class="crops-table">
+          <thead>
+            <tr>
+              <th>Crop Name</th>
+              <th>Type</th>
+              <th>Price (₹/kg)</th>
+              <th>Quantity (kg)</th>
+              <th>Village</th>
+              <th>Contact</th>
+              <th>Health Status</th>
+              <th>Harvest Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let crop of crops">
+              <td>{{ crop.name }}</td>
+              <td>{{ crop.type }}</td>
+              <td>{{ (crop.price !== undefined && crop.price !== null && crop.price !== '') ? ('₹' + crop.price) : '₹Not specified' }}</td>
+              <td>{{ crop.quantity }}</td>
+              <td>{{ crop.village }}</td>
+              <td>{{ crop.contact }}</td>
+              <td>{{ crop.health_status || 'Not specified' }}</td>
+              <td>{{ crop.harvest_date | date:'mediumDate' || 'Not specified' }}</td>
+              <td>
+                <button class="edit-btn" (click)="openEditCropForm(crop)">Edit</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
       <ng-template #noCrops>
         <p class="no-data">No crops added yet. Click "Add New Crop" to get started.</p>
       </ng-template>
     </div>
   </div>
-  <h3>Sales Analytics</h3>
-    <div class="row">
-      <div class="col-md-6">
-        <canvas baseChart
-          [data]="salesChartData"
-          [type]="'line'"
-          [options]="{ responsive: true, maintainAspectRatio: false }">
-        </canvas>
-      </div>
-      <div class="col-md-6">
-        <canvas baseChart
-          [data]="revenueChartData"
-          [type]="'bar'"
-          [options]="{ responsive: true, maintainAspectRatio: false }">
-        </canvas>
-      </div>
-    </div>
-
-    <h3 class="mt-4">Current Inventory</h3>
-    <table class="table table-bordered">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Quantity</th>
-          <th>Health Status</th>
-          <th>Harvest Date</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let crop of inventory">
-          <td>{{ crop.name }}</td>
-          <td>{{ crop.quantity }}</td>
-          <td>{{ crop.health_status }}</td>
-          <td>{{ crop.harvest_date | date }}</td>
-        </tr>
-      </tbody>
-    </table>
 
   <div class="loading" *ngIf="isLoading">
     <p>Loading...</p>
