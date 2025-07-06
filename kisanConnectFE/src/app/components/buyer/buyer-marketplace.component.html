@@ -55,8 +55,28 @@
     <!-- Available Crops Section -->
     <div class="section">
       <h2>Available Crops To Buy</h2>
+      
+      <!-- Navigation Buttons (Show when more crops than cards per page) -->
+      <div class="navigation-controls" *ngIf="crops.length > cardsPerPage">
+        <button 
+          class="nav-btn prev-btn" 
+          (click)="previousPage()"
+          [disabled]="isFirstPage()"
+        >
+          ← Previous Crop
+        </button>
+        <span class="page-indicator">{{ currentPage + 1 }} / {{ totalPages }}</span>
+        <button 
+          class="nav-btn next-btn" 
+          (click)="nextPage()"
+          [disabled]="isLastPage()"
+        >
+          Next Crop →
+        </button>
+      </div>
+
       <div class="crops-grid" *ngIf="crops.length > 0; else noCrops">
-        <div class="crop-card" *ngFor="let crop of crops">
+        <div class="crop-card" *ngFor="let crop of getVisibleCrops()">
           <div class="crop-header">
             <h3>{{ crop.name }}</h3>
             <span class="price-badge">₹{{ crop.price }}/kg</span>
@@ -88,8 +108,28 @@
     <!-- My Orders Section -->
     <div class="section">
       <h2>My Orders</h2>
+      
+      <!-- Orders Navigation Controls -->
+      <div class="navigation-controls" *ngIf="orders.length > ordersCardsPerPage">
+        <button 
+          class="nav-btn prev-btn" 
+          (click)="previousOrdersPage()"
+          [disabled]="isFirstOrdersPage()"
+        >
+          ← Previous Order
+        </button>
+        <span class="page-indicator">{{ currentOrdersPage + 1 }} / {{ totalOrdersPages }}</span>
+        <button 
+          class="nav-btn next-btn" 
+          (click)="nextOrdersPage()"
+          [disabled]="isLastOrdersPage()"
+        >
+          Next Order →
+        </button>
+      </div>
+
       <div class="orders-grid" *ngIf="orders.length > 0; else noOrders">
-        <div class="order-card" *ngFor="let order of orders">
+        <div class="order-card" *ngFor="let order of getVisibleOrders()">
           <div class="order-header">
             <h3><strong>Farmer</strong> {{ order.farmer_name }}</h3>
             <span class="status-badge" [class]="'status-' + order.status">

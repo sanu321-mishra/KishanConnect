@@ -171,8 +171,28 @@
     <!-- Orders Section -->
     <div class="section">
       <h2>Orders for Your Crops</h2>
+      
+      <!-- Orders Navigation Controls -->
+      <div class="navigation-controls" *ngIf="orders.length > ordersCardsPerPage">
+        <button 
+          class="nav-btn prev-btn" 
+          (click)="previousOrdersPage()"
+          [disabled]="isFirstOrdersPage()"
+        >
+          ← Previous Order
+        </button>
+        <span class="page-indicator">{{ currentOrdersPage + 1 }} / {{ totalOrdersPages }}</span>
+        <button 
+          class="nav-btn next-btn" 
+          (click)="nextOrdersPage()"
+          [disabled]="isLastOrdersPage()"
+        >
+          Next Order →
+        </button>
+      </div>
+
       <div class="orders-grid" *ngIf="orders.length > 0; else noOrders">
-        <div class="order-card" *ngFor="let order of orders">
+        <div class="order-card" *ngFor="let order of getVisibleOrders()">
           <div class="order-header">
             <h3><strong>Buyer</strong> {{ order.buyer_name }}</h3>
             <span class="status-badge" [class]="'status-' + order.status">

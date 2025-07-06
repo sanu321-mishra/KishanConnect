@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { CropService } from '../../services/crop.service';
@@ -18,6 +18,12 @@ export class FarmerDashboardComponent implements OnInit {
   showAddCropForm = false;
   showEditCropForm = false;
   editingCrop: any = null;
+
+  // Pagination properties for orders
+  currentOrdersPage = 0;
+  ordersCardsPerPage = 3; // Default for desktop
+  totalOrdersPages = 0;
+  isMobile = false;
 
   // Reactive Forms
   addCropForm!: FormGroup;
@@ -62,7 +68,19 @@ export class FarmerDashboardComponent implements OnInit {
       this.router.navigate(['/login']);
       return;
     }
+    this.checkScreenSize();
     this.loadData();
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.checkScreenSize();
+  }
+
+  checkScreenSize(): void {
+    this.isMobile = window.innerWidth <= 768;
+    this.ordersCardsPerPage = this.isMobile ? 1 : 3;
+    this.calculateTotalOrdersPages();
   }
 
   loadData(): void {
@@ -84,6 +102,7 @@ export class FarmerDashboardComponent implements OnInit {
     this.orderService.getFarmerOrders().subscribe({
       next: (orders) => {
         this.orders = orders;
+        this.calculateTotalOrdersPages();
         this.isLoading = false;
       },
       error: (error) => {
@@ -92,6 +111,41 @@ export class FarmerDashboardComponent implements OnInit {
         this.isLoading = false;
       }
     });
+  }
+
+  // Orders pagination methods
+  calculateTotalOrdersPages(): void {
+    this.totalOrdersPages = Math.ceil(this.orders.length / this.ordersCardsPerPage);
+    // Reset to first page if current page is out of bounds
+    if (this.currentOrdersPage >= this.totalOrdersPages && this.totalOrdersPages > 0) {
+      this.currentOrdersPage = 0;
+    }
+  }
+
+  getVisibleOrders(): Order[] {
+    const startIndex = this.currentOrdersPage * this.ordersCardsPerPage;
+    const endIndex = startIndex + this.ordersCardsPerPage;
+    return this.orders.slice(startIndex, endIndex);
+  }
+
+  previousOrdersPage(): void {
+    if (this.currentOrdersPage > 0) {
+      this.currentOrdersPage--;
+    }
+  }
+
+  nextOrdersPage(): void {
+    if (this.currentOrdersPage < this.totalOrdersPages - 1) {
+      this.currentOrdersPage++;
+    }
+  }
+
+  isFirstOrdersPage(): boolean {
+    return this.currentOrdersPage === 0;
+  }
+
+  isLastOrdersPage(): boolean {
+    return this.currentOrdersPage === this.totalOrdersPages - 1;
   }
 
   addCrop(): void {

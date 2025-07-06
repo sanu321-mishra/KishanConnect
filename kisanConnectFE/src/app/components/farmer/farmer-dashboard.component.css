@@ -364,6 +364,7 @@
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
 }
 
 .crops-table {
@@ -373,6 +374,7 @@
   display: block;
   max-height: 400px;
   overflow-y: auto;
+  min-width: 800px; /* Ensure table has minimum width for desktop */
 }
 
 .crops-table thead {
@@ -447,17 +449,143 @@
     grid-template-columns: 1fr;
   }
   
+  /* Mobile crops table styles */
   .crops-table-container {
     font-size: 12px;
+    overflow-x: auto;
+  }
+  
+  .crops-table {
+    min-width: 600px; /* Ensure minimum width for readability */
+    font-size: 11px;
   }
   
   .crops-table th,
   .crops-table td {
-    padding: 8px 4px;
+    padding: 6px 4px;
+    white-space: nowrap;
+  }
+  
+  .crops-table th:nth-child(6),
+  .crops-table th:nth-child(7),
+  .crops-table td:nth-child(6),
+  .crops-table td:nth-child(7) {
+    display: none; /* Hide contact and health status on mobile */
   }
   
   .modal-content {
     width: 95%;
     margin: 10px;
   }
+
+  /* Adjust navigation controls for mobile */
+  .navigation-controls {
+    padding: 10px;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .nav-btn {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+  
+  .page-indicator {
+    font-size: 12px;
+  }
+}
+
+/* Extra small screens */
+@media (max-width: 480px) {
+  .farmer-dashboard {
+    padding: 10px;
+  }
+  
+  .dashboard-header h1 {
+    font-size: 24px;
+  }
+  
+  .crops-table {
+    min-width: 500px;
+    font-size: 10px;
+  }
+  
+  .crops-table th,
+  .crops-table td {
+    padding: 4px 2px;
+  }
+  
+  /* Hide more columns on very small screens */
+  .crops-table th:nth-child(5),
+  .crops-table th:nth-child(8),
+  .crops-table td:nth-child(5),
+  .crops-table td:nth-child(8) {
+    display: none; /* Hide village and harvest date */
+  }
+  
+  .modal-content {
+    width: 98%;
+    margin: 5px;
+  }
+  
+  .modal-body {
+    padding: 15px;
+  }
+  
+  .form-group input,
+  .form-group select {
+    font-size: 16px; /* Prevent zoom on iOS */
+  }
+  
+  /* Improve button sizes on mobile */
+  .edit-btn {
+    padding: 8px 12px;
+    font-size: 11px;
+  }
+  
+  .add-crop-btn,
+  .check-sales-btn {
+    padding: 12px 16px;
+    font-size: 14px;
+  }
+}
+
+/* Navigation Controls Styles */
+.navigation-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.nav-btn {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.nav-btn:hover:not(:disabled) {
+  background-color: #2980b9;
+}
+
+.nav-btn:disabled {
+  background-color: #bdc3c7;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.page-indicator {
+  font-weight: bold;
+  color: #2c3e50;
+  font-size: 14px;
 } 

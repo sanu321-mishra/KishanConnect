@@ -49,6 +49,7 @@
   display: flex;
   flex-direction: column;
   gap: 40px;
+  width: 100%;
 }
 
 .analytics-section, .inventory-section {
@@ -70,6 +71,8 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: 30px;
+  width: 100%;
+  overflow-x: auto;
 }
 
 .chart-card {
@@ -77,6 +80,9 @@
   border-radius: 8px;
   padding: 20px;
   border: 1px solid #e9ecef;
+  width: 100%;
+  min-width: 300px;
+  overflow: hidden;
 }
 
 .chart-card h3 {
@@ -89,10 +95,21 @@
 .chart-wrapper {
   height: 300px;
   position: relative;
+  min-height: 200px; /* Ensure minimum height for mobile */
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Mobile hide utility class */
+.mobile-hide {
+  display: table-cell;
 }
 
 .inventory-table-container {
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
 .inventory-table tbody {
@@ -126,6 +143,7 @@
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  min-width: 800px; /* Ensure minimum width for desktop */
 }
 
 .inventory-table th {
@@ -194,41 +212,170 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
+  .farmer-sales {
+    padding: 15px;
+  }
+
   .sales-header {
     flex-direction: column;
     align-items: flex-start;
     gap: 15px;
   }
 
+  .sales-header h1 {
+    font-size: 24px;
+  }
+
   .charts-container {
     grid-template-columns: 1fr;
     gap: 20px;
+    min-width: 320px;
   }
 
   .chart-wrapper {
     height: 250px;
+    max-width: 100%;
   }
 
-  .inventory-table {
-    font-size: 14px;
-  }
-
-  .inventory-table th,
-  .inventory-table td {
-    padding: 10px 8px;
-  }
-}
-
-@media (max-width: 480px) {
-  .farmer-sales {
-    padding: 15px;
+  .sales-content {
+    gap: 25px;
   }
 
   .analytics-section, .inventory-section {
     padding: 20px;
   }
 
+  /* Mobile inventory table styles */
+  .inventory-table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .inventory-table {
+    min-width: 600px;
+    font-size: 13px;
+  }
+
+  .inventory-table th,
+  .inventory-table td {
+    padding: 8px 6px;
+    white-space: nowrap;
+  }
+
+  /* Mobile table adjustments - keep all columns visible */
+  .inventory-table {
+    min-width: 700px; /* Increased to accommodate all columns */
+  }
+
+  .chart-card {
+    padding: 15px;
+    min-width: 280px;
+  }
+
+  .chart-card h3 {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .farmer-sales {
+    padding: 10px;
+  }
+
+  .sales-header h1 {
+    font-size: 20px;
+  }
+
+  .back-btn {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+
+  .sales-content {
+    gap: 20px;
+  }
+
+  .analytics-section, .inventory-section {
+    padding: 15px;
+  }
+
+  .analytics-section h2, .inventory-section h2 {
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+
   .chart-wrapper {
     height: 200px;
+    max-width: 100%;
+  }
+
+  .chart-card {
+    padding: 12px;
+    min-width: 250px;
+  }
+
+  .chart-card h3 {
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+
+  /* Extra small screen inventory table */
+  .inventory-table {
+    min-width: 500px;
+    font-size: 12px;
+  }
+
+  .inventory-table th,
+  .inventory-table td {
+    padding: 6px 4px;
+  }
+
+  /* Very small screen table adjustments - keep all columns visible */
+  .inventory-table {
+    min-width: 600px; /* Increased to accommodate all columns */
+  }
+
+  .health-status {
+    font-size: 10px;
+    padding: 2px 6px;
+  }
+
+  .no-inventory {
+    padding: 30px 20px;
+  }
+
+  .loading {
+    padding: 30px 20px;
+  }
+}
+
+/* Tablet specific adjustments */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .farmer-sales {
+    padding: 20px;
+    max-width: 100%;
+  }
+
+  .charts-container {
+    gap: 25px;
+    min-width: 350px;
+  }
+
+  .chart-wrapper {
+    height: 280px;
+    max-width: 100%;
+  }
+
+  .inventory-table {
+    font-size: 13px;
+  }
+
+  .inventory-table th,
+  .inventory-table td {
+    padding: 10px 8px;
+  }
+
+  .sales-content {
+    gap: 30px;
   }
 } 

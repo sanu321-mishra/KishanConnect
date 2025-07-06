@@ -61,7 +61,7 @@
     <!-- Inventory Section -->
     <div class="inventory-section">
       <h2>Current Inventory</h2>
-      <div class="inventory-table-container">
+      <div class="inventory-table-container" *ngIf="inventory.length > 0; else noInventory">
         <table class="inventory-table">
           <thead>
             <tr>
@@ -86,10 +86,12 @@
             </tr>
           </tbody>
         </table>
-        <div class="no-inventory" *ngIf="inventory.length === 0">
+      </div>
+      <ng-template #noInventory>
+        <div class="no-inventory">
           <p>No inventory data available.</p>
         </div>
-      </div>
+      </ng-template>
     </div>
   </div>
 
