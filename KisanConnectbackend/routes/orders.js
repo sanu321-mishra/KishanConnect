@@ -77,7 +77,7 @@ router.get('/farmer/analytics', auth, async (req, res) => {
     return res.status(403).json({ error: 'Access denied. Farmer only.' });
   }
   try {
-    // Monthly sales and revenue
+    // Monthly sales and revenue (only for delivered orders)
     const salesRes = await db.query(`
       SELECT 
         TO_CHAR(o.created_at, 'YYYY-MM') AS month,
@@ -85,7 +85,7 @@ router.get('/farmer/analytics', auth, async (req, res) => {
         SUM(o.total_price) AS revenue
       FROM orders o
       JOIN crops c ON o.crop_id = c.id
-      WHERE c.user_id = $1
+      WHERE c.user_id = $1 AND o.status = 'delivered'
       GROUP BY month
       ORDER BY month
     `, [req.user.id]);
