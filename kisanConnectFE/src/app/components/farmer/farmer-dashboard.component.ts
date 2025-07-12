@@ -48,7 +48,7 @@ export class FarmerDashboardComponent implements OnInit {
       village: ['', [Validators.required, Validators.minLength(2)]],
       contact: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
       health_status: ['', Validators.required],
-      harvest_date: ['', Validators.required]
+      harvest_date: ['', [Validators.required, this.pastOrTodayValidator()]]
     });
 
     this.editCropForm = this.fb.group({
@@ -59,7 +59,7 @@ export class FarmerDashboardComponent implements OnInit {
       village: ['', [Validators.required, Validators.minLength(2)]],
       contact: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
       health_status: ['', Validators.required],
-      harvest_date: ['', Validators.required]
+      harvest_date: ['', [Validators.required, this.pastOrTodayValidator()]]
     });
   }
 
@@ -239,6 +239,28 @@ export class FarmerDashboardComponent implements OnInit {
     });
   }
 
+  // Custom validator for harvest date (past or today only)
+  private pastOrTodayValidator() {
+    return (control: any) => {
+      if (!control.value) {
+        return null;
+      }
+      
+      const selectedDate = new Date(control.value);
+      const today = new Date();
+      
+      // Reset time to compare only dates
+      today.setHours(0, 0, 0, 0);
+      selectedDate.setHours(0, 0, 0, 0);
+      
+      if (selectedDate > today) {
+        return { futureDate: true };
+      }
+      
+      return null;
+    };
+  }
+
   // Helper methods to check form control validity
   isFieldInvalid(form: FormGroup, fieldName: string): boolean {
     const field = form.get(fieldName);
@@ -252,6 +274,7 @@ export class FarmerDashboardComponent implements OnInit {
       if (field.errors['minlength']) return `${fieldName} must be at least ${field.errors['minlength'].requiredLength} characters`;
       if (field.errors['min']) return `${fieldName} must be at least ${field.errors['min'].min}`;
       if (field.errors['pattern']) return `${fieldName} format is invalid`;
+      if (field.errors['futureDate']) return `${fieldName} cannot be in the future`;
     }
     return '';
   }
