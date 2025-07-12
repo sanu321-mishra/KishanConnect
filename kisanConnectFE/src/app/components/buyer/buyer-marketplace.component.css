@@ -18,6 +18,28 @@
   margin: 0;
 }
 
+.header-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.order-history-btn {
+  padding: 10px 20px;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.order-history-btn:hover {
+  background: #5a6fd8;
+  transform: translateY(-1px);
+}
+
 .logout-btn {
   background-color: #e74c3c;
   color: white;
@@ -378,4 +400,86 @@
   font-weight: bold;
   color: #2c3e50;
   font-size: 14px;
+}
+
+/* No Orders Styles */
+.no-orders {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 20px;
+}
+
+.no-orders-content {
+  text-align: center;
+  max-width: 400px;
+}
+
+.no-orders-content h3 {
+  color: #7f8c8d;
+  margin: 0;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+/* Info Message Styles */
+.info-message {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+  border-left: 4px solid #4a90e2;
+}
+
+.info-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.info-icon {
+  font-size: 20px;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.info-text {
+  color: white;
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.info-text strong {
+  font-weight: 600;
+}
+
+.order-history-link {
+  color: #ffd700;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border-bottom: 1px solid transparent;
+}
+
+.order-history-link:hover {
+  color: #fff;
+  border-bottom-color: #ffd700;
+  text-decoration: none;
+}
+
+@media (max-width: 768px) {
+  .info-content {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .info-icon {
+    align-self: center;
+  }
+  
+  .info-text {
+    text-align: center;
+  }
 } 

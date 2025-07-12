@@ -1,6 +1,11 @@
-<div class="buyer-marketplace">
+  <div class="buyer-marketplace">
   <div class="marketplace-header">
     <h1>Welcome to Buyer Marketplace</h1>
+    <div class="header-actions">
+      <button class="order-history-btn" routerLink="/buyer/orders">
+        📋 Your Order History
+      </button>
+    </div>
   </div>
 
   <div class="error-message" *ngIf="errorMessage">
@@ -107,10 +112,21 @@
 
     <!-- My Orders Section -->
     <div class="section">
-      <h2>My Orders</h2>
+      <h2>My Confirmed/Delivered Orders ({{ getConfirmedDeliveredCount() }})</h2>
+      
+      <!-- Info Message -->
+      <div class="info-message" *ngIf="orders.length > 0">
+        <div class="info-content">
+          <span class="info-icon">ℹ️</span>
+          <div class="info-text">
+            <strong>Note:</strong> This section shows only your confirmed and delivered orders. 
+            <a routerLink="/buyer/orders" class="order-history-link">Click here to view all your orders</a> including pending and canceled ones.
+          </div>
+        </div>
+      </div>
       
       <!-- Orders Navigation Controls -->
-      <div class="navigation-controls" *ngIf="orders.length > ordersCardsPerPage">
+      <div class="navigation-controls" *ngIf="getConfirmedDeliveredOrders().length > ordersCardsPerPage">
         <button 
           class="nav-btn prev-btn" 
           (click)="previousOrdersPage()"
@@ -128,7 +144,7 @@
         </button>
       </div>
 
-      <div class="orders-grid" *ngIf="orders.length > 0; else noOrders">
+      <div class="orders-grid" *ngIf="getConfirmedDeliveredOrders().length > 0; else noConfirmedDeliveredOrders">
         <div class="order-card" *ngFor="let order of getVisibleOrders()">
           <div class="order-header">
             <h3><strong>Farmer</strong> {{ order.farmer_name }}</h3>
@@ -147,8 +163,13 @@
           </div>
         </div>
       </div>
-      <ng-template #noOrders>
-        <p class="no-data">No orders placed yet.</p>
+      <ng-template #noConfirmedDeliveredOrders>
+        <div class="no-orders">
+          <div class="no-orders-content">
+            <img src="assets/images/no-data.png" alt="No Orders">
+            <h3>No Confirmed/Delivered Orders Found</h3>
+          </div>
+        </div>
       </ng-template>
     </div>
   </div>

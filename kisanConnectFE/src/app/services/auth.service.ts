@@ -151,4 +151,8 @@ export class AuthService {
     const user = this.currentUserSubject.value;
     return user?.role === 'buyer';
   }
+
+  getCurrentUserValue(): User | null {
+    return this.currentUserSubject.value;
+  }
 } 

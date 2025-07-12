@@ -2,7 +2,7 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { CropService } from '../../services/crop.service';
 import { OrderService, Order } from '../../services/order.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-buyer-marketplace',
@@ -36,7 +36,8 @@ export class BuyerMarketplaceComponent implements OnInit {
     private authService: AuthService,
     private cropService: CropService,
     private orderService: OrderService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
@@ -46,6 +47,7 @@ export class BuyerMarketplaceComponent implements OnInit {
     }
     this.checkScreenSize();
     this.loadData();
+    this.handleReorder();
   }
 
   @HostListener('window:resize', ['$event'])
@@ -102,7 +104,7 @@ export class BuyerMarketplaceComponent implements OnInit {
   }
 
   calculateTotalOrdersPages(): void {
-    this.totalOrdersPages = Math.ceil(this.orders.length / this.ordersCardsPerPage);
+    this.totalOrdersPages = Math.ceil(this.getConfirmedDeliveredOrders().length / this.ordersCardsPerPage);
     // Reset to first page if current page is out of bounds
     if (this.currentOrdersPage >= this.totalOrdersPages && this.totalOrdersPages > 0) {
       this.currentOrdersPage = 0;
@@ -118,7 +120,17 @@ export class BuyerMarketplaceComponent implements OnInit {
   getVisibleOrders(): Order[] {
     const startIndex = this.currentOrdersPage * this.ordersCardsPerPage;
     const endIndex = startIndex + this.ordersCardsPerPage;
-    return this.orders.slice(startIndex, endIndex);
+    return this.getConfirmedDeliveredOrders().slice(startIndex, endIndex);
+  }
+
+  getConfirmedDeliveredOrders(): Order[] {
+    return this.orders.filter(order => 
+      order.status === 'confirmed' || order.status === 'delivered'
+    );
+  }
+
+  getConfirmedDeliveredCount(): number {
+    return this.getConfirmedDeliveredOrders().length;
   }
 
   previousPage(): void {
@@ -210,5 +222,24 @@ export class BuyerMarketplaceComponent implements OnInit {
         }
       });
     }
+  }
+
+  handleReorder(): void {
+    this.route.queryParams.subscribe(params => {
+      if (params['reorder'] === 'true' && params['cropId'] && params['quantity']) {
+        const cropId = parseInt(params['cropId']);
+        const quantity = parseInt(params['quantity']);
+        
+        // Find the crop and open order form
+        const crop = this.crops.find(c => c.id === cropId);
+        if (crop) {
+          this.openOrderForm(crop);
+          this.newOrder.quantity = quantity;
+        }
+        
+        // Clear the query parameters
+        this.router.navigate(['/buyer'], { queryParams: {} });
+      }
+    });
   }
 } 

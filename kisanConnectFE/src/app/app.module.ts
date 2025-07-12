@@ -4,6 +4,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 // Angular Material imports
 import { MatDialogModule } from '@angular/material/dialog';
@@ -28,6 +29,7 @@ import { AdminDashboardComponent } from './components/admin/admin-dashboard.comp
 import { FarmerDashboardComponent } from './components/farmer/farmer-dashboard.component';
 import { FarmerSalesComponent } from './components/farmer/sales-analytics/farmer-sales.component';
 import { BuyerMarketplaceComponent } from './components/buyer/buyer-marketplace.component';
+import { BuyerOrderHistoryComponent } from './components/buyer/buyer-order-history.component';
 import { MyDialogComponent } from './components/dialog/my-dialog.component';
 import { AuthInterceptor } from './services/auth.interceptor';
 import { AuthGuard } from './guards/auth.guard';
@@ -41,7 +43,8 @@ const routes: Routes = [
   { path: 'admin', component: AdminDashboardComponent, canActivate: [AuthGuard] },
   { path: 'farmer', component: FarmerDashboardComponent, canActivate: [AuthGuard] },
   { path: 'farmer/sales', component: FarmerSalesComponent, canActivate: [AuthGuard] },
-  { path: 'buyer', component: BuyerMarketplaceComponent, canActivate: [AuthGuard] }
+  { path: 'buyer', component: BuyerMarketplaceComponent, canActivate: [AuthGuard] },
+  { path: 'buyer/orders', component: BuyerOrderHistoryComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({
@@ -55,12 +58,14 @@ const routes: Routes = [
     FarmerDashboardComponent,
     FarmerSalesComponent,
     BuyerMarketplaceComponent,
+    BuyerOrderHistoryComponent,
     MyDialogComponent
   ],
   imports: [
     BrowserModule, 
     HttpClientModule, 
     FormsModule, 
+    CommonModule,
     ReactiveFormsModule,
     RouterModule.forRoot(routes),
     BrowserAnimationsModule,
