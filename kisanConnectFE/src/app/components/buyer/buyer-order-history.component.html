@@ -2,12 +2,12 @@
   <div class="header">
     <div class="header-content">
       <div class="header-text">
-        <h1>Order History</h1>
-        <p class="subtitle">View and manage your past orders</p>
+        <h1>{{ 'Order History' | translate }}</h1>
+        <p class="subtitle">{{ 'View and manage your past orders' | translate }}</p>
       </div>
       <div class="header-actions">
         <button class="back-btn" routerLink="/buyer">
-          ← Back to Marketplace
+          ← {{ 'Back to Marketplace' | translate }}
         </button>
       </div>
     </div>
@@ -15,24 +15,24 @@
 
   <!-- Error and Success Messages -->
   <div class="error-message" *ngIf="errorMessage">
-    {{ errorMessage }}
+    {{ errorMessage | translate }}
   </div>
   <div class="success-message" *ngIf="successMessage">
-    {{ successMessage }}
+    {{ successMessage | translate }}
   </div>
 
   <!-- Statistics Cards -->
   <div class="stats-container" *ngIf="!isLoading">
     <div class="stat-card">
-      <h3>Total Orders</h3>
+      <h3>{{ 'Total Orders' | translate }}</h3>
       <p class="stat-number">{{ getTotalOrders() }}</p>
     </div>
     <div class="stat-card">
-      <h3>Total Spent Amount On Delivered Orders</h3>
+      <h3>{{ 'Total Spent Amount On Delivered Orders' | translate }}</h3>
       <p class="stat-number">₹{{ getTotalSpent() }}</p>
     </div>
     <div class="stat-card">
-      <h3>Delivered Orders</h3>
+      <h3>{{ 'Delivered Orders' | translate }}</h3>
       <p class="stat-number">{{ getDeliveredOrdersCount() }}</p>
     </div>
   </div>
@@ -40,48 +40,48 @@
   <!-- Filters Section -->
   <div class="filters-section" *ngIf="!isLoading">
     <div class="filters-row">
-      <h2>Filter Orders</h2>
+      <h2>{{ 'Filter Orders' | translate }}</h2>
       <div class="filter-group">
-        <label for="statusFilter">Status:</label>
+        <label for="statusFilter">{{ 'Status:' | translate }}</label>
         <select id="statusFilter" [(ngModel)]="statusFilter" (change)="onFilterChange()">
-          <option value="all">All Orders</option>
-          <option value="pending">Pending</option>
-          <option value="confirmed">Confirmed</option>
-          <option value="delivered">Delivered</option>
-          <option value="canceled">Canceled</option>
+          <option value="all">{{ 'All Orders' | translate }}</option>
+          <option value="pending">{{ 'Pending' | translate }}</option>
+          <option value="confirmed">{{ 'Confirmed' | translate }}</option>
+          <option value="delivered">{{ 'Delivered' | translate }}</option>
+          <option value="canceled">{{ 'Canceled' | translate }}</option>
         </select>
       </div>
 
       <div class="filter-group">
-        <label for="dateFilter">Date Range:</label>
+        <label for="dateFilter">{{ 'Date Range:' | translate }}</label>
         <select id="dateFilter" [(ngModel)]="dateFilter" (change)="onFilterChange()">
-          <option value="all">All Time</option>
-          <option value="last30">Last 30 Days</option>
-          <option value="last90">Last 90 Days</option>
-          <option value="thisYear">This Year</option>
+          <option value="all">{{ 'All Time' | translate }}</option>
+          <option value="last30">{{ 'Last 30 Days' | translate }}</option>
+          <option value="last90">{{ 'Last 90 Days' | translate }}</option>
+          <option value="thisYear">{{ 'This Year' | translate }}</option>
         </select>
       </div>
 
       <div class="filter-group">
-        <label for="searchTerm">Search:</label>
+        <label for="searchTerm">{{ 'Search:' | translate }}</label>
         <input 
           type="text" 
           id="searchTerm" 
           [(ngModel)]="searchTerm" 
           (input)="onFilterChange()"
-          placeholder="Search by crop, farmer, or type..."
+          placeholder="{{ 'Search by crop, farmer, or type...' | translate }}"
         >
       </div>
 
       <button class="clear-filters-btn" (click)="clearFilters()">
-        Clear Filters
+        {{ 'Clear Filters' | translate }}
       </button>
     </div>
   </div>
 
   <!-- Loading State -->
   <div class="loading" *ngIf="isLoading">
-    <p>Loading order history...</p>
+    <p>{{ 'Loading order history...' | translate }}</p>
   </div>
 
   <!-- Orders List -->
@@ -94,7 +94,7 @@
           (click)="previousPage()"
           [disabled]="isFirstPage()"
         >
-          ← Previous Order
+          ← {{ 'Previous Order' | translate }}
         </button>
         <span class="page-indicator">{{ currentPage + 1 }} / {{ totalPages }}</span>
         <button 
@@ -102,23 +102,23 @@
           (click)="nextPage()"
           [disabled]="isLastPage()"
         >
-          Next Order →
+          {{ 'Next Order' | translate }} →
         </button>
       </div>
 
       <div class="orders-grid" *ngIf="paginatedOrders.length > 0; else noOrders">
         <div class="order-card" *ngFor="let order of paginatedOrders">
           <div class="order-header">
-            <h3><strong>Farmer</strong> {{ order.farmer_name }}</h3>
+            <h3><strong>{{ 'Farmer' | translate }}</strong> {{ order.farmer_name | translate }}</h3>
             <span class="status-badge" [class]="'status-' + order.status">
-              {{ order.status }}
+              {{ order.status | translate }}
             </span>
           </div>
           <div class="order-details">
-            <p><strong>Crop:</strong> {{ order.crop_name }} ({{ order.crop_type }})</p>
-            <p><strong>Quantity:</strong> {{ order.quantity }} kg</p>
-            <p><strong>Total Price:</strong> ₹{{ order.total_price }}</p>
-            <p><strong>Order Date:</strong> {{ order.created_at | date:'short' }}</p>
+            <p><strong>{{ 'Crop:' | translate }}</strong> {{ order.crop_name | translate }} ({{ order.crop_type | translate }})</p>
+            <p><strong>{{ 'Quantity:' | translate }}</strong> {{ order.quantity }} kg</p>
+            <p><strong>{{ 'Total Price:' | translate }}</strong> ₹{{ order.total_price }}</p>
+            <p><strong>{{ 'Order Date:' | translate }}</strong> {{ order.created_at | date:'short' }}</p>
           </div>
           <div class="order-actions">
             <button 
@@ -126,16 +126,16 @@
               (click)="downloadInvoice(order)"
               title="Download Invoice"
             >
-              📄 Download Invoice
+              📄 {{ 'Download Invoice' | translate }}
             </button>
             
             <button 
               class="action-btn reorder-btn" 
               (click)="reorder(order)"
               [disabled]="!canReorder(order)"
-              [title]="canReorder(order) ? 'Reorder this item' : 'Only delivered orders can be reorder'"
+              [title]="canReorder(order) ? 'Reorder this item' : 'Only delivered orders can be reorder' | translate"
             >
-              🔄 Reorder
+              🔄 {{ 'Reorder' | translate }}
             </button>
           </div>
         </div>
@@ -146,7 +146,7 @@
       <div class="no-orders">
         <div class="no-orders-content">
           <img src="assets/images/no-data.png" alt="No Orders">
-          <h3>No Orders Found</h3>
+          <h3>{{ 'No Orders Found' | translate }}</h3>
         </div>
       </div>
     </ng-template>

@@ -1,55 +1,55 @@
   <div class="buyer-marketplace">
   <div class="marketplace-header">
-    <h1>Welcome to Buyer Marketplace</h1>
+    <h1>{{ 'Welcome to Buyer Marketplace' | translate }}</h1>
     <div class="header-actions">
       <button class="order-history-btn" routerLink="/buyer/orders">
-        📋 Your Order History
+        📋 {{ 'Your Order History' | translate }}
       </button>
     </div>
   </div>
 
   <div class="error-message" *ngIf="errorMessage">
-    {{ errorMessage }}
+    {{ errorMessage | translate }}
   </div>
 
   <!-- Order Form Modal -->
   <div class="order-modal" *ngIf="showOrderForm">
     <div class="modal-content">
       <div class="modal-header">
-        <h3>Place Order</h3>
+        <h3>{{ 'Place Order' | translate }}</h3>
         <button class="close-btn" (click)="showOrderForm = false">×</button>
       </div>
       <div class="modal-body" *ngIf="selectedCrop">
         <div class="crop-info">
-          <h4>{{ selectedCrop.name }} ({{ selectedCrop.type }})</h4>
-          <p><strong>Price:</strong> ₹{{ selectedCrop.price }}/kg</p>
-          <p><strong>Available:</strong> {{ selectedCrop.quantity }} kg</p>
-          <p><strong>Farmer:</strong> {{ selectedCrop.farmer_name }}</p>
-          <p><strong>Village:</strong> {{ selectedCrop.farmer_village }}</p>
-          <p><strong>Health Status:</strong> {{ selectedCrop.health_status || 'Not specified' }}</p>
-          <p><strong>Harvest Date:</strong> {{ selectedCrop.harvest_date | date:'mediumDate' || 'Not specified' }}</p>
+          <h4>{{ selectedCrop.name | translate }} ({{ selectedCrop.type | translate }}) </h4>
+          <p><strong>{{ 'Price:' | translate }}</strong> ₹{{ selectedCrop.price }}/kg</p>
+          <p><strong>{{ 'Available:' | translate }}</strong> {{ selectedCrop.quantity }} kg</p>
+          <p><strong>{{ 'Farmer:' | translate }}</strong> {{ selectedCrop.farmer_name }}</p>
+          <p><strong>{{ 'Village:' | translate }}</strong> {{ selectedCrop.farmer_village }}</p>
+          <p><strong>{{ 'Health Status:' | translate }}</strong> {{ selectedCrop.health_status || 'Not specified' }}</p>
+          <p><strong>{{ 'Harvest Date:' | translate }}</strong> {{ selectedCrop.harvest_date | date:'mediumDate' || 'Not specified' }}</p>
         </div>
         <div class="form-group">
-          <label>Quantity (kg)</label>
+          <label>{{ 'Quantity (kg)' | translate }}</label>
           <input 
             type="number" 
             [(ngModel)]="newOrder.quantity" 
             min="1" 
             [max]="selectedCrop.quantity"
-            placeholder="Enter quantity"
+            placeholder="{{ 'Enter quantity' | translate }}"
           >
         </div>
         <div class="total-price">
-          <strong>Total Price: ₹{{ calculateTotalPrice() }}</strong>
+          <strong>{{ 'Total Price:' | translate }} ₹{{ calculateTotalPrice() }}</strong>
         </div>
         <div class="form-actions">
-          <button class="cancel-btn" (click)="showOrderForm = false">Cancel</button>
+          <button class="cancel-btn" (click)="showOrderForm = false">{{ 'Cancel' | translate }}</button>
           <button 
             class="place-order-btn" 
             (click)="placeOrder()"
             [disabled]="!newOrder.quantity || newOrder.quantity > selectedCrop.quantity"
           >
-            Place Order
+            {{ 'Place Order' | translate }}
           </button>
         </div>
       </div>
@@ -59,7 +59,7 @@
   <div class="marketplace-content" *ngIf="!isLoading">
     <!-- Available Crops Section -->
     <div class="section">
-      <h2>Available Crops To Buy</h2>
+      <h2>{{ 'Available Crops To Buy' | translate }}</h2>
       
       <!-- Navigation Buttons (Show when more crops than cards per page) -->
       <div class="navigation-controls" *ngIf="crops.length > cardsPerPage">
@@ -68,7 +68,7 @@
           (click)="previousPage()"
           [disabled]="isFirstPage()"
         >
-          ← Previous Crop
+          ← {{ 'Previous Crop' | translate }}
         </button>
         <span class="page-indicator">{{ currentPage + 1 }} / {{ totalPages }}</span>
         <button 
@@ -76,23 +76,23 @@
           (click)="nextPage()"
           [disabled]="isLastPage()"
         >
-          Next Crop →
+          {{ 'Next Crop' | translate }} →
         </button>
       </div>
 
       <div class="crops-grid" *ngIf="crops.length > 0; else noCrops">
         <div class="crop-card" *ngFor="let crop of getVisibleCrops()">
           <div class="crop-header">
-            <h3>{{ crop.name }}</h3>
+            <h3>{{ crop.name | translate }} ({{ crop.type | translate }})</h3>
             <span class="price-badge">₹{{ crop.price }}/kg</span>
           </div>
           <div class="crop-details">
-            <p><strong>Type:</strong> {{ crop.type }}</p>
-            <p><strong>Available:</strong> {{ crop.quantity }} kg</p>
-            <p><strong>Farmer:</strong> {{ crop.farmer_name }}</p>
-            <p><strong>Village:</strong> {{ crop.farmer_village }}</p>
-            <p><strong>Health Status:</strong> {{ crop.health_status || 'Not specified' }}</p>
-            <p><strong>Harvest Date:</strong> {{ crop.harvest_date | date:'mediumDate' || 'Not specified' }}</p>
+            <p><strong>{{ 'Type:' | translate }}</strong> {{ crop.type | translate }}</p>
+            <p><strong>{{ 'Available:' | translate }}</strong> {{ crop.quantity }} kg</p>
+            <p><strong>{{ 'Farmer:' | translate }}</strong> {{ crop.farmer_name | translate }}</p>
+            <p><strong>{{ 'Village:' | translate }}</strong> {{ crop.farmer_village | translate }}</p>
+            <p><strong>{{ 'Health Status:' | translate }}</strong> {{ crop.health_status || 'Not specified' }}</p>
+            <p><strong>{{ 'Harvest Date:' | translate }}</strong> {{ crop.harvest_date | date:'mediumDate' || 'Not specified' }}</p>
           </div>
           <div class="crop-actions">
             <button 
@@ -106,21 +106,21 @@
         </div>
       </div>
       <ng-template #noCrops>
-        <p class="no-data">No crops available in the marketplace.</p>
+        <p class="no-data">{{ 'No crops available in the marketplace.' | translate }}</p>
       </ng-template>
     </div>
 
     <!-- My Orders Section -->
     <div class="section">
-      <h2>My Confirmed/Delivered Orders ({{ getConfirmedDeliveredCount() }})</h2>
+      <h2>{{ 'My Confirmed/Delivered Orders' | translate }} ({{ getConfirmedDeliveredCount() }})</h2>
       
       <!-- Info Message -->
       <div class="info-message" *ngIf="orders.length > 0">
         <div class="info-content">
           <span class="info-icon">ℹ️</span>
           <div class="info-text">
-            <strong>Note:</strong> This section shows only your confirmed and delivered orders. 
-            <a routerLink="/buyer/orders" class="order-history-link">Click here to view all your orders</a> including pending and canceled ones.
+            <strong>{{ 'Note:' | translate }}</strong> {{ 'This section shows only your confirmed and delivered orders.' | translate }} 
+            <a routerLink="/buyer/orders" class="order-history-link">{{ 'Click here to view all your orders' | translate }}</a> {{ 'including pending and canceled ones.' | translate }}
           </div>
         </div>
       </div>
@@ -132,7 +132,7 @@
           (click)="previousOrdersPage()"
           [disabled]="isFirstOrdersPage()"
         >
-          ← Previous Order
+          ← {{ 'Previous Order' | translate }}
         </button>
         <span class="page-indicator">{{ currentOrdersPage + 1 }} / {{ totalOrdersPages }}</span>
         <button 
@@ -140,26 +140,26 @@
           (click)="nextOrdersPage()"
           [disabled]="isLastOrdersPage()"
         >
-          Next Order →
+          {{ 'Next Order' | translate }} →
         </button>
       </div>
 
       <div class="orders-grid" *ngIf="getConfirmedDeliveredOrders().length > 0; else noConfirmedDeliveredOrders">
         <div class="order-card" *ngFor="let order of getVisibleOrders()">
           <div class="order-header">
-            <h3><strong>Farmer</strong> {{ order.farmer_name }}</h3>
+            <h3><strong>{{ 'Farmer' | translate }}</strong> {{ order.farmer_name | translate }}</h3>
             <span class="status-badge" [class]="'status-' + order.status">
-              {{ order.status }}
+              {{ order.status | translate }}
             </span>
           </div>
           <div class="order-details">
-            <p><strong>Crop:</strong> {{ order.crop_name }} ({{ order.crop_type }})</p>
-            <p><strong>Quantity:</strong> {{ order.quantity }} kg</p>
-            <p><strong>Total Price:</strong> ₹{{ order.total_price }}</p>
-            <p><strong>Date:</strong> {{ order.created_at | date:'short' }}</p>
+            <p><strong>{{ 'Crop:' | translate }}</strong> {{ order.crop_name | translate }} ({{ order.crop_type | translate }})</p>
+            <p><strong>{{ 'Quantity:' | translate }}</strong> {{ order.quantity }} kg</p>
+            <p><strong>{{ 'Total Price:' | translate }}</strong> ₹{{ order.total_price }}</p>
+            <p><strong>{{ 'Date:' | translate }}</strong> {{ order.created_at | date:'short' }}</p>
           </div>
           <div class="order-actions" *ngIf="order.status === 'pending'">
-            <button class="delete-btn" (click)="deleteOrder(order.id)">Delete Order</button>
+            <button class="delete-btn" (click)="deleteOrder(order.id)">{{ 'Delete Order' | translate }}</button>
           </div>
         </div>
       </div>
@@ -167,7 +167,7 @@
         <div class="no-orders">
           <div class="no-orders-content">
             <img src="assets/images/no-data.png" alt="No Orders">
-            <h3>No Confirmed/Delivered Orders Found</h3>
+            <h3>{{ 'No Confirmed/Delivered Orders Found' | translate }}</h3>
           </div>
         </div>
       </ng-template>
@@ -175,6 +175,6 @@
   </div>
 
   <div class="loading" *ngIf="isLoading">
-    <p>Loading...</p>
+    <p>{{ 'Loading...' | translate }}</p>
   </div>
 </div> 

@@ -58,14 +58,6 @@ export class LanguagePopupComponent {
     this.popupClosed.emit();
   }
 
-  // Handle language selection
-  public onLanguageChange(langCode: string): void {
-    this.selectedLanguage = langCode;
-    this.translationService.setLanguage(langCode);
-    this.languageSelected.emit(langCode);
-    this.hidePopup();
-  }
-
   // Continue with default language (English)
   public continueWithDefault(): void {
     this.translationService.setLanguage('en');
@@ -77,10 +69,8 @@ export class LanguagePopupComponent {
   public onDropdownChange(event: any): void {
     const selectedLang = event.target.value;
     this.selectedLanguage = selectedLang;
-  }
-
-  // Continue with selected language
-  public continueWithSelected(): void {
-    this.onLanguageChange(this.selectedLanguage);
+    this.translationService.setLanguage(selectedLang);
+    this.languageSelected.emit(selectedLang);
+    this.hidePopup();
   }
 }

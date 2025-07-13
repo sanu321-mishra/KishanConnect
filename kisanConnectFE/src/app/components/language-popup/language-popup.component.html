@@ -1,13 +1,13 @@
 <div class="language-popup-overlay" *ngIf="isVisible" (click)="hidePopup()">
   <div class="language-popup-container" (click)="$event.stopPropagation()">
     <div class="popup-header">
-      <h2>Welcome to KisanConnect!</h2>
-      <p>Please choose your preferred language</p>
+      <h2>{{ 'Welcome to KisanConnect!' | translate }}</h2>
+      <p>{{ 'Please choose your preferred language' | translate }}</p>
     </div>
     
     <div class="popup-content">
       <div class="language-selection">
-        <label for="language-dropdown">Select Language:</label>
+        <label for="language-dropdown">{{ 'Select Language:' | translate }}</label>
         <select 
           id="language-dropdown" 
           [(ngModel)]="selectedLanguage"
@@ -19,23 +19,17 @@
         </select>
       </div>
       
-      <div class="popup-actions">
-        <button 
-          class="btn btn-primary continue-btn"
-          (click)="continueWithSelected()">
-          Continue with Selected Language
-        </button>
-        
+      <div class="popup-actions"> 
         <button 
           class="btn btn-secondary default-btn"
           (click)="continueWithDefault()">
-          Continue with Default Language
+          {{ 'No Choice Continue with English' | translate }}
         </button>
       </div>
     </div>
     
     <div class="popup-footer">
-      <p class="note">You can change your language preference anytime from the settings.</p>
+      <p class="note">{{ 'You can change your language anytime from the Navbar.' | translate }}</p>
     </div>
   </div>
 </div>
