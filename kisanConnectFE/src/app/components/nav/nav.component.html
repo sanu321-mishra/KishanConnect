@@ -1,22 +1,50 @@
 <nav class="navbar">
   <div class="nav-container">
     <div class="nav-brand">
-      <h1>KisanConnect <img src="assets/images/wheat.png" alt="Wheat" style="height: 32px; vertical-align: middle; margin-left: 8px;"/></h1>
+      <h1>{{'KisanConnect' | translate}}<img src="assets/images/wheat.png" alt="Wheat" style="height: 32px; vertical-align: middle; margin-left: 8px;"/></h1>
     </div>
     
     <div class="nav-menu" *ngIf="isLoggedIn()">
       <div class="user-info">
-        <span class="welcome-text">Welcome, {{ getUserDisplayName() }}</span>
-        <small *ngIf="isLoading" style="color: #666; font-size: 12px;">Loading user info...</small>
+        <span class="welcome-text">{{'Welcome' | translate}}, {{ getUserDisplayName() }}</span>
+        <small *ngIf="isLoading" style="color: #666; font-size: 12px;">{{'Loading user info...' | translate}}</small>
       </div>
+      
       <button class="logout-btn" (click)="logout()">
-        Logout
+        {{'Logout' | translate}}
       </button>
     </div>
 
-    <div class="nav-menu" *ngIf="!isLoggedIn()">
-      <div class="login-prompt">
-        <span class="prompt-text">Please login to manage your crops</span>
+    <!-- Language Dropdown - Available for both logged-in and non-logged-in users -->
+    <div class="language-dropdown-container">
+      <button 
+        class="language-btn" 
+        (click)="toggleLanguageDropdown($event)"
+        type="button">
+        <span class="language-icon">🌐</span>
+        <span class="language-text">{{ getCurrentLanguageName() }}</span>
+        <span class="dropdown-arrow" [class.rotated]="showLanguageDropdown">▼</span>
+      </button>
+      
+      <div class="language-dropdown-menu" *ngIf="showLanguageDropdown">
+        <div 
+          class="language-option" 
+          *ngFor="let language of languages"
+          [class.active]="language.code === selectedLanguage"
+          (click)="onLanguageChange(language.code, $event)">
+          <span class="language-flag">
+            {{ language.code === 'en' ? '🇺🇸' : 
+               language.code === 'hi' ? '🇮🇳' :
+               language.code === 'mr' ? '🇮🇳' :
+               language.code === 'gu' ? '🇮🇳' :
+               language.code === 'ta' ? '🇮🇳' :
+               language.code === 'te' ? '🇮🇳' :
+               language.code === 'kn' ? '🇮🇳' :
+               language.code === 'ml' ? '🇮🇳' : '🌐' }}
+          </span>
+          <span class="language-name">{{ language.name }}</span>
+          <span class="check-mark" *ngIf="language.code === selectedLanguage">✓</span>
+        </div>
       </div>
     </div>
   </div>

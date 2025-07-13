@@ -1,10 +1,11 @@
 .navbar {
-  background: white;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
   padding: 0;
   position: sticky;
   top: 0;
   z-index: 1000;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .nav-container {
@@ -15,13 +16,31 @@
   justify-content: space-between;
   align-items: center;
   height: 70px;
+  position: relative;
 }
 
 .nav-brand h1 {
   margin: 0;
-  color: #667eea;
+  color: white;
   font-size: 24px;
   font-weight: 700;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(45deg, #ffffff, #f0f8ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position: relative;
+}
+
+.nav-brand h1::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #ffffff, transparent);
+  opacity: 0.6;
 }
 
 .nav-menu {
@@ -46,45 +65,225 @@
   display: flex;
   align-items: center;
   flex-direction: column;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 8px 16px;
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .welcome-text {
-  color: #333;
+  color: white;
   font-size: 14px;
   font-weight: 500;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-.logout-btn {
-  background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+/* Language Dropdown Styles */
+.language-dropdown-container {
+  position: relative;
+  display: inline-block;
+  margin-left: auto;
+}
+
+.language-btn {
+  background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
   color: white;
   border: none;
-  padding: 8px 16px;
-  border-radius: 6px;
+  padding: 10px 18px;
+  border-radius: 25px;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 120px;
+  justify-content: space-between;
+  user-select: none;
+  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.language-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+  background: linear-gradient(135deg, #45a049 0%, #3d8b40 100%);
+}
+
+.language-btn:focus {
+  outline: 2px solid rgba(255, 255, 255, 0.5);
+  outline-offset: 2px;
+}
+
+.language-icon {
+  font-size: 16px;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+}
+
+.language-text {
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 600;
+}
+
+.dropdown-arrow {
+  font-size: 10px;
+  transition: transform 0.3s ease;
+  opacity: 0.8;
+}
+
+.dropdown-arrow.rotated {
+  transform: rotate(180deg);
+}
+
+.language-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  min-width: 180px;
+  z-index: 1001;
+  animation: slideDown 0.3s ease-out;
+  margin-top: 8px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.language-option {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  position: relative;
+  user-select: none;
+}
+
+.language-option:last-child {
+  border-bottom: none;
+}
+
+.language-option:hover {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  transform: translateX(2px);
+}
+
+.language-option.active {
+  background: linear-gradient(135deg, #e8f5e8 0%, #d4edda 100%);
+  border-left: 3px solid #4CAF50;
+}
+
+.language-option:focus {
+  outline: 2px solid #4CAF50;
+  outline-offset: -2px;
+}
+
+.language-flag {
+  font-size: 18px;
+  margin-right: 12px;
+  width: 20px;
+  text-align: center;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+}
+
+.language-name {
+  flex: 1;
+  font-size: 14px;
+  color: #333;
+  font-weight: 500;
+}
+
+.check-mark {
+  color: #4CAF50;
+  font-weight: bold;
+  font-size: 16px;
+  margin-left: 8px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.logout-btn {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 25px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .logout-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+  background: linear-gradient(135deg, #ee5a52 0%, #d63031 100%);
 }
 
 .login-prompt {
   display: flex;
   align-items: center;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 8px 16px;
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .prompt-text {
-  color: #666;
+  color: white;
   font-size: 14px;
   font-style: italic;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .nav-container {
+    padding: 0 15px;
+  }
+  
+  .nav-brand h1 {
+    font-size: 22px;
+  }
+  
+  .nav-menu {
+    gap: 15px;
+  }
+  
+  .language-btn {
+    min-width: 110px;
+  }
 }
 
 @media (max-width: 768px) {
   .nav-container {
     padding: 0 15px;
+    flex-wrap: wrap;
+    height: auto;
+    min-height: 70px;
+    gap: 10px;
   }
   
   .nav-brand h1 {
@@ -92,19 +291,172 @@
   }
   
   .nav-menu {
-    gap: 15px;
+    gap: 10px;
+    flex: 1;
+    justify-content: flex-end;
   }
   
   .welcome-text {
     font-size: 12px;
   }
   
+  .language-dropdown-container {
+    margin-left: 0;
+    order: 3;
+  }
+  
+  .language-btn {
+    padding: 8px 14px;
+    font-size: 12px;
+    min-width: 100px;
+  }
+  
+  .language-text {
+    font-size: 11px;
+  }
+  
+  .language-dropdown-menu {
+    min-width: 160px;
+    right: -10px;
+  }
+  
+  .language-option {
+    padding: 10px 12px;
+  }
+  
+  .language-name {
+    font-size: 13px;
+  }
+  
   .logout-btn {
-    padding: 6px 12px;
+    padding: 8px 14px;
     font-size: 12px;
   }
 
   .prompt-text {
     font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    padding: 10px 0;
+  }
+  
+  .nav-container {
+    padding: 0 15px;
+    flex-direction: column;
+    height: auto;
+    gap: 12px;
+    align-items: center;
+  }
+  
+  .nav-brand {
+    order: 1;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 5px;
+  }
+  
+  .nav-brand h1 {
+    font-size: 22px;
+    margin: 0;
+  }
+  
+  .user-info {
+    order: 2;
+    width: 100%;
+    text-align: center;
+    margin: 5px 0;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.15);
+  }
+  
+  .welcome-text {
+    font-size: 14px;
+    font-weight: 600;
+    color: white;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  }
+  
+  .nav-menu {
+    order: 3;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 5px;
+  }
+  
+  .language-dropdown-container {
+    order: 1;
+    margin: 0;
+  }
+  
+  .language-btn {
+    min-width: 130px;
+    padding: 10px 16px;
+    font-size: 13px;
+  }
+  
+  .language-text {
+    display: block;
+    font-size: 12px;
+  }
+  
+  .language-dropdown-menu {
+    min-width: 160px;
+    right: 50%;
+    transform: translateX(50%);
+  }
+  
+  .logout-btn {
+    order: 2;
+    padding: 10px 16px;
+    font-size: 13px;
+    min-width: 100px;
+  }
+  
+  .prompt-text {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 360px) {
+  .nav-container {
+    padding: 0 10px;
+    gap: 8px;
+  }
+  
+  .nav-brand h1 {
+    font-size: 20px;
+  }
+  
+  .user-info {
+    padding: 8px 16px;
+  }
+  
+  .welcome-text {
+    font-size: 13px;
+  }
+  
+  .nav-menu {
+    gap: 12px;
+  }
+  
+  .language-btn {
+    min-width: 120px;
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+  
+  .language-text {
+    font-size: 11px;
+  }
+  
+  .logout-btn {
+    padding: 8px 12px;
+    font-size: 12px;
+    min-width: 90px;
   }
 } 

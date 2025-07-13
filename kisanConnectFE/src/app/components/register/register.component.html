@@ -1,8 +1,8 @@
 <div class="register-container">
   <div class="register-card">
     <div class="register-header">
-      <h2>Create Your Account</h2>
-      <p>Click on the info icon to know more about the KisanConnect</p>
+      <h2>{{ 'Create Your Account' | translate }}</h2>
+      <p>{{ 'Click on the info icon to know more about the KisanConnect' | translate }}</p>
       <div class="text-center">
         <span class="info-icon" (click)="openInfoDialog()">
           <img src="assets/images/info.png" alt="Wheat" style="height: 32px; margin-top: 10px; margin-bottom: 0px; vertical-align: middle; margin-left: 8px;"/>
@@ -12,37 +12,37 @@
 
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form">
       <div class="form-group">
-        <label for="name">Full Name</label>
+        <label for="name">{{ 'Full Name' | translate }}</label>
         <input
           type="text"
           id="name"
           formControlName="name"
-          placeholder="Enter your full name"
+          placeholder="{{ 'Enter your full name' | translate }}"
           [class.error]="name?.invalid && name?.touched"
         />
         <div class="error-message" *ngIf="name?.invalid && name?.touched">
-          <span *ngIf="name?.errors?.['required']">Name is required</span>
-          <span *ngIf="name?.errors?.['minlength']">Name must be at least 2 characters</span>
+          <span *ngIf="name?.errors?.['required']">{{ 'Name is required' | translate }}</span>
+          <span *ngIf="name?.errors?.['minlength']">{{ 'Name must be at least 2 characters' | translate }}</span>
         </div>
       </div>
 
       <div class="form-group">
-        <label for="email">Email</label>
+        <label for="email">{{ 'Email' | translate }}</label>
         <input
           type="email"
           id="email"
           formControlName="email"
-          placeholder="Enter your email"
+          placeholder="{{ 'Enter your email' | translate }}"
           [class.error]="email?.invalid && email?.touched"
         />
         <div class="error-message" *ngIf="email?.invalid && email?.touched">
-          <span *ngIf="email?.errors?.['required']">Email is required</span>
-          <span *ngIf="email?.errors?.['email']">Please enter a valid email</span>
+          <span *ngIf="email?.errors?.['required']">{{ 'Email is required' | translate }}</span>
+          <span *ngIf="email?.errors?.['email']">{{ 'Please enter a valid email' | translate }}</span>
         </div>
       </div>
 
       <div class="form-group">
-        <label for="role">You are a?</label>
+        <label for="role">{{ 'You are a?' | translate }}</label>
         <div class="btn-group d-flex mb-2" role="group" aria-label="Role toggle">
           <label class="btn btn-outline-success" [class.active]="role?.value === 'farmer'">
             <input
@@ -52,7 +52,7 @@
               autocomplete="off"
               [checked]="role?.value === 'farmer'"
             />
-            Farmer
+            {{ 'Farmer' | translate }}
           </label>
           <label class="btn btn-outline-success" [class.active]="role?.value === 'buyer'">
             <input
@@ -62,50 +62,50 @@
               autocomplete="off"
               [checked]="role?.value === 'buyer'"
             />
-            Buyer
+            {{ 'Buyer' | translate }}
           </label>
         </div>
         <div class="error-message" *ngIf="role?.invalid && role?.touched">
-          <span *ngIf="role?.errors?.['required']">Please select a role</span>
+          <span *ngIf="role?.errors?.['required']">{{ 'Please select a role' | translate }}</span>
         </div>
       </div>
 
       <div class="form-group">
-        <label for="password">Password</label>
+        <label for="password">{{ 'Password' | translate }}</label>
         <input
           type="password"
           id="password"
           formControlName="password"
-          placeholder="Enter your password"
+          placeholder="{{ 'Enter your password' | translate }}"
           [class.error]="password?.invalid && password?.touched"
         />
         <div class="error-message" *ngIf="password?.invalid && password?.touched">
-          <span *ngIf="password?.errors?.['required']">Password is required</span>
-          <span *ngIf="password?.errors?.['minlength']">Password must be at least 6 characters</span>
+          <span *ngIf="password?.errors?.['required']">{{ 'Password is required' | translate }}</span>
+          <span *ngIf="password?.errors?.['minlength']">{{ 'Password must be at least 6 characters' | translate }}</span>
         </div>
       </div>
 
       <div class="form-group">
-        <label for="confirmPassword">Confirm Password</label>
+        <label for="confirmPassword">{{ 'Confirm Password' | translate }}</label>
         <input
           type="password"
           id="confirmPassword"
           formControlName="confirmPassword"
-          placeholder="Confirm your password"
+          placeholder="{{ 'Confirm your password' | translate }}"
           [class.error]="confirmPassword?.invalid && confirmPassword?.touched"
         />
         <div class="error-message" *ngIf="confirmPassword?.invalid && confirmPassword?.touched">
-          <span *ngIf="confirmPassword?.errors?.['required']">Please confirm your password</span>
-          <span *ngIf="confirmPassword?.errors?.['passwordMismatch']">Passwords do not match</span>
+          <span *ngIf="confirmPassword?.errors?.['required']">{{ 'Please confirm your password' | translate }}</span>
+          <span *ngIf="confirmPassword?.errors?.['passwordMismatch']">{{ 'Passwords do not match' | translate }}</span>
         </div>
       </div>
 
       <div class="error-message" *ngIf="errorMessage">
-        {{ errorMessage }}
+        {{ errorMessage | translate }}
       </div>
 
       <div class="success-message" *ngIf="successMessage">
-        {{ successMessage }}
+        {{ successMessage | translate }}
       </div>
 
       <button
@@ -113,13 +113,13 @@
         [disabled]="registerForm.invalid || isLoading"
         class="register-btn"
       >
-        <span *ngIf="!isLoading">Create Account</span>
-        <span *ngIf="isLoading">Creating Account...</span>
+        <span *ngIf="!isLoading">{{ 'Create Account' | translate }}</span>
+        <span *ngIf="isLoading">{{ 'Creating Account...' | translate }}</span>
       </button>
     </form>
 
     <div class="register-footer">
-      <p>Already have an account? <a routerLink="/login">Sign in</a></p>
+      <p>{{ 'Already have an account?' | translate }} <a routerLink="/login">{{ 'Sign in' | translate }}</a></p>
     </div>
   </div>
 </div>

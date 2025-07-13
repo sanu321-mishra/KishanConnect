@@ -1,50 +1,50 @@
 <div class="login-container">
   <div class="login-card">
     <div class="login-header">
-      <h2>Welcome Back</h2>
-      <p>Sign in to your KisanConnect account</p>
+      <h2>{{ 'Welcome Back' | translate }}</h2>
+      <p>{{ 'Sign in to your KisanConnect account' | translate }}</p>
     </div>
 
     <div class="session-timeout-message" *ngIf="sessionTimeoutMessage">
       <div class="alert alert-warning">
         <span class="alert-icon">⚠️</span>
-        {{ sessionTimeoutMessage }}
+        {{ sessionTimeoutMessage | translate }}
       </div>
     </div>
 
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
       <div class="form-group">
-        <label for="email">Email</label>
+        <label for="email">{{ 'Email' | translate }}</label>
         <input
           type="email"
           id="email"
           formControlName="email"
-          placeholder="Enter your email"
+          placeholder="{{ 'Enter your email' | translate }}"
           [class.error]="email?.invalid && email?.touched"
         />
         <div class="error-message" *ngIf="email?.invalid && email?.touched">
-          <span *ngIf="email?.errors?.['required']">Email is required</span>
-          <span *ngIf="email?.errors?.['email']">Please enter a valid email</span>
+          <span *ngIf="email?.errors?.['required']">{{ 'Email is required' | translate }}</span>
+          <span *ngIf="email?.errors?.['email']">{{ 'Please enter a valid email' | translate }}</span>
         </div>
       </div>
 
       <div class="form-group">
-        <label for="password">Password</label>
+        <label for="password">{{ 'Password' | translate }}</label>
         <input
           type="password"
           id="password"
           formControlName="password"
-          placeholder="Enter your password"
+          placeholder="{{ 'Enter your password' | translate }}"
           [class.error]="password?.invalid && password?.touched"
         />
         <div class="error-message" *ngIf="password?.invalid && password?.touched">
-          <span *ngIf="password?.errors?.['required']">Password is required</span>
-          <span *ngIf="password?.errors?.['minlength']">Password must be at least 6 characters</span>
+          <span *ngIf="password?.errors?.['required']">{{ 'Password is required' | translate }}</span>
+          <span *ngIf="password?.errors?.['minlength']">{{ 'Password must be at least 6 characters' | translate }}</span>
         </div>
       </div>
 
       <div class="error-message" *ngIf="errorMessage">
-        {{ errorMessage }}
+        {{ errorMessage | translate }}
       </div>
 
       <button
@@ -52,13 +52,19 @@
         [disabled]="loginForm.invalid || isLoading"
         class="login-btn"
       >
-        <span *ngIf="!isLoading">Sign In</span>
-        <span *ngIf="isLoading">Signing In...</span>
+        <span *ngIf="!isLoading">{{ 'Sign In' | translate }}</span>
+        <span *ngIf="isLoading">{{ 'Signing In...' | translate }}</span>
       </button>
     </form>
 
     <div class="login-footer">
-      <p>Don't have an account? <a routerLink="/register">Sign up</a></p>
+      <p>{{ 'Don\'t have an account?' | translate }} <a routerLink="/register">{{ 'Sign up' | translate }}</a></p>
     </div>
   </div>
-</div> 
+</div>
+
+<!-- Language Selection Popup -->
+<app-language-popup
+  (languageSelected)="onLanguageSelected($event)"
+  (popupClosed)="onPopupClosed()">
+</app-language-popup> 

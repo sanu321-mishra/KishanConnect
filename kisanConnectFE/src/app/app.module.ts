@@ -34,6 +34,8 @@ import { MyDialogComponent } from './components/dialog/my-dialog.component';
 import { AuthInterceptor } from './services/auth.interceptor';
 import { AuthGuard } from './guards/auth.guard';
 import { NgChartsModule } from 'ng2-charts';
+import { LanguagePopupComponent } from './components/language-popup/language-popup.component';
+import { TranslatePipe } from './pipes';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -59,7 +61,8 @@ const routes: Routes = [
     FarmerSalesComponent,
     BuyerMarketplaceComponent,
     BuyerOrderHistoryComponent,
-    MyDialogComponent
+    MyDialogComponent,
+    LanguagePopupComponent
   ],
   imports: [
     BrowserModule, 
@@ -80,7 +83,8 @@ const routes: Routes = [
     MatToolbarModule,
     MatMenuModule,
     MatSnackBarModule,
-    NgChartsModule
+    NgChartsModule,
+    TranslatePipe
   ],
   providers: [
     {

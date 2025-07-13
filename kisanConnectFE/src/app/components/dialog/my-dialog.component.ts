@@ -9,12 +9,12 @@ export interface DialogData {
 @Component({
   selector: 'app-my-dialog',
   template: `
-    <h2 mat-dialog-title>{{ data.title }}</h2>
+    <h2 mat-dialog-title>{{ data.title | translate }}</h2>
     <mat-dialog-content>
-      <div [innerHTML]="data.content"></div>
+      <div [innerHTML]="data.content | translate"></div>
     </mat-dialog-content>
     <mat-dialog-actions align="center">
-      <button mat-button mat-dialog-close>Close</button>
+      <button mat-button mat-dialog-close>{{ 'Close' | translate }}</button>
     </mat-dialog-actions>
   `,
   styles: [`

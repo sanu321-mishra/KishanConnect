@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService, User } from '../../services/auth.service';
+import { TranslateService } from '../../services/translate.service';
+import { LanguagePopupComponent, Language } from '../language-popup/language-popup.component';
 
 @Component({
   selector: 'app-nav',
@@ -10,16 +12,33 @@ import { AuthService, User } from '../../services/auth.service';
 export class NavComponent implements OnInit {
   currentUser: User | null = null;
   isLoading = false;
+  showLanguageDropdown = false;
+  selectedLanguage = 'en';
+  languages = LanguagePopupComponent.languages;
 
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private translateService: TranslateService
   ) {}
 
   ngOnInit() {
     this.authService.currentUser$.subscribe(user => {
       this.currentUser = user;
     });
+    
+    // Get current language from translation service
+    this.selectedLanguage = this.translateService.currentLanguageSelector() || 'en';
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: Event): void {
+    const target = event.target as HTMLElement;
+    const dropdownContainer = target.closest('.language-dropdown-container');
+    
+    if (!dropdownContainer) {
+      this.showLanguageDropdown = false;
+    }
   }
 
   logout(): void {
@@ -29,7 +48,6 @@ export class NavComponent implements OnInit {
 
   isLoggedIn(): boolean {
     const loggedIn = this.authService.isLoggedIn();
-    console.log('isLoggedIn check:', loggedIn);
     return loggedIn;
   }
 
@@ -41,5 +59,31 @@ export class NavComponent implements OnInit {
       return 'Loading...';
     }
     return 'User';
+  }
+
+  toggleLanguageDropdown(event: Event): void {
+    event.stopPropagation();
+    this.showLanguageDropdown = !this.showLanguageDropdown;
+  }
+
+  onLanguageChange(languageCode: string, event: Event): void {
+    event.stopPropagation();
+    this.selectedLanguage = languageCode;
+    this.translateService.setLanguage(languageCode);
+    this.showLanguageDropdown = false;
+    
+    // Force a change detection cycle to update translations
+    setTimeout(() => {
+      window.dispatchEvent(new Event('languageChange'));
+    }, 100);
+  }
+
+  getCurrentLanguageName(): string {
+    const language = this.languages.find(lang => lang.code === this.selectedLanguage);
+    return language ? language.name : 'English';
+  }
+
+  closeLanguageDropdown(): void {
+    this.showLanguageDropdown = false;
   }
 } 

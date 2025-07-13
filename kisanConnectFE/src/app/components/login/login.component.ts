@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { LanguagePopupComponent } from '../language-popup/language-popup.component';
 
 @Component({
   selector: 'app-login',
@@ -9,6 +10,8 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  @ViewChild(LanguagePopupComponent) languagePopup!: LanguagePopupComponent;
+  
   loginForm: FormGroup;
   isLoading = false;
   errorMessage = '';
@@ -53,18 +56,13 @@ export class LoginComponent implements OnInit {
           this.authService.getCurrentUser().subscribe({
             next: (userResponse) => {
               console.log('User logged in:', userResponse.user);
-              // Redirect based on user role
-              const role = userResponse.user.role;
-              if (role === 'admin') {
-                this.router.navigate(['/admin']);
-              } else if (role === 'farmer') {
-                this.router.navigate(['/farmer']);
-              } else if (role === 'buyer') {
-                this.router.navigate(['/buyer']);
-              }
+              // Show language popup after successful login
+              this.showLanguagePopup();
             },
             error: (error) => {
               console.error('Error fetching user info:', error);
+              // Still show language popup even if user info fetch fails
+              this.showLanguagePopup();
             }
           });
         },
@@ -73,6 +71,41 @@ export class LoginComponent implements OnInit {
           this.errorMessage = error.error?.error || 'Login failed. Please try again.';
         }
       });
+    }
+  }
+
+  private showLanguagePopup(): void {
+    // Small delay to ensure the popup component is ready
+    setTimeout(() => {
+      if (this.languagePopup) {
+        this.languagePopup.showPopup();
+      }
+    }, 100);
+  }
+
+  onLanguageSelected(languageCode: string): void {
+    console.log('Language selected:', languageCode);
+    // Navigate based on user role after language selection
+    this.navigateBasedOnRole();
+  }
+
+  onPopupClosed(): void {
+    console.log('Language popup closed');
+    // Navigate based on user role if popup is closed without selection
+    this.navigateBasedOnRole();
+  }
+
+  private navigateBasedOnRole(): void {
+    const user = this.authService.getCurrentUserValue();
+    if (user) {
+      const role = user.role;
+      if (role === 'admin') {
+        this.router.navigate(['/admin']);
+      } else if (role === 'farmer') {
+        this.router.navigate(['/farmer']);
+      } else if (role === 'buyer') {
+        this.router.navigate(['/buyer']);
+      }
     }
   }
 
