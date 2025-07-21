@@ -14,6 +14,7 @@ app.use(express.json());
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/crops', require('./routes/crops'));
 app.use('/api/orders', require('./routes/orders'));
+app.use('/api/articles', require('./routes/articles'));
 
 app.get('/', (req, res) => res.send('KisanConnect Backend Running'));
 

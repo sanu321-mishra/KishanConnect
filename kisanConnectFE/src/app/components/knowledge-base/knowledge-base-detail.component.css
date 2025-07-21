@@ -1,0 +1,118 @@
+.knowledge-base-detail {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem;
+  background: #f8fafc;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(24,90,157,0.10);
+}
+.knowledge-base-detail h2 {
+  text-align: center;
+  background: linear-gradient(90deg, #43cea2 0%, #185a9d 100%);
+  color: #fff;
+  padding: 1rem;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  font-size: 2rem;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 16px rgba(24,90,157,0.10);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-content: flex-start;
+}
+.back-btn {
+  background: #fff;
+  color: #185a9d;
+  border: 2px solid #43cea2;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.4rem 1rem;
+  margin-right: 1rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border 0.2s;
+  box-shadow: 0 2px 8px rgba(67,206,162,0.08);
+}
+.back-btn:hover {
+  background: #43cea2;
+  color: #fff;
+  border: 2px solid #185a9d;
+}
+.article-meta {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 1.2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+}
+.article-content {
+  font-size: 1.15rem;
+  margin-bottom: 1.5rem;
+  white-space: pre-line;
+  color: #222;
+  line-height: 1.7;
+  background: #fff;
+  border-radius: 8px;
+  padding: 1.2rem;
+  box-shadow: 0 2px 8px rgba(67,206,162,0.08);
+}
+.admin-actions {
+  margin-top: 1rem;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+.admin-actions button {
+  background: linear-gradient(90deg, #43cea2 0%, #185a9d 100%);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1.2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(67,206,162,0.08);
+}
+.admin-actions button:hover {
+  background: linear-gradient(90deg, #185a9d 0%, #43cea2 100%);
+}
+.error {
+  color: #d32f2f;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+@media (max-width: 600px) {
+  .knowledge-base-detail {
+    padding: 0.7rem 0.2rem;
+    border-radius: 8px;
+  }
+  .knowledge-base-detail h2 {
+    font-size: 1.2rem;
+    padding: 0.7rem 0.5rem;
+    border-radius: 8px;
+    gap: 0.5rem;
+  }
+  .back-btn {
+    font-size: 0.9rem;
+    padding: 0.3rem 0.7rem;
+    margin-right: 0.5rem;
+  }
+  .article-meta {
+    font-size: 0.85rem;
+    gap: 0.7rem;
+  }
+  .article-content {
+    font-size: 1rem;
+    padding: 0.7rem;
+    border-radius: 6px;
+  }
+  .admin-actions button {
+    font-size: 0.95rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+  }
+} 

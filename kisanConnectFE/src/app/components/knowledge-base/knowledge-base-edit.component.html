@@ -1,0 +1,23 @@
+<div class="knowledge-base-edit">
+  <h2>{{ isEditMode ? 'Edit Article' : 'Add Article' }}</h2>
+  <form [formGroup]="articleForm" (ngSubmit)="onSubmit()">
+    <div>
+      <label for="title">Title</label>
+      <input id="title" formControlName="title" required />
+    </div>
+    <div>
+      <label for="category">Category</label>
+      <input id="category" formControlName="category" />
+    </div>
+    <div>
+      <label for="content">Content</label>
+      <textarea id="content" formControlName="content" rows="8" required></textarea>
+    </div>
+    <div class="form-actions">
+      <button type="submit" [disabled]="articleForm.invalid || isLoading">Save</button>
+      <button type="button" (click)="cancel()">Cancel</button>
+    </div>
+    <div *ngIf="isLoading">Saving...</div>
+    <div *ngIf="error" class="error">{{ error }}</div>
+  </form>
+</div> 

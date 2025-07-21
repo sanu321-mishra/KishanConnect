@@ -145,6 +145,40 @@
   color: #7f8c8d;
 }
 
+.manage-knowledge-base-btn {
+  display: flex;
+  align-items: center;
+  background: linear-gradient(90deg, #43cea2 0%, #185a9d 100%);
+  color: #fff;
+  padding: 0.7rem 1.5rem;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 4px 16px rgba(24,90,157,0.10);
+  transition: transform 0.15s, box-shadow 0.15s, background 0.2s;
+  cursor: pointer;
+  margin-left: 2rem;
+}
+.manage-knowledge-base-btn .icon {
+  font-size: 1.5rem;
+  margin-right: 0.7rem;
+}
+.manage-knowledge-base-btn:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 8px 24px rgba(24,90,157,0.18);
+  background: linear-gradient(90deg, #185a9d 0%, #43cea2 100%);
+  color: #fff;
+}
+@media (max-width: 768px) {
+  .manage-knowledge-base-btn {
+    margin-left: 0;
+    margin-top: 1rem;
+    width: 100%;
+    justify-content: center;
+  }
+}
+
 @media (max-width: 768px) {
   .dashboard-header {
     flex-direction: column;

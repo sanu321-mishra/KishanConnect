@@ -1,6 +1,10 @@
 <div class="admin-dashboard">
   <div class="dashboard-header">
     <h1>{{ 'Admin Dashboard' | translate }}</h1>
+    <a routerLink="/knowledge-base" class="manage-knowledge-base-btn">
+      <span class="icon">📚</span>
+      <span>Manage Knowledge Base</span>
+    </a>
   </div>
 
   <div class="error-message" *ngIf="errorMessage">

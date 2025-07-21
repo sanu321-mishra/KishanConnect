@@ -36,6 +36,9 @@ import { AuthGuard } from './guards/auth.guard';
 import { NgChartsModule } from 'ng2-charts';
 import { LanguagePopupComponent } from './components/language-popup/language-popup.component';
 import { TranslatePipe } from './pipes';
+import { KnowledgeBaseListComponent } from './components/knowledge-base/knowledge-base-list.component';
+import { KnowledgeBaseDetailComponent } from './components/knowledge-base/knowledge-base-detail.component';
+import { KnowledgeBaseEditComponent } from './components/knowledge-base/knowledge-base-edit.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -46,7 +49,11 @@ const routes: Routes = [
   { path: 'farmer', component: FarmerDashboardComponent, canActivate: [AuthGuard] },
   { path: 'farmer/sales', component: FarmerSalesComponent, canActivate: [AuthGuard] },
   { path: 'buyer', component: BuyerMarketplaceComponent, canActivate: [AuthGuard] },
-  { path: 'buyer/orders', component: BuyerOrderHistoryComponent, canActivate: [AuthGuard] }
+  { path: 'buyer/orders', component: BuyerOrderHistoryComponent, canActivate: [AuthGuard] },
+  { path: 'knowledge-base', component: KnowledgeBaseListComponent, canActivate: [AuthGuard] },
+  { path: 'knowledge-base/add', component: KnowledgeBaseEditComponent, canActivate: [AuthGuard] },
+  { path: 'knowledge-base/edit/:id', component: KnowledgeBaseEditComponent, canActivate: [AuthGuard] },
+  { path: 'knowledge-base/:id', component: KnowledgeBaseDetailComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({
@@ -62,7 +69,10 @@ const routes: Routes = [
     BuyerMarketplaceComponent,
     BuyerOrderHistoryComponent,
     MyDialogComponent,
-    LanguagePopupComponent
+    LanguagePopupComponent,
+    KnowledgeBaseListComponent,
+    KnowledgeBaseDetailComponent,
+    KnowledgeBaseEditComponent
   ],
   imports: [
     BrowserModule, 

@@ -1,0 +1,19 @@
+<div class="knowledge-base-detail">
+  <div *ngIf="isLoading">Loading article...</div>
+  <div *ngIf="error" class="error">{{ error }}</div>
+  <div *ngIf="article">
+    <h2>
+      <button class="back-btn" (click)="backToKnowledgeBase()">← Back to Knowledge Base</button>
+      {{ article.title }}
+    </h2>
+    <div class="article-meta">
+      <span *ngIf="article.category">Category: {{ article.category }}</span>
+      <span>Created: {{ article.created_at | date:'medium' }}</span>
+    </div>
+    <div class="article-content" [innerHTML]="article.content"></div>
+    <div *ngIf="isAdmin" class="admin-actions">
+      <button (click)="editArticle()">Edit</button>
+      <button (click)="deleteArticle()">Delete</button>
+    </div>
+  </div>
+</div> 

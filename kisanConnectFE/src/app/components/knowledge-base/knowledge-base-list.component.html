@@ -1,0 +1,25 @@
+<div class="knowledge-base-list">
+  <h2>
+    <button class="back-btn" (click)="goBack()">← {{ 'Back to Dashboard' | translate }}</button>
+    Knowledge Base
+  </h2>
+  <button *ngIf="isAdmin" (click)="addArticle()">Add Article</button>
+  <input type="text" [(ngModel)]="searchTerm" placeholder="Search articles..." style="width:100%;margin-bottom:1rem;padding:0.5rem;" />
+  <div *ngIf="isLoading">Loading articles...</div>
+  <div *ngIf="error" class="error">{{ error }}</div>
+  <ul *ngIf="filteredArticles.length">
+    <li *ngFor="let article of filteredArticles">
+      <div class="article-title">{{ article.title }}</div>
+      <div class="article-meta">
+        <span *ngIf="article.category">Category: {{ article.category }}</span>
+        <span>Created: {{ article.created_at | date:'medium' }}</span>
+      </div>
+      <div *ngIf="isAdmin" class="admin-actions">
+        <button (click)="editArticle(article)">Edit</button>
+        <button (click)="deleteArticle(article)">Delete</button>
+      </div>
+      <button (click)="viewArticle(article)">View</button>
+    </li>
+  </ul>
+  <div *ngIf="!isLoading && !filteredArticles.length">No articles found.</div>
+</div> 

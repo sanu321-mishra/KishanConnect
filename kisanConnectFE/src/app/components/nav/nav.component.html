@@ -9,7 +9,6 @@
         <span class="welcome-text">{{'Welcome' | translate}}, {{ getUserDisplayName() }}</span>
         <small *ngIf="isLoading" style="color: #666; font-size: 12px;">{{'Loading user info...' | translate}}</small>
       </div>
-      
       <button class="logout-btn" (click)="logout()">
         {{'Logout' | translate}}
       </button>
