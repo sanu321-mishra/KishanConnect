@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { LanguagePopupComponent } from '../language-popup/language-popup.component';
 
 @Component({
   selector: 'app-login',
@@ -10,7 +9,6 @@ import { LanguagePopupComponent } from '../language-popup/language-popup.compone
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  @ViewChild(LanguagePopupComponent) languagePopup!: LanguagePopupComponent;
   
   loginForm: FormGroup;
   isLoading = false;
@@ -56,13 +54,10 @@ export class LoginComponent implements OnInit {
           this.authService.getCurrentUser().subscribe({
             next: (userResponse) => {
               console.log('User logged in:', userResponse.user);
-              // Show language popup after successful login
-              this.showLanguagePopup();
+              this.navigateBasedOnRole();
             },
             error: (error) => {
               console.error('Error fetching user info:', error);
-              // Still show language popup even if user info fetch fails
-              this.showLanguagePopup();
             }
           });
         },
@@ -74,29 +69,9 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  private showLanguagePopup(): void {
-    // Small delay to ensure the popup component is ready
-    setTimeout(() => {
-      if (this.languagePopup) {
-        this.languagePopup.showPopup();
-      }
-    }, 100);
-  }
-
-  onLanguageSelected(languageCode: string): void {
-    console.log('Language selected:', languageCode);
-    // Navigate based on user role after language selection
-    this.navigateBasedOnRole();
-  }
-
-  onPopupClosed(): void {
-    console.log('Language popup closed');
-    // Navigate based on user role if popup is closed without selection
-    this.navigateBasedOnRole();
-  }
-
-  private navigateBasedOnRole(): void {
+  public navigateBasedOnRole(): void {
     const user = this.authService.getCurrentUserValue();
+    console.log(user);
     if (user) {
       const role = user.role;
       if (role === 'admin') {
