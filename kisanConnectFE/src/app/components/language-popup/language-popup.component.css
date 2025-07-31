@@ -15,20 +15,20 @@
 }
 
 .language-popup-container {
-  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  background: linear-gradient(135deg, var(--card-bg) 0%, var(--surface-color) 100%);
   border-radius: 20px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 20px 60px var(--shadow-color);
   padding: 0;
   max-width: 450px;
   width: 90%;
   max-height: 90vh;
   overflow: hidden;
   animation: slideIn 0.4s ease-out;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid var(--border-color);
 }
 
 .popup-header {
-  background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+  background: linear-gradient(135deg, var(--success-color) 0%, #45a049 100%);
   color: white;
   padding: 30px 30px 20px;
   text-align: center;
@@ -75,18 +75,18 @@
   display: block;
   margin-bottom: 12px;
   font-weight: 600;
-  color: #333;
+  color: var(--text-primary);
   font-size: 16px;
 }
 
 .language-dropdown {
   width: 100%;
   padding: 15px 20px;
-  border: 2px solid #e1e5e9;
+  border: 2px solid var(--input-border);
   border-radius: 12px;
   font-size: 16px;
-  background: white;
-  color: #333;
+  background: var(--input-bg);
+  color: var(--text-primary);
   transition: all 0.3s ease;
   cursor: pointer;
   appearance: none;
@@ -99,15 +99,15 @@
 
 .language-dropdown:focus {
   outline: none;
-  border-color: #4CAF50;
+  border-color: var(--input-focus);
   box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
   transform: translateY(-1px);
 }
 
 .language-dropdown:hover {
-  border-color: #4CAF50;
+  border-color: var(--input-focus);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px var(--shadow-color);
 }
 
 .popup-actions {
@@ -145,38 +145,38 @@
 }
 
 .continue-btn {
-  background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+  background: linear-gradient(135deg, var(--success-color) 0%, #45a049 100%);
   color: white;
-  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+  box-shadow: 0 4px 15px var(--shadow-color);
 }
 
 .continue-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+  box-shadow: 0 6px 20px var(--shadow-color);
 }
 
 .default-btn {
-  background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
+  background: linear-gradient(135deg, var(--text-muted) 0%, var(--text-secondary) 100%);
   color: white;
-  box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3);
+  box-shadow: 0 4px 15px var(--shadow-color);
 }
 
 .default-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(108, 117, 125, 0.4);
+  box-shadow: 0 6px 20px var(--shadow-color);
 }
 
 .popup-footer {
-  background: #f8f9fa;
+  background: var(--surface-color);
   padding: 20px 30px;
   text-align: center;
-  border-top: 1px solid #e9ecef;
+  border-top: 1px solid var(--border-color);
 }
 
 .note {
   margin: 0;
   font-size: 14px;
-  color: #6c757d;
+  color: var(--text-muted);
   font-style: italic;
 }
 
@@ -232,11 +232,11 @@
 
 /* Focus styles for accessibility */
 .btn:focus {
-  outline: 2px solid #4CAF50;
+  outline: 2px solid var(--success-color);
   outline-offset: 2px;
 }
 
 .language-dropdown:focus {
-  outline: 2px solid #4CAF50;
+  outline: 2px solid var(--success-color);
   outline-offset: 2px;
 }

@@ -41,8 +41,18 @@ export class KnowledgeBaseListComponent implements OnInit {
     );
   }
 
-  goBack(): void {
-    this.router.navigate(['/farmer']);
+  public goBack(): void {
+    const user = this.authService.getCurrentUserValue();
+    if (user) {
+      const role = user.role;
+      if (role === 'admin') {
+        this.router.navigate(['/admin']);
+      } else if (role === 'farmer') {
+        this.router.navigate(['/farmer']);
+      } else if (role === 'buyer') {
+        this.router.navigate(['/buyer']);
+      }
+    }
   }
 
   loadArticles(): void {

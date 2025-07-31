@@ -1,3 +1,72 @@
+/* CSS Variables for Theming */
+:root {
+  /* Light Theme Colors */
+  --primary-color: #667eea;
+  --primary-hover: #5a6fd8;
+  --secondary-color: #764ba2;
+  --background-color: #f8fafc;
+  --surface-color: #ffffff;
+  --text-primary: #1a202c;
+  --text-secondary: #4a5568;
+  --text-muted: #718096;
+  --border-color: #e2e8f0;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --success-color: #48bb78;
+  --warning-color: #ed8936;
+  --error-color: #f56565;
+  --info-color: #4299e1;
+  
+  /* Gradient Colors */
+  --gradient-start: #c3cfe2;
+  --gradient-end: #c3cfe2;
+  
+  /* Card and Component Colors */
+  --card-bg: #ffffff;
+  --card-border: #e2e8f0;
+  --input-bg: #ffffff;
+  --input-border: #e2e8f0;
+  --input-focus: #667eea;
+  
+  /* Scrollbar Colors */
+  --scrollbar-track: #f1f1f1;
+  --scrollbar-thumb: #667eea;
+  --scrollbar-thumb-hover: #5a6fd8;
+}
+
+/* Dark Theme Colors */
+.dark-mode {
+  --primary-color: #7c3aed;
+  --primary-hover: #6d28d9;
+  --secondary-color: #8b5cf6;
+  --background-color: #0f172a;
+  --surface-color: #1e293b;
+  --text-primary: #f1f5f9;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --border-color: #334155;
+  --shadow-color: rgba(0, 0, 0, 0.3);
+  --success-color: #10b981;
+  --warning-color: #f59e0b;
+  --error-color: #ef4444;
+  --info-color: #3b82f6;
+  
+  /* Gradient Colors */
+  --gradient-start: #1e293b;
+  --gradient-end: #0f172a;
+  
+  /* Card and Component Colors */
+  --card-bg: #1e293b;
+  --card-border: #334155;
+  --input-bg: #1e293b;
+  --input-border: #334155;
+  --input-focus: #7c3aed;
+  
+  /* Scrollbar Colors */
+  --scrollbar-track: #1e293b;
+  --scrollbar-thumb: #7c3aed;
+  --scrollbar-thumb-hover: #6d28d9;
+}
+
 /* Global Styles */
 * {
   box-sizing: border-box;
@@ -7,8 +76,10 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(#c3cfe2 100%);
+  background: linear-gradient(var(--gradient-start) 0%, var(--gradient-end) 100%);
+  color: var(--text-primary);
   min-height: 100vh;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Remove default button styles */
@@ -23,7 +94,7 @@ html {
 
 /* Focus styles for accessibility */
 *:focus {
-  outline: 2px solid #667eea;
+  outline: 2px solid var(--primary-color);
   outline-offset: 2px;
 }
 
@@ -33,18 +104,78 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: var(--scrollbar-track);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #667eea;
+  background: var(--scrollbar-thumb);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #5a6fd8;
+  background: var(--scrollbar-thumb-hover);
 }
+
+/* Theme transition for all elements */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Common component styles */
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px var(--shadow-color);
+  padding: 1rem;
+}
+
+.btn {
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.btn:hover {
+  background: var(--primary-hover);
+}
+
+.btn-secondary {
+  background: var(--secondary-color);
+}
+
+.btn-secondary:hover {
+  background: var(--secondary-color);
+  opacity: 0.9;
+}
+
+.input {
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  color: var(--text-primary);
+  padding: 0.5rem;
+  border-radius: 4px;
+  width: 100%;
+}
+
+.input:focus {
+  border-color: var(--input-focus);
+  outline: none;
+}
+
+/* Utility classes */
+.text-primary { color: var(--text-primary); }
+.text-secondary { color: var(--text-secondary); }
+.text-muted { color: var(--text-muted); }
+.bg-surface { background: var(--surface-color); }
+.bg-card { background: var(--card-bg); }
+.border-default { border-color: var(--border-color); }
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

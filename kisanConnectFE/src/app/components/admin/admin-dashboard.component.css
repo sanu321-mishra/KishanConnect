@@ -2,6 +2,8 @@
   padding: 20px;
   max-width: 1200px;
   margin: 0 auto;
+  background: var(--background-color);
+  color: var(--text-primary);
 }
 
 .dashboard-header {
@@ -10,35 +12,37 @@
   align-items: center;
   margin-bottom: 30px;
   padding-bottom: 20px;
-  border-bottom: 2px solid #e0e0e0;
+  border-bottom: 2px solid var(--border-color);
 }
 
 .dashboard-header h1 {
-  color: #2c3e50;
+  color: var(--text-primary);
   margin: 0;
 }
 
 .logout-btn {
-  background-color: #e74c3c;
+  background-color: var(--error-color);
   color: white;
   border: none;
   padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
   font-size: 14px;
+  transition: background-color 0.3s ease;
 }
 
 .logout-btn:hover {
-  background-color: #c0392b;
+  background-color: var(--error-color);
+  opacity: 0.9;
 }
 
 .error-message {
-  background-color: #f8d7da;
-  color: #721c24;
+  background-color: rgba(239, 68, 68, 0.1);
+  color: var(--error-color);
   padding: 10px;
   border-radius: 5px;
   margin-bottom: 20px;
-  border: 1px solid #f5c6cb;
+  border: 1px solid var(--error-color);
 }
 
 .section {
@@ -46,10 +50,10 @@
 }
 
 .section h2 {
-  color: #2c3e50;
+  color: var(--text-primary);
   margin-bottom: 20px;
   padding-bottom: 10px;
-  border-bottom: 1px solid #ecf0f1;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .orders-grid, .crops-grid {
@@ -59,11 +63,11 @@
 }
 
 .order-card, .crop-card {
-  background: white;
-  border: 1px solid #e0e0e0;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 20px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px var(--shadow-color);
 }
 
 .order-header, .crop-header {
@@ -72,12 +76,12 @@
   align-items: center;
   margin-bottom: 15px;
   padding-bottom: 10px;
-  border-bottom: 1px solid #ecf0f1;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .order-header h3, .crop-header h3 {
   margin: 0;
-  color: #2c3e50;
+  color: var(--text-primary);
 }
 
 .status-badge {
@@ -89,23 +93,23 @@
 }
 
 .status-pending {
-  background-color: #fff3cd;
-  color: #856404;
+  background-color: rgba(245, 158, 11, 0.1);
+  color: var(--warning-color);
 }
 
 .status-confirmed {
-  background-color: #d1ecf1;
-  color: #0c5460;
+  background-color: rgba(59, 130, 246, 0.1);
+  color: var(--info-color);
 }
 
 .status-delivered {
-  background-color: #d4edda;
-  color: #155724;
+  background-color: rgba(16, 185, 129, 0.1);
+  color: var(--success-color);
 }
 
 .status-canceled {
-  background-color: #f8d7da;
-  color: #721c24;
+  background-color: rgba(239, 68, 68, 0.1);
+  color: var(--error-color);
 }
 
 .order-details, .crop-details {
@@ -115,61 +119,68 @@
 .order-details p, .crop-details p {
   margin: 5px 0;
   font-size: 14px;
+  color: var(--text-secondary);
 }
 
 .order-actions select {
   width: 100%;
   padding: 8px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--input-border);
   border-radius: 4px;
-  background-color: white;
+  background-color: var(--input-bg);
+  color: var(--text-primary);
 }
 
 .delete-btn {
-  background-color: #e74c3c;
+  background-color: var(--error-color);
   color: white;
   border: none;
   padding: 5px 10px;
   border-radius: 4px;
   cursor: pointer;
   font-size: 12px;
+  transition: background-color 0.3s ease;
 }
 
 .delete-btn:hover {
-  background-color: #c0392b;
+  background-color: var(--error-color);
+  opacity: 0.9;
 }
 
 .loading {
   text-align: center;
   padding: 40px;
-  color: #7f8c8d;
+  color: var(--text-muted);
 }
 
 .manage-knowledge-base-btn {
   display: flex;
   align-items: center;
-  background: linear-gradient(90deg, #43cea2 0%, #185a9d 100%);
+  background: linear-gradient(90deg, var(--primary-color) 0%, var(--secondary-color) 100%);
   color: #fff;
   padding: 0.7rem 1.5rem;
   border-radius: 10px;
   font-size: 1.1rem;
   font-weight: 600;
   text-decoration: none;
-  box-shadow: 0 4px 16px rgba(24,90,157,0.10);
+  box-shadow: 0 4px 16px var(--shadow-color);
   transition: transform 0.15s, box-shadow 0.15s, background 0.2s;
   cursor: pointer;
   margin-left: 2rem;
 }
+
 .manage-knowledge-base-btn .icon {
   font-size: 1.5rem;
   margin-right: 0.7rem;
 }
+
 .manage-knowledge-base-btn:hover {
   transform: translateY(-2px) scale(1.03);
-  box-shadow: 0 8px 24px rgba(24,90,157,0.18);
-  background: linear-gradient(90deg, #185a9d 0%, #43cea2 100%);
+  box-shadow: 0 8px 24px var(--shadow-color);
+  background: linear-gradient(90deg, var(--secondary-color) 0%, var(--primary-color) 100%);
   color: #fff;
 }
+
 @media (max-width: 768px) {
   .manage-knowledge-base-btn {
     margin-left: 0;

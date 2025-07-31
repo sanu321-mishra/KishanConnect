@@ -2,55 +2,64 @@
   max-width: 600px;
   margin: 0 auto;
   padding: 1.5rem 1rem;
-  background: #f8fafc;
+  background: var(--card-bg);
   border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(24,90,157,0.10);
+  box-shadow: 0 4px 16px var(--shadow-color);
+  border: 1px solid var(--border-color);
 }
+
 .knowledge-base-edit h2 {
   text-align: center;
-  background: linear-gradient(90deg, #43cea2 0%, #185a9d 100%);
+  background: linear-gradient(90deg, var(--primary-color) 0%, var(--secondary-color) 100%);
   color: #fff;
   padding: 1rem;
   border-radius: 12px;
   margin-bottom: 1.5rem;
   font-size: 2rem;
   letter-spacing: 1px;
-  box-shadow: 0 4px 16px rgba(24,90,157,0.10);
+  box-shadow: 0 4px 16px var(--shadow-color);
 }
+
 .knowledge-base-edit form {
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
 }
+
 .knowledge-base-edit label {
   font-weight: bold;
   margin-bottom: 0.2rem;
-  color: #185a9d;
+  color: var(--primary-color);
 }
+
 .knowledge-base-edit input,
 .knowledge-base-edit textarea {
   width: 100%;
   padding: 0.7rem 1rem;
-  border: 1px solid #43cea2;
+  border: 1px solid var(--input-border);
   border-radius: 8px;
   font-size: 1rem;
-  background: #fff;
+  background: var(--input-bg);
+  color: var(--text-primary);
   margin-top: 0.2rem;
   box-sizing: border-box;
   outline: none;
   transition: border 0.2s;
 }
+
 .knowledge-base-edit input:focus,
 .knowledge-base-edit textarea:focus {
-  border: 1.5px solid #185a9d;
+  border: 1.5px solid var(--input-focus);
 }
+
 .form-actions {
   display: flex;
   gap: 1rem;
   justify-content: flex-end;
 }
+
 .form-actions button {
-  background: linear-gradient(90deg, #43cea2 0%, #185a9d 100%);
+  background: linear-gradient(90deg, var(--primary-color) 0%, var(--secondary-color) 100%);
   color: #fff;
   border: none;
   border-radius: 8px;
@@ -59,32 +68,38 @@
   font-weight: 600;
   cursor: pointer;
   transition: background 0.2s, box-shadow 0.2s;
-  box-shadow: 0 2px 8px rgba(67,206,162,0.08);
+  box-shadow: 0 2px 8px var(--shadow-color);
 }
+
 .form-actions button:hover {
-  background: linear-gradient(90deg, #185a9d 0%, #43cea2 100%);
+  background: linear-gradient(90deg, var(--secondary-color) 0%, var(--primary-color) 100%);
 }
+
 .error {
-  color: #d32f2f;
+  color: var(--error-color);
   margin-top: 0.5rem;
   text-align: center;
 }
+
 @media (max-width: 600px) {
   .knowledge-base-edit {
     padding: 0.7rem 0.2rem;
     border-radius: 8px;
   }
+  
   .knowledge-base-edit h2 {
     font-size: 1.2rem;
     padding: 0.7rem 0.5rem;
     border-radius: 8px;
   }
+  
   .knowledge-base-edit input,
   .knowledge-base-edit textarea {
     font-size: 0.95rem;
     padding: 0.5rem 0.7rem;
     border-radius: 6px;
   }
+  
   .form-actions button {
     font-size: 0.95rem;
     padding: 0.4rem 0.8rem;

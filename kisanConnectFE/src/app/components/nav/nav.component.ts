@@ -2,6 +2,7 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService, User } from '../../services/auth.service';
 import { TranslateService } from '../../services/translate.service';
+import { ThemeService, ThemeMode } from '../../services/theme.service';
 import { LanguagePopupComponent, Language } from '../language-popup/language-popup.component';
 
 @Component({
@@ -14,12 +15,15 @@ export class NavComponent implements OnInit {
   isLoading = false;
   showLanguageDropdown = false;
   selectedLanguage = 'en';
+  currentTheme: ThemeMode = 'light';
+  isDarkMode = false;
   languages = LanguagePopupComponent.languages;
 
   constructor(
     private authService: AuthService,
     private router: Router,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private themeService: ThemeService
   ) {}
 
   ngOnInit() {
@@ -29,14 +33,23 @@ export class NavComponent implements OnInit {
     
     // Get current language from translation service
     this.selectedLanguage = this.translateService.currentLanguageSelector() || 'en';
+    
+    // Subscribe to theme changes
+    this.themeService.theme$.subscribe(theme => {
+      this.currentTheme = theme;
+    });
+    
+    this.themeService.isDarkMode$.subscribe(isDark => {
+      this.isDarkMode = isDark;
+    });
   }
 
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: Event): void {
     const target = event.target as HTMLElement;
-    const dropdownContainer = target.closest('.language-dropdown-container');
+    const languageDropdownContainer = target.closest('.language-dropdown-container');
     
-    if (!dropdownContainer) {
+    if (!languageDropdownContainer) {
       this.showLanguageDropdown = false;
     }
   }
@@ -66,6 +79,10 @@ export class NavComponent implements OnInit {
     this.showLanguageDropdown = !this.showLanguageDropdown;
   }
 
+  toggleTheme(): void {
+    this.themeService.toggleTheme();
+  }
+
   onLanguageChange(languageCode: string, event: Event): void {
     event.stopPropagation();
     this.selectedLanguage = languageCode;
@@ -81,6 +98,10 @@ export class NavComponent implements OnInit {
   getCurrentLanguageName(): string {
     const language = this.languages.find(lang => lang.code === this.selectedLanguage);
     return language ? language.name : 'English';
+  }
+
+  getThemeIcon(): string {
+    return this.currentTheme === 'dark' ? '🌙' : '☀️';
   }
 
   closeLanguageDropdown(): void {

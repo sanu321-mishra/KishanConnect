@@ -31,6 +31,7 @@ import { FarmerSalesComponent } from './components/farmer/sales-analytics/farmer
 import { BuyerMarketplaceComponent } from './components/buyer/buyer-marketplace.component';
 import { BuyerOrderHistoryComponent } from './components/buyer/buyer-order-history.component';
 import { MyDialogComponent } from './components/dialog/my-dialog.component';
+import { ThemeToggleComponent } from './components/theme-toggle/theme-toggle.component';
 import { AuthInterceptor } from './services/auth.interceptor';
 import { AuthGuard } from './guards/auth.guard';
 import { NgChartsModule } from 'ng2-charts';
@@ -69,6 +70,7 @@ const routes: Routes = [
     BuyerMarketplaceComponent,
     BuyerOrderHistoryComponent,
     MyDialogComponent,
+    ThemeToggleComponent,
     LanguagePopupComponent,
     KnowledgeBaseListComponent,
     KnowledgeBaseDetailComponent,

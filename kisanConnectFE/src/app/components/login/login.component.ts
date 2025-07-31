@@ -71,7 +71,6 @@ export class LoginComponent implements OnInit {
 
   public navigateBasedOnRole(): void {
     const user = this.authService.getCurrentUserValue();
-    console.log(user);
     if (user) {
       const role = user.role;
       if (role === 'admin') {

@@ -2,6 +2,8 @@
   padding: 20px;
   max-width: 1200px;
   margin: 0 auto;
+  background: var(--background-color);
+  color: var(--text-primary);
 }
 
 .marketplace-header {
@@ -10,11 +12,11 @@
   align-items: center;
   margin-bottom: 30px;
   padding-bottom: 20px;
-  border-bottom: 2px solid #e0e0e0;
+  border-bottom: 2px solid var(--border-color);
 }
 
 .marketplace-header h1 {
-  color: #2c3e50;
+  color: var(--text-primary);
   margin: 0;
 }
 
@@ -25,7 +27,7 @@
 
 .order-history-btn {
   padding: 10px 20px;
-  background: #667eea;
+  background: var(--primary-color);
   color: white;
   border: none;
   border-radius: 5px;
@@ -36,31 +38,33 @@
 }
 
 .order-history-btn:hover {
-  background: #5a6fd8;
+  background: var(--primary-hover);
   transform: translateY(-1px);
 }
 
 .logout-btn {
-  background-color: #e74c3c;
+  background-color: var(--error-color);
   color: white;
   border: none;
   padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
   font-size: 14px;
+  transition: background-color 0.3s ease;
 }
 
 .logout-btn:hover {
-  background-color: #c0392b;
+  background-color: var(--error-color);
+  opacity: 0.9;
 }
 
 .error-message {
-  background-color: #f8d7da;
-  color: #721c24;
+  background-color: rgba(239, 68, 68, 0.1);
+  color: var(--error-color);
   padding: 10px;
   border-radius: 5px;
   margin-bottom: 20px;
-  border: 1px solid #f5c6cb;
+  border: 1px solid var(--error-color);
 }
 
 /* Modal Styles */
@@ -78,12 +82,14 @@
 }
 
 .modal-content {
-  background: white;
+  background: var(--card-bg);
   border-radius: 8px;
   width: 90%;
   max-width: 500px;
   max-height: 80vh;
   overflow-y: auto;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 10px 30px var(--shadow-color);
 }
 
 .modal-header {
@@ -91,12 +97,12 @@
   justify-content: space-between;
   align-items: center;
   padding: 20px;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .modal-header h3 {
   margin: 0;
-  color: #2c3e50;
+  color: var(--text-primary);
 }
 
 .close-btn {
@@ -104,11 +110,12 @@
   border: none;
   font-size: 24px;
   cursor: pointer;
-  color: #7f8c8d;
+  color: var(--text-muted);
+  transition: color 0.3s ease;
 }
 
 .close-btn:hover {
-  color: #e74c3c;
+  color: var(--error-color);
 }
 
 .modal-body {
@@ -116,20 +123,22 @@
 }
 
 .crop-info {
-  background-color: #f8f9fa;
+  background-color: var(--surface-color);
   padding: 15px;
   border-radius: 5px;
   margin-bottom: 20px;
+  border: 1px solid var(--border-color);
 }
 
 .crop-info h4 {
   margin: 0 0 10px 0;
-  color: #2c3e50;
+  color: var(--text-primary);
 }
 
 .crop-info p {
   margin: 5px 0;
   font-size: 14px;
+  color: var(--text-secondary);
 }
 
 .form-group {
@@ -140,25 +149,34 @@
   display: block;
   margin-bottom: 5px;
   font-weight: bold;
-  color: #2c3e50;
+  color: var(--text-primary);
 }
 
 .form-group input {
   width: 100%;
   padding: 8px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--input-border);
   border-radius: 4px;
   font-size: 14px;
+  background: var(--input-bg);
+  color: var(--text-primary);
+  transition: border-color 0.3s ease;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--input-focus);
 }
 
 .total-price {
-  background-color: #e8f5e8;
+  background-color: rgba(16, 185, 129, 0.1);
   padding: 10px;
   border-radius: 5px;
   margin-bottom: 20px;
   text-align: center;
   font-size: 16px;
-  color: #27ae60;
+  color: var(--success-color);
+  border: 1px solid var(--success-color);
 }
 
 .form-actions {
@@ -168,43 +186,53 @@
 }
 
 .cancel-btn {
-  background-color: #95a5a6;
+  background-color: var(--text-muted);
   color: white;
   border: none;
   padding: 8px 16px;
   border-radius: 4px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .cancel-btn:hover {
-  background-color: #7f8c8d;
+  background-color: var(--text-secondary);
 }
 
 .place-order-btn {
-  background-color: #27ae60;
+  background-color: var(--success-color);
   color: white;
   border: none;
   padding: 8px 16px;
   border-radius: 4px;
   cursor: pointer;
-}
-
-.delete-btn {
-  background-color: #e74c3c;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
-  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .place-order-btn:hover:not(:disabled) {
-  background-color: #229954;
+  background-color: var(--success-color);
+  opacity: 0.9;
 }
 
 .place-order-btn:disabled {
-  background-color: #bdc3c7;
+  background-color: var(--text-muted);
   cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.delete-btn {
+  background-color: var(--error-color);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.delete-btn:hover {
+  background-color: var(--error-color);
+  opacity: 0.9;
 }
 
 .section {
@@ -212,10 +240,10 @@
 }
 
 .section h2 {
-  color: #2c3e50;
+  color: var(--text-primary);
   margin-bottom: 20px;
   padding-bottom: 10px;
-  border-bottom: 1px solid #ecf0f1;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .crops-grid, .orders-grid {
@@ -225,11 +253,11 @@
 }
 
 .crop-card, .order-card {
-  background: white;
-  border: 1px solid #e0e0e0;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 20px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px var(--shadow-color);
 }
 
 .crop-header, .order-header {
@@ -238,16 +266,16 @@
   align-items: center;
   margin-bottom: 15px;
   padding-bottom: 10px;
-  border-bottom: 1px solid #ecf0f1;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .crop-header h3, .order-header h3 {
   margin: 0;
-  color: #2c3e50;
+  color: var(--text-primary);
 }
 
 .price-badge {
-  background-color: #3498db;
+  background-color: var(--primary-color);
   color: white;
   padding: 4px 8px;
   border-radius: 12px;
@@ -262,6 +290,7 @@
 .crop-details p, .order-details p {
   margin: 5px 0;
   font-size: 14px;
+  color: var(--text-secondary);
 }
 
 .crop-actions {
@@ -269,7 +298,7 @@
 }
 
 .order-btn {
-  background-color: #27ae60;
+  background-color: var(--success-color);
   color: white;
   border: none;
   padding: 10px 20px;
@@ -277,15 +306,18 @@
   cursor: pointer;
   font-size: 14px;
   width: 100%;
+  transition: background-color 0.3s ease;
 }
 
 .order-btn:hover:not(:disabled) {
-  background-color: #229954;
+  background-color: var(--success-color);
+  opacity: 0.9;
 }
 
 .order-btn:disabled {
-  background-color: #bdc3c7;
+  background-color: var(--text-muted);
   cursor: not-allowed;
+  opacity: 0.6;
 }
 
 .status-badge {
@@ -297,28 +329,28 @@
 }
 
 .status-pending {
-  background-color: #fff3cd;
-  color: #856404;
+  background-color: rgba(245, 158, 11, 0.1);
+  color: var(--warning-color);
 }
 
 .status-confirmed {
-  background-color: #d1ecf1;
-  color: #0c5460;
+  background-color: rgba(59, 130, 246, 0.1);
+  color: var(--info-color);
 }
 
 .status-delivered {
-  background-color: #d4edda;
-  color: #155724;
+  background-color: rgba(16, 185, 129, 0.1);
+  color: var(--success-color);
 }
 
 .status-canceled {
-  background-color: #f8d7da;
-  color: #721c24;
+  background-color: rgba(239, 68, 68, 0.1);
+  color: var(--error-color);
 }
 
 .no-data {
   text-align: center;
-  color: #7f8c8d;
+  color: var(--text-muted);
   font-style: italic;
   padding: 40px;
 }
@@ -326,44 +358,8 @@
 .loading {
   text-align: center;
   padding: 40px;
-  color: #7f8c8d;
+  color: var(--text-muted);
 }
-
-@media (max-width: 768px) {
-  .marketplace-header {
-    flex-direction: column;
-    gap: 15px;
-  }
-  
-  .crops-grid, .orders-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .modal-content {
-    width: 95%;
-    margin: 10px;
-  }
-  
-  .form-actions {
-    flex-direction: column;
-  }
-
-  /* Adjust navigation controls for mobile */
-  .navigation-controls {
-    padding: 10px;
-  }
-  
-  .nav-btn {
-    padding: 8px 12px;
-    font-size: 12px;
-  }
-  
-  .page-indicator {
-    font-size: 12px;
-  }
-}
-
-
 
 /* Navigation Controls Styles */
 .navigation-controls {
@@ -372,13 +368,13 @@
   align-items: center;
   margin-bottom: 20px;
   padding: 15px;
-  background-color: #f8f9fa;
+  background-color: var(--surface-color);
   border-radius: 8px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--border-color);
 }
 
 .nav-btn {
-  background-color: #ffc107;
+  background-color: var(--warning-color);
   color: black;
   border: none;
   padding: 10px 15px;
@@ -389,8 +385,13 @@
   transition: background-color 0.3s ease;
 }
 
+.nav-btn:hover:not(:disabled) {
+  background-color: var(--warning-color);
+  opacity: 0.9;
+}
+
 .nav-btn:disabled {
-  background-color: #bdc3c7;
+  background-color: var(--text-muted);
   color: black;
   cursor: not-allowed;
   opacity: 0.6;
@@ -398,7 +399,7 @@
 
 .page-indicator {
   font-weight: bold;
-  color: #2c3e50;
+  color: var(--text-primary);
   font-size: 14px;
 }
 
@@ -416,7 +417,7 @@
 }
 
 .no-orders-content h3 {
-  color: #7f8c8d;
+  color: var(--text-muted);
   margin: 0;
   font-size: 18px;
   font-weight: 500;
@@ -424,12 +425,12 @@
 
 /* Info Message Styles */
 .info-message {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
   border-radius: 12px;
   padding: 16px 20px;
   margin-bottom: 20px;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
-  border-left: 4px solid #4a90e2;
+  box-shadow: 0 4px 15px var(--shadow-color);
+  border-left: 4px solid var(--primary-color);
 }
 
 .info-content {
@@ -470,6 +471,38 @@
 }
 
 @media (max-width: 768px) {
+  .marketplace-header {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .crops-grid, .orders-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .modal-content {
+    width: 95%;
+    margin: 10px;
+  }
+  
+  .form-actions {
+    flex-direction: column;
+  }
+
+  /* Adjust navigation controls for mobile */
+  .navigation-controls {
+    padding: 10px;
+  }
+  
+  .nav-btn {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+  
+  .page-indicator {
+    font-size: 12px;
+  }
+  
   .info-content {
     flex-direction: column;
     gap: 8px;
