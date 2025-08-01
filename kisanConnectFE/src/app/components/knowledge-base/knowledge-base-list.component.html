@@ -7,7 +7,7 @@
   <input type="text" [(ngModel)]="searchTerm" placeholder="{{'Search articles...'| translate}}" style="width:100%;margin-bottom:1rem;padding:0.5rem;" />
   <div *ngIf="isLoading">{{'Loading articles...'| translate}}</div>
   <div *ngIf="error" class="error">{{ error | translate}}</div>
-  <ul *ngIf="filteredArticles.length">
+  <ul *ngIf="filteredArticles.length" class="article-list">
     <li *ngFor="let article of filteredArticles">
       <div class="article-title">{{ article.title | translate}}</div>
       <div class="article-meta">

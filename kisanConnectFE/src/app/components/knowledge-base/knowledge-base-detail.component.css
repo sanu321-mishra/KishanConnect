@@ -67,6 +67,11 @@
   padding: 1.2rem;
   box-shadow: 0 2px 8px var(--shadow-color);
   border: 1px solid var(--border-color);
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .admin-actions {
