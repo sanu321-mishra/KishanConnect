@@ -58,6 +58,8 @@
   font-size: 1.15rem;
   margin-bottom: 1.5rem;
   white-space: pre-line;
+  max-height: 350px;
+  overflow-y: auto;
   color: var(--text-primary);
   line-height: 1.7;
   background: var(--surface-color);

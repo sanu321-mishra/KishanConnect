@@ -21,7 +21,7 @@ export interface BatchTranslationItem {
   providedIn: 'root'
 })
 export class TranslateService {
-  private readonly API_KEY = 'AIzaSyCh5RsQLWLrzif5cbhf2FwwIaLN6kwdru0'; // Google Translate API key
+  private readonly API_KEY = 'AIzaSyAjjKulUM_jgdWD6jOBCM1kzPKUgpilnZ8'; // Google Translate API key
   private readonly LANGUAGE_KEY = 'selected_language';
   private readonly BATCH_DELAY = 100; // ms
   private readonly MAX_SEGMENTS_PER_REQUEST = 128; // Google Translate API limit

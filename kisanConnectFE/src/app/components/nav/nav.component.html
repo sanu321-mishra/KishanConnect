@@ -8,7 +8,7 @@
     <!-- Center: User Info (Desktop) -->
     <div class="nav-center" *ngIf="isLoggedIn()">
       <div class="user-info">
-        <span class="welcome-text">{{'Welcome' | translate}}, {{ getUserDisplayName() }}</span>
+        <span class="welcome-text">{{'Welcome' | translate}}, {{ getUserDisplayName() | translate }}</span>
         <small *ngIf="isLoading" style="color: var(--text-muted); font-size: 12px;">{{'Loading user info...' | translate}}</small>
       </div>
     </div>

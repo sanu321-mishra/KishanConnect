@@ -2,6 +2,7 @@
   padding: 20px;
   max-width: 1200px;
   margin: 0 auto;
+  border-radius: 10px;
   background: var(--background-color);
   color: var(--text-primary);
 }
