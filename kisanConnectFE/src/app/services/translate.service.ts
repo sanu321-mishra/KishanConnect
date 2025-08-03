@@ -1,6 +1,7 @@
 import { Injectable, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map, catchError, of, forkJoin, from, tap, switchMap } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 /** trsnlation response model from the API */
 export interface TranslationResponse {
@@ -21,7 +22,7 @@ export interface BatchTranslationItem {
   providedIn: 'root'
 })
 export class TranslateService {
-  private readonly API_KEY = 'AIzaSyAjjKulUM_jgdWD6jOBCM1kzPKUgpilnZ8'; // Google Translate API key
+  private readonly API_KEY = environment.googleTranslateApiKey; // Google Translate API key from environment
   private readonly LANGUAGE_KEY = 'selected_language';
   private readonly BATCH_DELAY = 100; // ms
   private readonly MAX_SEGMENTS_PER_REQUEST = 128; // Google Translate API limit

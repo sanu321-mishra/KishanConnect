@@ -39,3 +39,7 @@ Thumbs.db
 
 .nx/cache
 .nx/workspace-data
+
+# Environment files with sensitive data
+src/environments/environment.ts
+src/environments/environment.prod.ts
