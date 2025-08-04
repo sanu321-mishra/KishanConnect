@@ -119,6 +119,15 @@
             <p><strong>{{ 'Quantity:' | translate }}</strong> {{ order.quantity }} kg</p>
             <p><strong>{{ 'Total Price:' | translate }}</strong> ₹{{ order.total_price }}</p>
             <p><strong>{{ 'Order Date:' | translate }}</strong> {{ order.created_at | date:'short' }}</p>
+            <p *ngIf="order.payment_status">
+              <strong>{{ 'Payment Status:' | translate }}</strong> 
+              <span class="payment-status" [class]="'payment-' + order.payment_status">
+                {{ order.payment_status | translate }}
+              </span>
+            </p>
+            <p *ngIf="order.payment_id">
+              <strong>{{ 'Payment ID:' | translate }}</strong> {{ order.payment_id }}
+            </p>
           </div>
           <div class="order-actions">
             <button 

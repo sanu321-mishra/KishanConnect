@@ -10,6 +10,9 @@ export interface Order {
   total_price: number;
   status: string;
   created_at: string;
+  payment_order_id?: string;
+  payment_id?: string;
+  payment_status?: string;
   crop_name?: string;
   crop_type?: string;
   buyer_name?: string;

@@ -49,7 +49,7 @@
             (click)="placeOrder()"
             [disabled]="!newOrder.quantity || newOrder.quantity > selectedCrop.quantity"
           >
-            {{ 'Place Order' | translate }}
+            💳 {{ 'Place Order & Pay' | translate }}
           </button>
         </div>
       </div>
@@ -177,4 +177,12 @@
   <div class="loading" *ngIf="isLoading">
     <p>{{ 'Loading...' | translate }}</p>
   </div>
+
+  <!-- Payment Success Modal -->
+  <app-payment-success-modal
+    [show]="showPaymentSuccessModal"
+    [orderDetails]="successfulOrderDetails"
+    (close)="onPaymentSuccessClose()"
+    (viewOrders)="onViewOrders()"
+  ></app-payment-success-modal>
 </div> 

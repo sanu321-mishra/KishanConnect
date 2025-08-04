@@ -2,6 +2,7 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { CropService } from '../../services/crop.service';
 import { OrderService, Order } from '../../services/order.service';
+import { PaymentService } from '../../services/payment.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -32,10 +33,15 @@ export class BuyerMarketplaceComponent implements OnInit {
     quantity: 1
   };
 
+  // Payment success modal
+  showPaymentSuccessModal = false;
+  successfulOrderDetails: any = null;
+
   constructor(
     private authService: AuthService,
     private cropService: CropService,
     private orderService: OrderService,
+    private paymentService: PaymentService,
     private router: Router,
     private route: ActivatedRoute
   ) { }
@@ -181,12 +187,9 @@ export class BuyerMarketplaceComponent implements OnInit {
       };
 
       this.orderService.placeOrder(orderData).subscribe({
-        next: () => {
-          this.loadData();
-          this.showOrderForm = false;
-          this.selectedCrop = null;
-          this.newOrder.quantity = 1;
-          this.errorMessage = ''; // Clear any previous errors
+        next: (response) => {
+          // After placing order, initiate payment
+          this.initiatePayment(response.order.id, response.order.total_price);
         },
         error: (error) => {
           console.error('Error placing order:', error);
@@ -194,6 +197,81 @@ export class BuyerMarketplaceComponent implements OnInit {
         }
       });
     }
+  }
+
+  async initiatePayment(orderId: number, amount: number): Promise<void> {
+    try {
+      // Create payment order
+      this.paymentService.createPaymentOrder(orderId, amount).subscribe({
+        next: async (paymentOrder) => {
+          try {
+            // Initialize Razorpay payment
+            const rzp = await this.paymentService.initializePayment(paymentOrder, {
+              name: this.authService.getCurrentUserValue()?.name || '',
+              email: this.authService.getCurrentUserValue()?.email || ''
+            });
+
+            // Handle payment success
+            rzp.on('payment.success', async (response: any) => {
+              try {
+                // Verify payment on backend
+                await this.paymentService.verifyPayment({
+                  razorpay_order_id: response.razorpay_order_id,
+                  razorpay_payment_id: response.razorpay_payment_id,
+                  razorpay_signature: response.razorpay_signature,
+                  order_id: orderId
+                }).toPromise();
+
+                // Payment successful
+                this.successfulOrderDetails = {
+                  id: orderId,
+                  total_price: amount,
+                  payment_id: response.razorpay_payment_id
+                };
+                this.showPaymentSuccessModal = true;
+                this.loadData();
+                this.showOrderForm = false;
+                this.selectedCrop = null;
+                this.newOrder.quantity = 1;
+                this.errorMessage = '';
+              } catch (error) {
+                console.error('Payment verification failed:', error);
+                this.errorMessage = 'Payment verification failed. Please contact support.';
+              }
+            });
+
+            // Handle payment failure
+            rzp.on('payment.failed', (response: any) => {
+              console.error('Payment failed:', response);
+              this.errorMessage = 'Payment failed. Please try again.';
+            });
+
+            // Open payment modal
+            rzp.open();
+          } catch (error) {
+            console.error('Error initializing payment:', error);
+            this.errorMessage = 'Failed to initialize payment. Please try again.';
+          }
+        },
+        error: (error) => {
+          console.error('Error creating payment order:', error);
+          this.errorMessage = error.error?.error || 'Failed to create payment order';
+        }
+      });
+    } catch (error) {
+      console.error('Error in payment initiation:', error);
+      this.errorMessage = 'Failed to initiate payment. Please try again.';
+    }
+  }
+
+  onPaymentSuccessClose(): void {
+    this.showPaymentSuccessModal = false;
+    this.successfulOrderDetails = null;
+  }
+
+  onViewOrders(): void {
+    this.showPaymentSuccessModal = false;
+    this.router.navigate(['/buyer/orders']);
   }
 
   openOrderForm(crop: any): void {

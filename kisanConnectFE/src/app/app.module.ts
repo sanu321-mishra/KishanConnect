@@ -40,6 +40,7 @@ import { TranslatePipe } from './pipes';
 import { KnowledgeBaseListComponent } from './components/knowledge-base/knowledge-base-list.component';
 import { KnowledgeBaseDetailComponent } from './components/knowledge-base/knowledge-base-detail.component';
 import { KnowledgeBaseEditComponent } from './components/knowledge-base/knowledge-base-edit.component';
+import { PaymentSuccessModalComponent } from './components/buyer/payment-success-modal.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -74,7 +75,8 @@ const routes: Routes = [
     LanguagePopupComponent,
     KnowledgeBaseListComponent,
     KnowledgeBaseDetailComponent,
-    KnowledgeBaseEditComponent
+    KnowledgeBaseEditComponent,
+    PaymentSuccessModalComponent
   ],
   imports: [
     BrowserModule, 

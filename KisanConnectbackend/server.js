@@ -15,6 +15,8 @@ app.use('/api/auth', require('./routes/auth'));
 app.use('/api/crops', require('./routes/crops'));
 app.use('/api/orders', require('./routes/orders'));
 app.use('/api/articles', require('./routes/articles'));
+//will uncoment when add the rozerpay api key
+// app.use('/api/payments', require('./routes/payments'));
 
 app.get('/', (req, res) => res.send('KisanConnect Backend Running'));
 
